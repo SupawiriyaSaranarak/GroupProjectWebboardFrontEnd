@@ -12,6 +12,40 @@ code {
     monospace;
 }
 
+.content-body {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: flex-start;
+}
+.margin-left {
+  width: 5vw;
+}
+.content-body-room {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  width: 20vw;
+}
+.content-body-topic {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  width: 50vw;
+}
+.content-body-pin {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  width: 20vw;
+}
+.margin-right {
+  width: 5vw;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
