@@ -1,4 +1,6 @@
 import React from "react";
+import PinBar from "../components/PinBar";
+import RoomBar from "../components/RoomBar";
 
 import LOGO from "../img/LOGO.png";
 
@@ -22,9 +24,13 @@ function HomePage() {
       <div className="header">Header</div>
       <div className="content-body">
         <div className="margin-right"></div>
-        <div className="content-body-room">Room</div>
+        <div className="content-body-room">
+          <RoomBar />
+        </div>
         <div className="content-body-topic">Topic</div>
-        <div className="content-body-pin">Pin</div>
+        <div className="content-body-pin">
+          <PinBar />
+        </div>
         <div className="margin-left"></div>
       </div>
     </div>
