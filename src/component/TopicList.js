@@ -186,7 +186,9 @@ function TopicList() {
               borderBottom: "solid black 1px",
             }}
           >
-            <h2>Hot Topics</h2>
+            <h2>
+              <b>Hot Topics</b>
+            </h2>
           </div>
           {/* dashboard topic item */}
           {hotTopics.map((item) => (
@@ -213,7 +215,7 @@ function TopicList() {
               >
                 <div>
                   <a href="#" style={{ textDecoration: "none" }}>
-                    {item.topicName.slice(0, 40) + "..."}
+                    <strong>{item.topicName.slice(0, 40) + "..."}</strong>
                   </a>
                 </div>
                 <div
@@ -226,6 +228,8 @@ function TopicList() {
                   <div
                     style={{
                       width: "50%",
+                      display: "flex",
+                      flexDirection: "row",
                     }}
                   >
                     <img
@@ -237,7 +241,13 @@ function TopicList() {
                       {item.user.username}
                     </a>
                   </div>
-                  <div>
+                  <div
+                    style={{
+                      width: "50%",
+                      display: "flex",
+                      flexDirection: "row",
+                    }}
+                  >
                     <img
                       style={{ width: "20px", height: "20px" }}
                       src={calendarIcon}
@@ -330,7 +340,9 @@ function TopicList() {
               borderBottom: "solid black 1px",
             }}
           >
-            <h2>Latest Topics</h2>
+            <h2>
+              <b>Latest Topics</b>
+            </h2>
           </div>
           {/* dashboard topic item */}
           {latestTopics.map((item) => (
@@ -357,7 +369,7 @@ function TopicList() {
               >
                 <div>
                   <a href="#" style={{ textDecoration: "none" }}>
-                    {item.topicName.slice(0, 40) + "..."}
+                    <strong>{item.topicName.slice(0, 35) + "..."}</strong>
                   </a>
                 </div>
                 <div
@@ -370,23 +382,32 @@ function TopicList() {
                   <div
                     style={{
                       width: "50%",
+                      display: "flex",
+                      flexDirection: "row",
                     }}
                   >
                     <img
                       style={{ width: "20px", height: "20px" }}
                       src={userIcon}
-                    />
+                    />{" "}
                     &nbsp;&nbsp;
                     <a href="#" style={{ textDecoration: "none" }}>
                       {item.user.username}
                     </a>
                   </div>
-                  <div>
+                  <div
+                    style={{
+                      width: "50%",
+                      display: "flex",
+                      flexDirection: "row",
+                    }}
+                  >
                     <img
                       style={{ width: "20px", height: "20px" }}
                       src={calendarIcon}
                     />
-                    &nbsp;&nbsp;{item.createdAt}
+                    &nbsp;&nbsp;
+                    {item.createdAt}
                   </div>
                 </div>
               </div>
