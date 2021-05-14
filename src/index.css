@@ -5,6 +5,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  box-sizing: border-box;
 }
 
 code {
@@ -30,7 +31,7 @@ code {
 }
 .content-body-topic {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: center;
   align-items: flex-start;
   width: 50vw;
@@ -44,6 +45,41 @@ code {
 }
 .margin-right {
   width: 5vw;
+}
+
+.dashboad-header {
+  padding-top: 5px;
+  padding-bottom: 5px;
+  border-radius: 5px;
+  background-color: white;
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+.topic-list-box {
+  padding: 10px;
+  border-radius: 5px;
+  background-color: #edd1b0;
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+}
+.topic-item {
+  padding-top: 5px;
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: row;
+  border-bottom: solid rgb(167, 167, 167) 1px;
+}
+a {
+  color: black;
+}
+a:hover {
+  color: rgb(167, 167, 167);
 }
 
 @tailwind base;
