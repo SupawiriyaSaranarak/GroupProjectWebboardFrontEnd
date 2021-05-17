@@ -1,11 +1,11 @@
 import React from "react";
-import TopicList from "../components/TopicList";
+import CreateTopic from "../components/CreateTopic";
 import PinBar from "../components/PinBar";
 import RoomBar from "../components/RoomBar";
 
 import LOGO from "../img/LOGO.png";
 
-function HomePage() {
+function CreateTopicPage() {
   return (
     <div>
       <div className="header">Header</div>
@@ -14,7 +14,7 @@ function HomePage() {
         <div className="content-body-room">
           <RoomBar />
         </div>
-        <TopicList className="content-body-topic" />
+        <CreateTopic className="content-body-topic" />
         <div className="content-body-pin">
           <PinBar />
         </div>
@@ -24,4 +24,4 @@ function HomePage() {
   );
 }
 
-export default HomePage;
+export default CreateTopicPage;
