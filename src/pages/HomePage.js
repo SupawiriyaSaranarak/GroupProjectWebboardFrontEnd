@@ -1,11 +1,6 @@
-<<<<<<< HEAD
-import React from "react";
-import TopicList from "../components/TopicList";
-=======
 import React, { useRef, useState } from "react";
-import Navbar from "../component/navbar";
-import TopicList from "../component/TopicList";
->>>>>>> origin/create-modal-report-and-room
+import Navbar from "../components/navbar";
+import TopicList from "../components/TopicList";
 import PinBar from "../components/PinBar";
 import RoomBar from "../components/RoomBar";
 
