@@ -1,10 +1,10 @@
 import React, { useRef, useState } from "react";
+
 import Navbar from "../component/navbar";
 import TopicList from "../component/TopicList";
 import PinBar from "../components/PinBar";
 import RoomBar from "../components/RoomBar";
 
-import LOGO from "../img/LOGO.png";
 import { HomeIcon, PencilIcon } from "@heroicons/react/outline";
 
 // Modal import
@@ -22,36 +22,6 @@ const customStyles = {
 };
 
 function HomePage() {
-  //modal RoomAdd
-  const [modalRoomAddIsOpen, setModalRoomAddIsOpen] = useState(false);
-
-  const openModalRoomAdd = () => {
-    setModalRoomAddIsOpen(true);
-  };
-
-  const closeModalRoomAdd = () => {
-    setModalRoomAddIsOpen(false);
-    setUploadImage(null);
-  };
-
-  //Image Upload
-  const [uploadImage, setUploadImage] = useState(null);
-
-  // Hide Upload Input
-  const hiddenFileInput = useRef(null);
-  const handleClickUploadRoomAddImg = (e) => {
-    hiddenFileInput.current.click();
-  };
-
-  const handlerUploadImage = (e) => {
-    // console.log(e);
-    if (e.target.files[0]) {
-      setUploadImage(e.target.files[0]);
-    } else {
-      setUploadImage(null);
-    }
-  };
-
   //modal Report
   const [modalReportIsOpen, setModalReportIsOpen] = useState(false);
 
@@ -79,66 +49,6 @@ function HomePage() {
         </div>
         <div className="margin-left"></div>
       </div>
-
-      <div onClick={openModalRoomAdd}>RoomADD</div>
-      <Modal
-        isOpen={modalRoomAddIsOpen}
-        onRequestClose={closeModalRoomAdd}
-        style={customStyles}
-        contentLabel="RoomAdd Modal"
-        ariaHideApp={false}
-      >
-        <div className="modal-roomAdd-box">
-          <div className="modal-roomAdd-box-header">
-            <div className="modal-roomAdd-box-header-text">เพิ่ม Room ใหม่</div>
-            <div onClick={closeModalRoomAdd}>X</div>
-          </div>
-          <div className="modal-roomAdd-box-content">
-            <div className="modal-roomAdd-box-content-image">
-              <div className="modal-roomAdd-box-content-image-box">
-                {uploadImage === null ? (
-                  <img
-                    className="modal-roomAdd-box-content-image-box-Pre-img"
-                    onClick={handleClickUploadRoomAddImg}
-                  />
-                ) : (
-                  <img
-                    src={URL.createObjectURL(uploadImage)}
-                    className="modal-roomAdd-box-content-image-box-Pre-img"
-                    onClick={handleClickUploadRoomAddImg}
-                  />
-                )}
-                <label
-                  htmlFor="roomAddImg"
-                  className="modal-roomAdd-box-content-image-box-insideText"
-                >
-                  Room Icon
-                </label>
-              </div>
-              <input
-                id="roomAddImg"
-                type="file"
-                ref={hiddenFileInput}
-                onChange={handlerUploadImage}
-                style={{ display: "none" }}
-              />
-            </div>
-            <div className="modal-roomAdd-box-content-text">
-              <input
-                id="roomAddName"
-                type="text"
-                placeholder="Room Name"
-                className="modal-roomAdd-box-content-text-inputRoomName"
-              />
-            </div>
-          </div>
-          <div className="modal-roomAdd-box-footer">
-            <button className="modal-roomAdd-box-footer-btnSubmit">
-              Submit Add new Room
-            </button>
-          </div>
-        </div>
-      </Modal>
 
       <div onClick={openModalReport}>Report</div>
       <Modal

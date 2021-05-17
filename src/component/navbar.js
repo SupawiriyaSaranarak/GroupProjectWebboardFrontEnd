@@ -2,10 +2,7 @@ import { Avatar } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import ImgFile from "../img/unnamed.png";
 
-
-
-function Navbar({Icon,Icon2}) {
-
+function Navbar({ Icon, Icon2 }) {
   // const classes = useStyles();
   return (
     <>
@@ -24,7 +21,7 @@ function Navbar({Icon,Icon2}) {
           </div>
         </div>
 
-        <div className="flex mr-40" >
+        <div className="flex mr-40">
           <div className="group w-12 sm:w-20 flex flex-col cursor-pointer mr-5 hover:text-yellow-500 items-center">
             <Icon className="h-10 transform group-hover:transition delay-150 duration-150 " />
             <p className="opacity-0 group-hover:opacity-100 group-hover:transition delay-150 duration-150 font-bold tracking-widest">

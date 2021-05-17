@@ -6,6 +6,7 @@ import { useContext } from "react";
 import { AuthContext } from "./contexts/AuthContextProvider";
 
 import HomePage from "./pages/HomePage";
+import AdminPage from "./pages/AdminPage";
 
 const privateRoutes = [
   // {
@@ -43,6 +44,7 @@ function App() {
           <Route key={index} exact path={el.path} component={el.component} />
         ))}
       <Route exact path="/" component={HomePage} />
+      <Route exact path="/admin" component={AdminPage} />
 
       <Redirect to="/" />
     </Switch>
