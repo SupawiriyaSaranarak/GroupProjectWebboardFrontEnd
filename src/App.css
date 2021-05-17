@@ -5,7 +5,7 @@
   /* font-family: 'K2D', sans-serif; */
 }
 
-/* @tailwind base; */
+@tailwind base;
 @tailwind components;
 @tailwind utilities;
 
@@ -130,8 +130,12 @@
 
 .modal-roomAdd-box-content-image-box-insideText {
   position: absolute;
-  margin-left: -85px;
-  margin-top: 38px;
+  /* margin-left: -85px;
+  margin-top: 38px; */
+
+  /* tailwinds */
+  margin-top: -65px;
+  margin-left: 10px;
   z-index: -1;
 }
 
@@ -217,6 +221,7 @@
   overflow: auto;
   height: 200px;
   width: 400px;
+  border: 1px solid #aaaaaa;
 }
 
 .modal-reportTopic-box-footer {
