@@ -2,19 +2,17 @@ import React from "react";
 
 function RoomItems(props) {
   return (
-    <div class="box-border h-12 items-center flex flex-row justify-center w-48 border border-black rounded-3xl bg-primary">
-      <div
-        class="p-1 mx-1.5 border border-black rounded-3xl bg-white"
-        style={{ backgroundColor: "white" }}
-      >
+    <div className="roomBar-container-contentBox">
+      <div className="roomBar-container-contentBox-inside-iconImg-Bg">
         <img
           src={props.roomIcon}
           alt={"roomIcon"}
-          class=""
-          style={{ width: "25px", height: "25px" }}
+          className="roomBar-container-contentBox-inside-iconImg"
         />
       </div>
-      <div class="mx-1.5">ROOM CONTENT</div>
+      <div className="roomBar-container-contentBox-inside-textBox">
+        ROOM CONTENT
+      </div>
     </div>
   );
 }

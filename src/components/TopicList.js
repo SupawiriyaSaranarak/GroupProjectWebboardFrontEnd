@@ -178,6 +178,7 @@ function TopicList() {
             <div></div>
           </div>
         </div>
+        <div style={{ height: "20px" }}> </div>
         {/* dashboard header */}
         <div className="topic-list-box">
           <div
@@ -331,7 +332,7 @@ function TopicList() {
           ))}
           {/* dashboard topic item */}
         </div>
-        <div style={{ height: "20px" }}> </div>
+        <div style={{ height: "50px" }}> </div>
 
         <div className="topic-list-box">
           <div
