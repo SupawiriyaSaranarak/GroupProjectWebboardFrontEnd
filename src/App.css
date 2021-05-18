@@ -86,6 +86,9 @@
 .roomBar-container-contentBox-inside-iconImg {
   width: 25px;
   height: 25px;
+  object-fit: cover;
+  overflow: hidden;
+  object-position: 50% 50%;
 }
 
 .roomBar-container-contentBox-inside-textBox {
@@ -114,6 +117,10 @@
   font-size: 1.5rem;
 }
 
+.modal-X {
+  cursor: pointer;
+}
+
 .modal-roomAdd-box-content {
   display: flex;
   align-items: center;
@@ -139,12 +146,19 @@
   z-index: -1;
 }
 
+.modal-roomAdd-box-content-image-input-uploadImg {
+  display: none;
+}
+
 .modal-roomAdd-box-content-image-box-Pre-img {
   height: 100px;
   width: 100px;
   max-height: 100px;
   max-width: 100px;
   background-color: rgba(128, 128, 128, 0.1);
+  object-fit: cover;
+  overflow: hidden;
+  object-position: 50% 50%;
 }
 
 .modal-roomAdd-box-content-text {
@@ -353,29 +367,38 @@
   padding: 15px 0px;
 }
 
-.admin-table-roomList {
+.admin-table-roomList,
+.admin-table-reportList {
   width: 100%;
   min-width: max-content;
 }
 
-.admin-table-roomList-tr-thead > th {
+.admin-table-roomList-tr-thead > th,
+.admin-table-reportList-tr-thead > th {
   text-align: left;
   background: #666;
   color: #fff;
   padding: 10px;
 }
 
-.admin-table-roomList-tr-tbody {
+.admin-table-roomList-tr-tbody,
+.admin-table-reportList-tr-tbody {
   border-bottom: solid 1px black;
 }
 
-.admin-table-roomList-tr-tbody > td {
+.admin-table-roomList-tr-tbody > td,
+.admin-table-reportList-tr-tbody > td {
   padding: 10px;
+  cursor: pointer;
 }
 
-.admin-table-roomList-tr-tbody-img {
+.admin-table-roomList-tr-tbody-img,
+.admin-table-reportList-tr-tbody-img {
   width: 25px;
   height: 25px;
+  object-fit: cover;
+  overflow: hidden;
+  object-position: 50% 50%;
 }
 
 .admin-content-content-footer {
@@ -399,4 +422,158 @@
 .admin-content-content-footer-btn-roomAdd:hover {
   background-color: #aaaaaa;
   color: green;
+}
+
+/* ADMIN reportList */
+
+/* Modal ReportDetail */
+.modal-reportDetail-box {
+  display: flex;
+  flex-direction: column;
+  height: max-content;
+  width: max-content;
+}
+
+.modal-reportDetail-box-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  height: 10%;
+  padding: 10px;
+  border-bottom: 1px solid #aaaaaa;
+}
+
+.modal-reportDetail-box-header-text {
+  font-size: 1.5rem;
+}
+
+.modal-reportDetail-box-content {
+  display: flex;
+  flex-direction: column;
+  height: 80%;
+  padding: 10px;
+}
+
+.modal-reportDetail-box-content-1 {
+  border-bottom: 1px solid #aaaaaa;
+  padding-bottom: 10px;
+}
+.modal-reportDetail-box-content-1 > * {
+  padding: 10px 0px;
+}
+
+.modal-reportDetail-box-content-1-reportContext {
+  border: 1px solid #aaaaaa;
+  border-radius: 15px;
+  padding: 10px;
+  margin-bottom: 10px;
+  background-color: #dfdfdf;
+
+  width: 500px;
+  max-width: 500px;
+  display: block;
+}
+
+.modal-reportDetail-box-content-2 {
+  padding: 10px 0px;
+  border-bottom: 1px solid #aaaaaa;
+}
+
+.modal-reportDetail-box-content-2-adminDescription {
+  width: 500px;
+  max-width: 500px;
+  height: 200px;
+
+  margin: 10px 0px;
+  padding: 10px;
+  outline: none;
+  resize: none;
+  overflow: auto;
+  border: 1px solid #aaaaaa;
+}
+
+.modal-reportDetail-box-footer {
+  height: 10%;
+  padding: 10px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.modal-reportDetail-box-footer-btnSubmit {
+  background-color: green;
+  padding: 15px;
+  border-radius: 15px;
+  color: white;
+  font-weight: 700;
+
+  width: 100px;
+
+  outline: none !important;
+  cursor: pointer;
+  text-decoration: none;
+  border: none;
+}
+
+.modal-reportDetail-box-footer-btnSubmit:hover {
+  background-color: #aaaaaa;
+  color: green;
+}
+
+/* ADMIN TopicList */
+.modal-topicList-box-content-2 > * {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.modal-topicList-box-content-2-topicImg {
+  padding: 10px;
+
+  border: 1px solid #aaaaaa;
+  border-radius: 15px;
+  background-color: #dfdfdf;
+
+  width: 500px;
+  max-width: 500px;
+  display: block;
+
+  object-fit: cover;
+  overflow: hidden;
+  object-position: 50% 50%;
+}
+
+.modal-topicList-box-content-2-topicContext {
+  padding: 10px;
+
+  border: 1px solid #aaaaaa;
+  border-radius: 15px;
+  background-color: #dfdfdf;
+
+  width: 500px;
+  max-width: 500px;
+  display: block;
+}
+
+/* ADMIN USER LIST */
+.admin-table-userList-tr-tbody-userImg {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  overflow: hidden;
+  object-position: 50% 50%;
+}
+
+.modal-userDetail-box-content-1-userImg {
+  padding: 10px;
+  margin-left: 10px;
+
+  border: 1px solid #aaaaaa;
+  border-radius: 15px;
+  background-color: #dfdfdf;
+
+  width: 300px;
+  display: block;
+
+  object-fit: cover;
+  overflow: hidden;
+  object-position: 50% 50%;
 }
