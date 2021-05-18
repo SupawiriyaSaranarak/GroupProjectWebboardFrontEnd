@@ -1,9 +1,6 @@
 import React, { useRef, useState } from "react";
 
 import Navbar from "../component/navbar";
-import TopicList from "../component/TopicList";
-import PinBar from "../components/PinBar";
-import RoomBar from "../components/RoomBar";
 
 import roomIcon from "../img/restaurant.png";
 
