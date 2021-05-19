@@ -258,6 +258,7 @@
 .admin-all-body {
   height: 100vh;
   width: 100vw;
+  max-width: 100%;
 }
 
 .admin-header {
@@ -384,14 +385,19 @@
 }
 
 .admin-table-roomList-tr-tbody,
-.admin-table-reportList-tr-tbody {
+.admin-table-reportList-tr-tbody,
+.admin-table-userList-tr-tbody {
   border-bottom: solid 1px black;
 }
 
-.admin-table-roomList-tr-tbody > td,
 .admin-table-reportList-tr-tbody > td {
   padding: 10px;
   cursor: pointer;
+}
+
+.admin-table-roomList-tr-tbody > td,
+.admin-table-userList-tr-tbody > td {
+  padding: 10px;
 }
 
 .admin-table-roomList-tr-tbody-img,
@@ -561,12 +567,23 @@
   flex-direction: row;
 }
 
+.admin-table-userList-tr-thead-col-8 {
+  width: 11%;
+}
+
 .admin-table-userList-tr-tbody-userImg {
   width: 100px;
   height: 100px;
   object-fit: cover;
   overflow: hidden;
   object-position: 50% 50%;
+  cursor: pointer;
+}
+
+.admin-table-userList-tr-tbody-userImg:hover {
+  border: 5px solid #e2780000;
+  border-radius: 15px;
+  transform: rotate(5deg);
 }
 
 .modal-userDetail-box-content-1-userImg {
@@ -593,6 +610,11 @@
 .admin-table-userList-tr-tbody-management-iconGrp-icon {
   width: 30px;
   height: 30px;
+  cursor: pointer;
+}
+
+.admin-table-userList-tr-tbody-management-iconGrp-icon:hover {
+  color: #e27900;
 }
 
 /* RESPONSIVE */

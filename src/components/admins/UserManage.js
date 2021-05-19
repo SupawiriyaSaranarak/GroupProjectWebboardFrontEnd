@@ -1,10 +1,11 @@
-import axios from "../../config/axios";
 import React, { useEffect, useState } from "react";
+import axios from "../../config/axios";
 
 import ModalUserDetail from "./modals-admin/ModalUserDetail";
 
 import { BanIcon, KeyIcon } from "@heroicons/react/outline";
 import moment from "moment";
+import Swal from "sweetalert2";
 
 function UserManage() {
   //Modal UserList > UserDetail
@@ -25,8 +26,8 @@ function UserManage() {
   const [usersList, setUsersList] = useState();
   const [userDetail, setUserDetail] = useState();
 
-  useEffect(() => {
-    getUser();
+  useEffect(async () => {
+    await getUser();
   }, []);
 
   const getUser = async () => {
@@ -41,7 +42,112 @@ function UserManage() {
       console.dir(err);
     }
   };
-  console.log(usersList);
+  // console.log(usersList);
+
+  //handleOnClick change Status
+  const handlerChangeUserStatus = async (e, user) => {
+    try {
+      // console.log(e);
+      // console.log(user.userStatus);
+
+      //validate
+      if (user.userRole === "ADMIN") {
+        throw new Error("ไม่สามารถเปลี่ยนสถานะของ Role ADMIN ได้");
+      }
+
+      // ทำให้ userStatus จาก INACTIVE เป็น ACTIVE
+      if (
+        (e.target.id === "icon-active" ||
+          e.target.nearestViewportElement?.id === "icon-active") &&
+        user.userStatus === "INACTIVE"
+      ) {
+        // console.log("yes icon-active INACTIVE", user.id);
+
+        Swal.fire({
+          title: "คุณต้องการ ACTIVE UserId: " + user.id + " ?",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#3085d6",
+          cancelButtonColor: "#d33",
+          confirmButtonText: "ใช่",
+          cancelButtonText: "ไม่ใช่",
+        }).then(async (result) => {
+          if (result.isConfirmed) {
+            const resActiveUser = await axios.patch(
+              "/admin/user/status/" + user.id,
+              {
+                userStatus: "ACTIVE",
+              }
+            );
+
+            getUser();
+          }
+        });
+      }
+
+      // ทำให้ userStatus จาก BANNED เป็น ACTIVE
+      if (
+        (e.target.id === "icon-ban" ||
+          e.target.nearestViewportElement?.id === "icon-ban") &&
+        user.userStatus === "BANNED"
+      ) {
+        // console.log("yes icon-ban BANNED", user.id);
+
+        Swal.fire({
+          title: "คุณต้องการปลด BAN UserId: " + user.id + " ?",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#3085d6",
+          cancelButtonColor: "#d33",
+          confirmButtonText: "ใช่",
+          cancelButtonText: "ไม่ใช่",
+        }).then(async (result) => {
+          if (result.isConfirmed) {
+            const resUnBanUser = await axios.patch(
+              "/admin/user/status/" + user.id,
+              {
+                userStatus: "ACTIVE",
+              }
+            );
+
+            getUser();
+          }
+        });
+      }
+
+      // ทำให้ userStatus จาก ACTIVE เป็น BANNED
+      if (
+        (e.target.id === "icon-ban" ||
+          e.target.nearestViewportElement?.id === "icon-ban") &&
+        user.userStatus === "ACTIVE"
+      ) {
+        // console.log("yes icon-ban ACTIVE", user.id);
+
+        Swal.fire({
+          title: "คุณต้องการ BAN UserId: " + user.id + " ?",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#3085d6",
+          cancelButtonColor: "#d33",
+          confirmButtonText: "ใช่",
+          cancelButtonText: "ไม่ใช่",
+        }).then(async (result) => {
+          if (result.isConfirmed) {
+            const resBanUser = await axios.patch(
+              "/admin/user/status/" + user.id,
+              {
+                userStatus: "BANNED",
+              }
+            );
+
+            getUser();
+          }
+        });
+      }
+    } catch (err) {
+      console.dir(err);
+    }
+  };
 
   return (
     <>
@@ -53,7 +159,7 @@ function UserManage() {
               <th>ลำดับ</th>
               <th>
                 <div className="admin-table-reportList-tr-thead-longTxt">
-                  <div>User </div>
+                  <div>User</div>
                   <div>Id</div>
                 </div>
               </th>
@@ -67,14 +173,14 @@ function UserManage() {
               <th>Img</th>
               <th>Birthday</th>
               <th>Role</th>
-              <th>Status</th>
+              <th className="admin-table-userList-tr-thead-col-8">Status</th>
               <th></th>
             </tr>
           </thead>
           <tbody>
             {usersList?.map((item, index) => {
               return (
-                <tr className="admin-table-reportList-tr-tbody" key={item.id}>
+                <tr className="admin-table-userList-tr-tbody" key={item.id}>
                   <td>{index + 1}</td>
                   <td>{item.id}</td>
                   <td>{item.username}</td>
@@ -90,20 +196,26 @@ function UserManage() {
                   <td>{item.userRole}</td>
                   <td>{item.userStatus}</td>
                   <td>
-                    <div className="admin-table-userList-tr-tbody-management-iconGrp">
-                      <div
-                        className="admin-table-userList-tr-tbody-management-iconGrp-icon"
-                        onClick={(e) => console.log(e.target.id, item)}
-                      >
-                        <KeyIcon id="icon-active" />
+                    {item.userRole !== "ADMIN" && (
+                      <div className="admin-table-userList-tr-tbody-management-iconGrp">
+                        {item.userStatus === "INACTIVE" && (
+                          <div
+                            className="admin-table-userList-tr-tbody-management-iconGrp-icon"
+                            onClick={(e) => handlerChangeUserStatus(e, item)}
+                          >
+                            <KeyIcon id="icon-active" />
+                          </div>
+                        )}
+                        {item.userStatus !== "INACTIVE" && (
+                          <div
+                            className="admin-table-userList-tr-tbody-management-iconGrp-icon"
+                            onClick={(e) => handlerChangeUserStatus(e, item)}
+                          >
+                            <BanIcon id="icon-ban" />
+                          </div>
+                        )}
                       </div>
-                      <div
-                        className="admin-table-userList-tr-tbody-management-iconGrp-icon"
-                        onClick={(e) => console.log(e.target.id, item)}
-                      >
-                        <BanIcon id="icon-ban" />
-                      </div>
-                    </div>
+                    )}
                   </td>
                 </tr>
               );

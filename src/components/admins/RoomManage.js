@@ -1,4 +1,5 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import axios from "../../config/axios";
 
 import ModalRoomAdd from "./modals-admin/ModalRoomAdd";
 
@@ -36,6 +37,27 @@ function RoomManage() {
     hiddenFileInput.current.click();
   };
 
+  // get Room List
+  const [roomList, setRoomList] = useState();
+
+  useEffect(async () => {
+    await getRoom();
+  }, []);
+
+  const getRoom = async () => {
+    try {
+      const resRooms = await axios.get("/admin/rooms/");
+      // console.log(resRooms);
+      const {
+        data: { rooms },
+      } = resRooms;
+      setRoomList(rooms);
+    } catch (err) {
+      console.dir(err);
+    }
+  };
+  console.log(roomList);
+
   return (
     <>
       <div className="admin-content-content-body">
@@ -52,36 +74,23 @@ function RoomManage() {
             </tr>
           </thead>
           <tbody>
-            {
-              <>
+            {roomList?.map((item, index) => {
+              return (
                 <tr className="admin-table-roomList-tr-tbody">
-                  <td>{"1"}</td>
-                  <td>{"1"}</td>
-                  <td>{"Food/Drink"}</td>
+                  <td>{index + 1}</td>
+                  <td>{item.id}</td>
+                  <td>{item.roomName}</td>
                   <td>
                     <img
-                      src={roomIcon}
+                      src={item.roomIcon}
                       className="admin-table-roomList-tr-tbody-img"
                     />
                   </td>
-                  <td>{"ACTIVE"}</td>
+                  <td>{item.roomStatus}</td>
                   <td>{"Management"}</td>
                 </tr>
-                <tr className="admin-table-roomList-tr-tbody">
-                  <td>{"1"}</td>
-                  <td>{"1"}</td>
-                  <td>{"Food/Drink"}</td>
-                  <td>
-                    <img
-                      src={roomIcon}
-                      className="admin-table-roomList-tr-tbody-img"
-                    />
-                  </td>
-                  <td>{"ACTIVE"}</td>
-                  <td>{"Management"}</td>
-                </tr>
-              </>
-            }
+              );
+            })}
           </tbody>
         </table>
         <div className="admin-content-content-footer">

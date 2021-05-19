@@ -33,7 +33,7 @@ function ModalRoomAdd(props) {
           <div className="modal-roomAdd-box-content-image">
             <div className="modal-roomAdd-box-content-image-box">
               {props.uploadImage === null ? (
-                <img
+                <div
                   className="modal-roomAdd-box-content-image-box-Pre-img"
                   onClick={props.handleClickUploadRoomAddImg}
                 />
