@@ -377,6 +377,7 @@
 }
 
 .admin-table-roomList,
+.admin-table-topicList,
 .admin-table-reportList,
 .admin-table-userList {
   width: 100%;
@@ -400,7 +401,6 @@
 
 .admin-table-reportList-tr-tbody > td {
   padding: 10px;
-  cursor: pointer;
 }
 
 .admin-table-roomList-tr-tbody > td,
@@ -536,7 +536,8 @@
 }
 
 /* ADMIN RoomList */
-.admin-table-roomList-tr-tbody-management-iconGrp {
+.admin-table-roomList-tr-tbody-management-iconGrp,
+.admin-table-userList-tr-tbody-management-iconGrp {
   display: flex;
   flex-direction: row;
 }
@@ -550,7 +551,8 @@
   margin-right: 2px;
 }
 
-.admin-table-roomList-tr-tbody-management-iconGrp-inside-icon {
+.admin-table-roomList-tr-tbody-management-iconGrp-inside-icon,
+.admin-table-userList-tr-tbody-management-iconGrp-inside-icon {
   width: 30px;
   height: 30px;
   object-fit: cover;
@@ -560,9 +562,17 @@
 }
 
 .admin-table-roomList-tr-tbody-management-iconGrp-inside-text-1,
-.admin-table-roomList-tr-tbody-management-iconGrp-inside-text-2 {
+.admin-table-roomList-tr-tbody-management-iconGrp-inside-text-2,
+.admin-table-userList-tr-tbody-management-iconGrp-inside-text-1,
+.admin-table-userList-tr-tbody-management-iconGrp-inside-text-2 {
   font-size: 0.75rem;
   opacity: 0;
+}
+
+.admin-table-roomList-tr-tbody-management-iconGrp-inside-text-hidden,
+.admin-table-userList-tr-tbody-management-iconGrp-inside-text-hidden {
+  font-size: 0.75rem;
+  visibility: hidden;
 }
 
 .admin-table-roomList-tr-tbody-management-iconGrp-inside:hover,
@@ -572,6 +582,7 @@
 }
 
 /* ADMIN TopicList */
+
 .modal-topicList-box-content-2 > * {
   padding-top: 10px;
   padding-bottom: 10px;
@@ -586,6 +597,7 @@
 
   width: 500px;
   max-width: 500px;
+  max-height: 500px;
   display: block;
 
   object-fit: cover;
@@ -646,7 +658,8 @@
   object-position: 50% 50%;
 }
 
-.admin-table-userList-tr-tbody-management-iconGrp {
+/* น่าจะไม่ได้ใช้แล้ว (ยังไม่ลบเพื่อมีที่ใช้) */
+/* .admin-table-userList-tr-tbody-management-iconGrp {
   display: flex;
   flex-direction: row;
 }
@@ -667,7 +680,7 @@
 .admin-table-userList-tr-tbody-management-iconGrp-icon:hover > p {
   color: #e27900;
   opacity: 100;
-}
+} */
 
 /* Loading */
 .loader-group {
@@ -736,16 +749,28 @@
 
 @media only screen and (max-width: 900px) {
   .admin-table-roomList > *,
-  .admin-table-userList > * {
+  .admin-table-userList > *,
+  .admin-table-topicList > * {
     font-size: 0.7rem;
   }
-  .admin-table-userList-tr-tbody-management-iconGrp-icon {
+
+  .admin-table-userList-tr-tbody-management-iconGrp-inside-icon {
     width: 20px;
     height: 20px;
   }
+  .admin-table-userList-tr-tbody-userEmail {
+    font-size: 0.6rem;
+  }
+  .admin-table-userList-tr-tbody-management-iconGrp-inside-text-1,
+  .admin-table-userList-tr-tbody-management-iconGrp-inside-text-2,
+  .admin-table-userList-tr-tbody-management-iconGrp-inside-text-hidden {
+    font-size: 0.5rem;
+  }
+
   .admin-table-userList-tr-thead > th {
     font-size: 0.5rem;
   }
+
   .admin-table-reportList-tr-thead-longTxt {
     flex-direction: column;
   }

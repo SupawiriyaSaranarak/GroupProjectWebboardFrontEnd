@@ -3,7 +3,7 @@ import axios from "../../config/axios";
 
 import ModalRoomAdd from "./modals-admin/ModalRoomAdd";
 
-import { BanIcon, KeyIcon, PencilIcon } from "@heroicons/react/outline";
+import { KeyIcon, PencilIcon } from "@heroicons/react/outline";
 
 function RoomManage() {
   //modal RoomAdd
@@ -115,7 +115,7 @@ function RoomManage() {
                         </p>
                       </div>
                       <div className="admin-table-roomList-tr-tbody-management-iconGrp-inside">
-                        <BanIcon
+                        <KeyIcon
                           id="icon-status"
                           onClick={(e) => console.log(e)}
                           className="admin-table-roomList-tr-tbody-management-iconGrp-inside-icon"

@@ -64,7 +64,7 @@ function UserManage() {
         // console.log("yes icon-active INACTIVE", user.id);
 
         Swal.fire({
-          title: "คุณต้องการ ACTIVE UserId: " + user.id + " ?",
+          text: "คุณต้องการ ACTIVE UserId: " + user.id + " ใช่ไหม?",
           icon: "warning",
           showCancelButton: true,
           confirmButtonColor: "#3085d6",
@@ -94,7 +94,7 @@ function UserManage() {
         // console.log("yes icon-ban BANNED", user.id);
 
         Swal.fire({
-          title: "คุณต้องการปลด BAN UserId: " + user.id + " ?",
+          text: "คุณต้องการปลด BAN UserId: " + user.id + " ใช่ไหม?",
           icon: "warning",
           showCancelButton: true,
           confirmButtonColor: "#3085d6",
@@ -124,7 +124,7 @@ function UserManage() {
         // console.log("yes icon-ban ACTIVE", user.id);
 
         Swal.fire({
-          title: "คุณต้องการ BAN UserId: " + user.id + " ?",
+          text: "คุณต้องการ BAN UserId: " + user.id + " ใช่ไหม?",
           icon: "warning",
           showCancelButton: true,
           confirmButtonColor: "#3085d6",
@@ -184,7 +184,9 @@ function UserManage() {
                   <td>{index + 1}</td>
                   <td>{item.id}</td>
                   <td>{item.username}</td>
-                  <td>{item.email}</td>
+                  <td className="admin-table-userList-tr-tbody-userEmail">
+                    {item.email}
+                  </td>
                   <td>
                     <img
                       src={item.userImg}
@@ -196,32 +198,52 @@ function UserManage() {
                   <td>{item.userRole}</td>
                   <td>{item.userStatus}</td>
                   <td>
-                    {item.userRole !== "ADMIN" && (
-                      <div className="admin-table-userList-tr-tbody-management-iconGrp">
-                        {item.userStatus === "INACTIVE" && (
-                          <div
-                            className="admin-table-userList-tr-tbody-management-iconGrp-icon"
-                            onClick={(e) => handlerChangeUserStatus(e, item)}
-                          >
-                            <KeyIcon id="icon-active" />
-                            <p className="admin-table-userList-tr-tbody-management-iconGrp-text">
-                              ACTIVE
-                            </p>
-                          </div>
-                        )}
-                        {item.userStatus !== "INACTIVE" && (
-                          <div
-                            className="admin-table-userList-tr-tbody-management-iconGrp-icon"
-                            onClick={(e) => handlerChangeUserStatus(e, item)}
-                          >
-                            <BanIcon id="icon-ban" />
-                            <p className="admin-table-userList-tr-tbody-management-iconGrp-text">
-                              BAN
-                            </p>
-                          </div>
-                        )}
-                      </div>
-                    )}
+                    <div className="admin-table-userList-tr-tbody-management-iconGrp">
+                      {item.userRole !== "ADMIN" && (
+                        <>
+                          {item.userStatus === "INACTIVE" && (
+                            <div
+                              className="admin-table-roomList-tr-tbody-management-iconGrp-inside"
+                              onClick={(e) => handlerChangeUserStatus(e, item)}
+                            >
+                              <KeyIcon
+                                id="icon-active"
+                                className="admin-table-userList-tr-tbody-management-iconGrp-inside-icon"
+                              />
+                              <p className="admin-table-userList-tr-tbody-management-iconGrp-inside-text-1">
+                                CHANGE
+                              </p>
+                              <p className="admin-table-userList-tr-tbody-management-iconGrp-inside-text-2">
+                                STATUS
+                              </p>
+                            </div>
+                          )}
+                          {item.userStatus !== "INACTIVE" && (
+                            <div
+                              className="admin-table-roomList-tr-tbody-management-iconGrp-inside"
+                              onClick={(e) => handlerChangeUserStatus(e, item)}
+                            >
+                              <BanIcon
+                                id="icon-ban"
+                                className="admin-table-userList-tr-tbody-management-iconGrp-inside-icon"
+                              />
+                              {item.userStatus === "BANNED" ? (
+                                <p className="admin-table-userList-tr-tbody-management-iconGrp-inside-text-1">
+                                  UNBAN
+                                </p>
+                              ) : (
+                                <p className="admin-table-userList-tr-tbody-management-iconGrp-inside-text-1">
+                                  BAN
+                                </p>
+                              )}
+                              <p className="admin-table-userList-tr-tbody-management-iconGrp-inside-text-hidden">
+                                DUMMY
+                              </p>
+                            </div>
+                          )}
+                        </>
+                      )}
+                    </div>
                   </td>
                 </tr>
               );
