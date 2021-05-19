@@ -3,8 +3,7 @@ import axios from "../../config/axios";
 
 import ModalRoomAdd from "./modals-admin/ModalRoomAdd";
 
-// DUMMY
-import roomIcon from "../../img/restaurant.png";
+import { BanIcon, KeyIcon, PencilIcon } from "@heroicons/react/outline";
 
 function RoomManage() {
   //modal RoomAdd
@@ -56,7 +55,7 @@ function RoomManage() {
       console.dir(err);
     }
   };
-  console.log(roomList);
+  // console.log(roomList);
 
   return (
     <>
@@ -76,7 +75,7 @@ function RoomManage() {
           <tbody>
             {roomList?.map((item, index) => {
               return (
-                <tr className="admin-table-roomList-tr-tbody">
+                <tr className="admin-table-roomList-tr-tbody" key={item.id}>
                   <td>{index + 1}</td>
                   <td>{item.id}</td>
                   <td>{item.roomName}</td>
@@ -87,7 +86,49 @@ function RoomManage() {
                     />
                   </td>
                   <td>{item.roomStatus}</td>
-                  <td>{"Management"}</td>
+                  <td>
+                    <div className="admin-table-roomList-tr-tbody-management-iconGrp">
+                      <div className="admin-table-roomList-tr-tbody-management-iconGrp-inside">
+                        <PencilIcon
+                          id="icon-name"
+                          onClick={(e) => console.log(e)}
+                          className="admin-table-roomList-tr-tbody-management-iconGrp-inside-icon"
+                        />
+                        <p className="admin-table-roomList-tr-tbody-management-iconGrp-inside-text-1">
+                          EDIT
+                        </p>
+                        <p className="admin-table-roomList-tr-tbody-management-iconGrp-inside-text-2">
+                          NAME
+                        </p>
+                      </div>
+                      <div className="admin-table-roomList-tr-tbody-management-iconGrp-inside">
+                        <PencilIcon
+                          id="icon-img"
+                          onClick={(e) => console.log(e)}
+                          className="admin-table-roomList-tr-tbody-management-iconGrp-inside-icon"
+                        />
+                        <p className="admin-table-roomList-tr-tbody-management-iconGrp-inside-text-1">
+                          EDIT
+                        </p>
+                        <p className="admin-table-roomList-tr-tbody-management-iconGrp-inside-text-2">
+                          ICON
+                        </p>
+                      </div>
+                      <div className="admin-table-roomList-tr-tbody-management-iconGrp-inside">
+                        <BanIcon
+                          id="icon-status"
+                          onClick={(e) => console.log(e)}
+                          className="admin-table-roomList-tr-tbody-management-iconGrp-inside-icon"
+                        />
+                        <p className="admin-table-roomList-tr-tbody-management-iconGrp-inside-text-1">
+                          CHANGE
+                        </p>
+                        <p className="admin-table-roomList-tr-tbody-management-iconGrp-inside-text-2">
+                          STATUS
+                        </p>
+                      </div>
+                    </div>
+                  </td>
                 </tr>
               );
             })}
@@ -110,6 +151,7 @@ function RoomManage() {
         handleClickUploadRoomAddImg={handleClickUploadRoomAddImg}
         hiddenFileInput={hiddenFileInput}
         handlerUploadImage={handlerUploadImage}
+        getRoom={getRoom}
       />
     </>
   );

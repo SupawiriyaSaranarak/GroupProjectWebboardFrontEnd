@@ -204,6 +204,9 @@ function UserManage() {
                             onClick={(e) => handlerChangeUserStatus(e, item)}
                           >
                             <KeyIcon id="icon-active" />
+                            <p className="admin-table-userList-tr-tbody-management-iconGrp-text">
+                              ACTIVE
+                            </p>
                           </div>
                         )}
                         {item.userStatus !== "INACTIVE" && (
@@ -212,6 +215,9 @@ function UserManage() {
                             onClick={(e) => handlerChangeUserStatus(e, item)}
                           >
                             <BanIcon id="icon-ban" />
+                            <p className="admin-table-userList-tr-tbody-management-iconGrp-text">
+                              BAN
+                            </p>
                           </div>
                         )}
                       </div>
