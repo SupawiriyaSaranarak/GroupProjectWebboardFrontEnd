@@ -58,7 +58,7 @@ function TopicManage() {
       }
 
       Swal.fire({
-        text: `คุณต้องการ ${reqBodyTopicStatus} TopicID: ${topic.id} ?`,
+        text: `คุณต้องการ ${reqBodyTopicStatus} TopicID: ${topic.id} ใช่ไหม?`,
         icon: "warning",
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
@@ -105,25 +105,25 @@ function TopicManage() {
                   <td>{index + 1}</td>
                   <td
                     onClick={(e) => openModalTopicDetail(e, item)}
-                    style={{ cursor: "pointer" }}
+                    className="admin-table-reportList-tr-tbody-td-pointer"
                   >
                     {item.id}
                   </td>
                   <td
                     onClick={(e) => openModalTopicDetail(e, item)}
-                    style={{ cursor: "pointer" }}
+                    className="admin-table-reportList-tr-tbody-td-pointer"
                   >
                     {item.User.id}
                   </td>
                   <td
                     onClick={(e) => openModalTopicDetail(e, item)}
-                    style={{ cursor: "pointer" }}
+                    className="admin-table-reportList-tr-tbody-td-pointer"
                   >
                     {item.Likes.length}
                   </td>
                   <td
                     onClick={(e) => openModalTopicDetail(e, item)}
-                    style={{ cursor: "pointer" }}
+                    className="admin-table-reportList-tr-tbody-td-pointer"
                   >
                     {item.Comments.length}
                   </td>

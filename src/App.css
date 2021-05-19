@@ -408,6 +408,12 @@
   padding: 10px;
 }
 
+/* POINTER */
+.admin-table-reportList-tr-tbody-td-pointer,
+.admin-table-reportList-tr-tbody-td-pointer {
+  cursor: pointer;
+}
+
 .admin-table-roomList-tr-tbody-img,
 .admin-table-reportList-tr-tbody-img {
   width: 25px;
@@ -512,7 +518,13 @@
   height: 10%;
   padding: 10px;
   display: flex;
-  justify-content: flex-end;
+}
+
+.modal-reportDetail-box-footer-content {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
 
 .modal-reportDetail-box-footer-btnSubmit {
