@@ -355,7 +355,7 @@
 .admin-content-content-body {
   margin-top: 15px;
   padding: 10px;
-  min-width: max-content;
+  min-width: 590px;
   border-radius: 15px;
 
   background-color: #edd1b0;
@@ -368,13 +368,15 @@
 }
 
 .admin-table-roomList,
-.admin-table-reportList {
+.admin-table-reportList,
+.admin-table-userList {
   width: 100%;
   min-width: max-content;
 }
 
 .admin-table-roomList-tr-thead > th,
-.admin-table-reportList-tr-thead > th {
+.admin-table-reportList-tr-thead > th,
+.admin-table-userList-tr-thead > th {
   text-align: left;
   background: #666;
   color: #fff;
@@ -554,6 +556,11 @@
 }
 
 /* ADMIN USER LIST */
+.admin-table-reportList-tr-thead-longTxt {
+  display: flex;
+  flex-direction: row;
+}
+
 .admin-table-userList-tr-tbody-userImg {
   width: 100px;
   height: 100px;
@@ -576,4 +583,56 @@
   object-fit: cover;
   overflow: hidden;
   object-position: 50% 50%;
+}
+
+.admin-table-userList-tr-tbody-management-iconGrp {
+  display: flex;
+  flex-direction: row;
+}
+
+.admin-table-userList-tr-tbody-management-iconGrp-icon {
+  width: 30px;
+  height: 30px;
+}
+
+/* RESPONSIVE */
+@media only screen and (max-width: 1250px) {
+  .admin-table-userList > * {
+    font-size: 0.9rem;
+  }
+  .admin-table-userList-tr-tbody-userImg {
+    width: 75px;
+    height: 75px;
+  }
+}
+
+@media only screen and (max-width: 1100px) {
+  .admin-table-userList > * {
+    font-size: 0.75rem;
+  }
+  .admin-table-userList-tr-tbody-userImg {
+    width: 50px;
+    height: 50px;
+  }
+  .admin-table-userList-tr-tbody-management-iconGrp {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+@media only screen and (max-width: 900px) {
+  .admin-table-roomList > *,
+  .admin-table-userList > * {
+    font-size: 0.7rem;
+  }
+  .admin-table-userList-tr-tbody-management-iconGrp-icon {
+    width: 20px;
+    height: 20px;
+  }
+  .admin-table-userList-tr-thead > th {
+    font-size: 0.5rem;
+  }
+  .admin-table-reportList-tr-thead-longTxt {
+    flex-direction: column;
+  }
 }

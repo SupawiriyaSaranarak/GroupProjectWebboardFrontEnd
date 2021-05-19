@@ -1,73 +1,113 @@
-import React, { useState } from "react";
+import axios from "../../config/axios";
+import React, { useEffect, useState } from "react";
 
-// Dummy Image
-import dummyImage from "../../img/dummy-image.jpg";
 import ModalUserDetail from "./modals-admin/ModalUserDetail";
+
+import { BanIcon, KeyIcon } from "@heroicons/react/outline";
+import moment from "moment";
 
 function UserManage() {
   //Modal UserList > UserDetail
   const [modalUserDetailIsOpen, setModalUserDetailIsOpen] = useState(false);
 
-  const openModalUserDetail = () => {
+  const openModalUserDetail = (e, item) => {
     setModalUserDetailIsOpen(true);
+    // console.log(item);
+    setUserDetail(item);
   };
 
   const closeModalUserDetail = () => {
     setModalUserDetailIsOpen(false);
+    setUserDetail();
   };
+
+  //get User List
+  const [usersList, setUsersList] = useState();
+  const [userDetail, setUserDetail] = useState();
+
+  useEffect(() => {
+    getUser();
+  }, []);
+
+  const getUser = async () => {
+    try {
+      const resUsers = await axios.get("/admin/user");
+      // console.log(resUsers.data.users);
+      const {
+        data: { users },
+      } = resUsers;
+      setUsersList(users);
+    } catch (err) {
+      console.dir(err);
+    }
+  };
+  console.log(usersList);
 
   return (
     <>
       <div className="admin-content-content-body">
         <div className="admin-content-content-body-headText">{"User List"}</div>
-        <table className="admin-table-reportList">
+        <table className="admin-table-userList">
           <thead>
-            <tr className="admin-table-reportList-tr-thead">
+            <tr className="admin-table-userList-tr-thead">
               <th>ลำดับ</th>
-              <th>User Id</th>
-              <th>Username</th>
+              <th>
+                <div className="admin-table-reportList-tr-thead-longTxt">
+                  <div>User </div>
+                  <div>Id</div>
+                </div>
+              </th>
+              <th>
+                <div className="admin-table-reportList-tr-thead-longTxt">
+                  <div>User</div>
+                  <div>name</div>
+                </div>
+              </th>
               <th>Email</th>
               <th>Img</th>
               <th>Birthday</th>
               <th>Role</th>
               <th>Status</th>
-              <th>Management</th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
-            <tr className="admin-table-reportList-tr-tbody">
-              <td>{"1"}</td>
-              <td>{"1"}</td>
-              <td>{"user1"}</td>
-              <td>{"user1user1@mail.com"}</td>
-              <td>
-                <img
-                  src={dummyImage}
-                  className="admin-table-userList-tr-tbody-userImg"
-                  onClick={openModalUserDetail}
-                />
-              </td>
-              <td>{"XX/XX/XXXX"}</td>
-              <td>{"ADMIN"}</td>
-              <td>{"ACTIVE"}</td>
-              <td>{"Management"}</td>
-            </tr>
-            <tr className="admin-table-reportList-tr-tbody">
-              <td>{"2"}</td>
-              <td>{"2"}</td>
-              <td>{"user2"}</td>
-              <td>{"user2user2@mail.com"}</td>
-              <td>
-                <img
-                  src={dummyImage}
-                  className="admin-table-userList-tr-tbody-userImg"
-                />
-              </td>
-              <td>{"XX/XX/XXXX"}</td>
-              <td>{"USER"}</td>
-              <td>{"INACTIVE"}</td>
-              <td>{"Management"}</td>
-            </tr>
+            {usersList?.map((item, index) => {
+              return (
+                <tr className="admin-table-reportList-tr-tbody" key={item.id}>
+                  <td>{index + 1}</td>
+                  <td>{item.id}</td>
+                  <td>{item.username}</td>
+                  <td>{item.email}</td>
+                  <td>
+                    <img
+                      src={item.userImg}
+                      className="admin-table-userList-tr-tbody-userImg"
+                      onClick={(e) => openModalUserDetail(e, item)}
+                    />
+                  </td>
+                  <td>{moment(item.birthDate).format("DD/MM/YYYY")}</td>
+                  <td>{item.userRole}</td>
+                  <td>{item.userStatus}</td>
+                  <td>
+                    <div className="admin-table-userList-tr-tbody-management-iconGrp">
+                      <div
+                        className="admin-table-userList-tr-tbody-management-iconGrp-icon"
+                        onClick={(e) => console.log(e.target.id, item)}
+                      >
+                        <KeyIcon id="icon-active" />
+                      </div>
+                      <div
+                        className="admin-table-userList-tr-tbody-management-iconGrp-icon"
+                        onClick={(e) => console.log(e.target.id, item)}
+                      >
+                        <BanIcon id="icon-ban" />
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
         <div className="admin-content-content-footer"></div>
@@ -76,6 +116,7 @@ function UserManage() {
       <ModalUserDetail
         modalUserDetailIsOpen={modalUserDetailIsOpen}
         closeModalUserDetail={closeModalUserDetail}
+        userDetail={userDetail}
       />
     </>
   );
