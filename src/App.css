@@ -80,12 +80,12 @@
   background-color: white;
   padding: 0.25rem;
   border: 0px solid black;
-  border-radius: 1.5rem;
+  border-radius: 25px;
 }
 
 .roomBar-container-contentBox-inside-iconImg {
   width: 25px;
-  height: 25px;
+  height: 22px;
 }
 
 .roomBar-container-contentBox-inside-textBox {

@@ -7,6 +7,15 @@ import pinRedIcon from "../public/images/pinRedIcon.png";
 import userIcon from "../public/images/userIcon.png";
 
 function UserTopicList() {
+  const user = {
+    id: 2,
+    username: "Tom",
+    email: "tomtom@gmail.com",
+    userImg:
+      "https://res.cloudinary.com/dqns1bgvx/image/upload/v1620360479/ewbccattypcirfphx6uz.jpg",
+    userRole: "USER",
+    userStatus: "ACTIVE",
+  };
   const hotTopics = [
     {
       id: 1,
@@ -179,9 +188,105 @@ function UserTopicList() {
           </div>
         </div>
         {/* dashboard header */}
-        <div className="topic-list-box"></div>
+        {/* <div className="topic-list-box">
+          <div
+            key={user.id}
+            style={{
+              width: "90%",
+              borderBottom: "solid grey 1px",
+              marginBottom: "10px",
+              paddingBottom: "5px",
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "flex-start",
+              alignItems: "center",
+            }}
+          >
+            <div>
+              <img
+                src={user.userImg}
+                style={{
+                  height: "50px",
+                  width: "50px",
+                  borderRadius: "50px",
+                  margin: "0 15px",
+                }}
+              />
+            </div>
+            <div>
+              <a onClick={() => console.log(user.id)} style={{}}>
+                <strong>{user.username}</strong>
+              </a>
+              <div style={{ marginTop: "5px", fontSize: "12px" }}>
+                <span>
+                  <b>Role:</b>&nbsp;&nbsp; {user.userRole}{" "}
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  <b>Status:</b>&nbsp;&nbsp;
+                  <span
+                    style={{
+                      color: user.userStatus === "ACTIVE" ? "green" : "grey",
+                    }}
+                  >
+                    {user.userStatus}
+                  </span>
+                </span>
+              </div>
+            </div>
 
-        <div style={{ height: "20px" }}> </div>
+            <div>
+              <button
+                style={{
+                  backgroundColor: "#edd1b0",
+                  border: "none",
+                }}
+              >
+                <img
+                  src={editIcon}
+                  alt="edit-icon"
+                  style={{
+                    width: "20px",
+                    height: "20px",
+                  }}
+                />
+              </button>
+            </div>
+          </div>
+        </div> */}
+        <div
+          className="topic-list-box"
+          style={{
+            backgroundColor: "white",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <div
+            key={user.id}
+            style={{
+              width: "90%",
+
+              marginBottom: "10px",
+              paddingBottom: "5px",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <img
+              src={user.userImg}
+              style={{
+                height: "100px",
+                width: "100px",
+                borderRadius: "100px",
+                margin: "0 15px",
+              }}
+            />
+            <a onClick={() => console.log(user.id)}>
+              <h1>{user.username}</h1>{" "}
+            </a>
+          </div>
+        </div>
 
         <div className="topic-list-box">
           <div
@@ -191,7 +296,7 @@ function UserTopicList() {
             }}
           >
             <h2>
-              <b>Latest Topics</b>
+              <b>{user.username}'s Topics</b>
             </h2>
           </div>
           {/* dashboard topic item */}

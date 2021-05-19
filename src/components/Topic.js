@@ -17,6 +17,7 @@ import { useState } from "react";
 
 function Topic() {
   const [state, setState] = useState();
+  const [text, setText] = useState("");
   const [like, setLike] = useState(false);
   const handleLike = () => {
     console.log(like);
@@ -24,7 +25,7 @@ function Topic() {
   };
   console.log(like);
   const user = {
-    id: 1,
+    id: 2,
     username: "Tom",
     email: "tomtom@gmail.com",
     userImg:
@@ -241,16 +242,14 @@ function Topic() {
                       border: "none",
                     }}
                     onClick={
-                      topic.report?.reportStatus === "REPORT" ||
-                      topic.report?.reportStatus === "RECONSIDERED"
+                      topic.report?.reportStatus === "REPORT"
                         ? null
                         : () => console.log("report")
                     }
                   >
                     <img
                       src={
-                        topic.report?.reportStatus === "REPORT" ||
-                        topic.report?.reportStatus === "RECONSIDERED"
+                        topic.report?.reportStatus === "REPORT"
                           ? reportRedIcon
                           : reportBlackIcon
                       }
@@ -552,6 +551,14 @@ function Topic() {
               }}
             />
             <div>{ReactHtmlParser(state)}</div>
+          </div>
+          <div
+            id="1"
+            contentEditable="true"
+            value={text}
+            onChange={(e) => console.log(text)}
+          >
+            {text}
           </div> */}
         </div>
       </div>

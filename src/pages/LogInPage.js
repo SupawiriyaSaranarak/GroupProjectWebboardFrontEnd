@@ -2,11 +2,15 @@ import React from "react";
 
 import Register from "../components/Auth/Register";
 import LogIn from "../components/Auth/LogIn";
+import Navbar from "../components/navbar";
+import { HomeIcon, PencilIcon } from "@heroicons/react/outline";
 
 function LogInPage() {
   return (
     <div>
-      <div className="header">Header</div>
+      <div style={{ height: "100px", padding: "30px" }} className="header">
+        <Navbar Icon={HomeIcon} Icon2={PencilIcon} />
+      </div>
       <div className="content-body">
         <div className="margin-right"></div>
         <div style={{ width: "17vw" }}></div>
