@@ -10,6 +10,7 @@ import TopicPage from "./pages/TopicPage";
 import LogInPage from "./pages/LogInPage";
 import CreateTopicPage from "./pages/CreateTopicPage";
 import UserPage from "./pages/UserPage";
+import AdminPage from "./pages/AdminPage";
 
 const privateRoutes = [
   // {
@@ -51,6 +52,7 @@ function App() {
       <Route exact path="/create-topic" component={CreateTopicPage} />
       <Route exact path="/topic" component={TopicPage} />
       <Route exact path="/user" component={UserPage} />
+      <Route exact path="/admin" component={AdminPage} />
 
       <Redirect to="/" />
     </Switch>
