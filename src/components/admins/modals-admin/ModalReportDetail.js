@@ -19,7 +19,7 @@ function ModalReportDetail(props) {
       isOpen={props.modalReportDetailIsOpen}
       onRequestClose={props.closeModalReportDetail}
       style={customStyles}
-      contentLabel="RoomAdd Modal"
+      contentLabel="ReportDetail Modal"
       ariaHideApp={false}
     >
       <div className="modal-reportDetail-box">
