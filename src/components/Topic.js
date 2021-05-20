@@ -14,8 +14,28 @@ import reportRedIcon from "../public/images/reportRedIcon.png";
 import reportBlackIcon from "../public/images/reportBlackIcon.png";
 import ReactHtmlParser from "react-html-parser";
 import { useState } from "react";
+import ModalReportTopic from "./modals/ModalReportTopic";
 
 function Topic() {
+  const [topicDetail, setTopicDetail] = useState();
+
+  //modal Report
+  const [modalReportIsOpen, setModalReportIsOpen] = useState(false);
+
+  const openModalReport = (e, topic) => {
+    // console.log(e);
+    // console.log(topic);
+
+    setModalReportIsOpen(true);
+    setTopicDetail(topic);
+  };
+  // console.log(topicDetail);
+
+  const closeModalReport = () => {
+    setModalReportIsOpen(false);
+    setTopicDetail();
+  };
+
   const [state, setState] = useState();
   const [text, setText] = useState("");
   const [like, setLike] = useState(false);
@@ -262,6 +282,7 @@ function Topic() {
                   </button>
                 </div>
               )}
+              <div onClick={(e) => openModalReport(e, topic)}>Report</div>
             </div>
           </div>
           <div style={{ fontSize: "14px" }}>
@@ -563,6 +584,13 @@ function Topic() {
         </div>
       </div>
       <div style={{ width: "5%", height: "auto" }}></div>
+
+      <ModalReportTopic
+        modalReportIsOpen={modalReportIsOpen}
+        closeModalReport={closeModalReport}
+        topicDetail={topicDetail}
+        setTopicDetail={setTopicDetail}
+      />
     </>
   );
 }

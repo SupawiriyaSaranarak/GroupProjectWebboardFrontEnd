@@ -1,9 +1,35 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import axios from "../config/axios";
 
 import RoomItems from "./RoomItems";
-import roomIcon from "../img/restaurant.png";
 
 function RoomBar() {
+  const [allActiveRoom, setAllActiveRoom] = useState();
+
+  useEffect(async () => {
+    await getAllActiveRoom();
+  }, []);
+
+  const getAllActiveRoom = async () => {
+    try {
+      const resAllActiveRoom = await axios.get("/room/active");
+      // console.log(resAllActiveRoom.data.rooms);
+      const {
+        data: { rooms },
+      } = resAllActiveRoom;
+      setAllActiveRoom(rooms);
+    } catch (err) {
+      if (err.response) {
+        console.log(err.response);
+      }
+    }
+  };
+  // console.log(allActiveRoom);
+
+  const handlerClick = (e, room) => {
+    console.log("Click");
+  };
+
   return (
     <div className="roomBar-container">
       <div className="dashboad-header">
@@ -20,15 +46,9 @@ function RoomBar() {
         </div>
       </div>
       <div className="roomBar-container-contentList">
-        <RoomItems roomIcon={roomIcon} />
-        <RoomItems roomIcon={roomIcon} />
-        <RoomItems roomIcon={roomIcon} />
-        <RoomItems roomIcon={roomIcon} />
-        <RoomItems roomIcon={roomIcon} />
-        <RoomItems roomIcon={roomIcon} />
-        <RoomItems roomIcon={roomIcon} />
-        <RoomItems roomIcon={roomIcon} />
-        <RoomItems roomIcon={roomIcon} />
+        {allActiveRoom?.map((item, index) => {
+          return <RoomItems key={item.id} item={item} />;
+        })}
       </div>
     </div>
   );
