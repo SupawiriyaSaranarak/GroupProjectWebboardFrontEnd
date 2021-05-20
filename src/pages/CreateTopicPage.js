@@ -15,13 +15,9 @@ function CreateTopicPage() {
       </div>
       <div className="content-body">
         <div className="margin-right"></div>
-        <div className="content-body-room">
-          <RoomBar />
-        </div>
+
         <CreateTopic className="content-body-topic" />
-        <div className="content-body-pin">
-          <PinBar />
-        </div>
+
         <div className="margin-left"></div>
       </div>
     </div>

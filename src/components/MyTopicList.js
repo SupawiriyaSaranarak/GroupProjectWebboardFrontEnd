@@ -283,6 +283,9 @@ function UserTopicList() {
                 width: "100px",
                 borderRadius: "100px",
                 margin: "0 15px",
+                objectFit: "cover",
+                overflow: "hidden",
+                objectPosition: "50% 50%",
               }}
             />
             <a onClick={() => console.log(user.id)}>

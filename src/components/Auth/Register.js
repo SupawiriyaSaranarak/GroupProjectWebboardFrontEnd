@@ -1,6 +1,7 @@
 import { useContext, useState, useRef } from "react";
 import axios from "../../config/axios";
 import localStorageService from "../../services/localStorageService";
+import jwtDecode from "jwt-decode";
 import { AuthContext } from "../../contexts/AuthContextProvider";
 import { useHistory } from "react-router-dom";
 
@@ -65,7 +66,7 @@ function Register() {
 
       const formData = new FormData(); // ทำให้เป็น multipart from data เพื่อให้ axios ตรวจจับได้ง่ายๆ
       formData.append("image", uploadImage);
-      const res = await axios.post("/upload/user-img", formData);
+      const res = await axios.post("/upload", formData);
       const response = await axios.post("/register", {
         ...input,
         userImg: res.data.img,

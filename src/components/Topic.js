@@ -3,88 +3,81 @@ import axios from "../config/axios";
 import commentIcon from "../public/images/commentIcon.png";
 import redHeartIcon from "../public/images/redHeartIcon.png";
 import emtyHeartIcon from "../public/images/emtyHeartIcon.png";
-import calendarIcon from "../public/images/calendarIcon.png";
-import pinBlackIcon from "../public/images/pinBlackIcon.png";
-import pinRedIcon from "../public/images/pinRedIcon.png";
-import userIcon from "../public/images/userIcon.png";
-import RoomBar from "./RoomBar";
-import hotFood from "../public/images/hot-food.png";
+
 import editIcon from "../public/images/editIcon.png";
 import deleteIcon from "../public/images/deleteIcon.png";
 import reportRedIcon from "../public/images/reportRedIcon.png";
 import reportBlackIcon from "../public/images/reportBlackIcon.png";
 import ReactHtmlParser from "react-html-parser";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useHistory, useParams } from "react-router-dom";
+import { AuthContext } from "../contexts/AuthContextProvider";
 
 function Topic() {
+  const history = useHistory();
+  const { user } = useContext(AuthContext);
   const { id } = useParams();
+  const [topic, setTopic] = useState();
+  const [report, setReport] = useState(topic?.Reports?.length ? true : false);
+  const [commentContent, setCommentContent] = useState("");
+  const [editComment, setEditComment] = useState(false);
   useEffect(() => {
     const getTopic = async () => {
-      const res = await axios.get("http://localhost:8000/booking");
+      try {
+        const res = await axios.get(`/topics/active/${id}`);
+        setTopic(res.data.topic);
+      } catch (err) {
+        console.log(err);
+      }
     };
-  }, [id]);
-  const [state, setState] = useState();
-  const [text, setText] = useState("");
+    getTopic();
+  }, [id, topic]);
+  console.log(topic);
+  console.log(report);
+  const handleReport = () => {
+    console.log("report");
+    setReport(true);
+  };
+
   const [like, setLike] = useState(false);
   const handleLike = () => {
     console.log(like);
     setLike((prev) => !prev);
   };
   console.log(like);
-  const user = {
-    id: 2,
-    username: "Tom",
-    email: "tomtom@gmail.com",
-    userImg:
-      "https://res.cloudinary.com/dqns1bgvx/image/upload/v1620360479/ewbccattypcirfphx6uz.jpg",
-    userRole: "USER",
+  const handleEditTopic = () => {};
+  const handleDeleteTopic = () => {};
+  const handleAddComment = async (e) => {
+    try {
+      e.preventDefault();
+      console.log(commentContent, topic.id);
+      const res = await axios.post("/user/comments", {
+        commentContent,
+        topicId: topic.id,
+      });
+      setTopic((prev) =>
+        prev.Comments.push({ commentContent, topicId: topic.id })
+      );
+      setCommentContent("");
+    } catch (err) {
+      console.log(err);
+    }
   };
-  const topic = {
-    id: 1,
-    topicName: "Lorem ipsum dolor sit amet consectetur adipisicing.",
-    room: {
-      roomImg: hotFood,
-      roomName: "FOOD/DRINK",
-    },
-    createdAt: "2021-04-05",
-    user: {
-      id: 2,
-      username: "สายฟ้าพายุ",
-      userImg:
-        "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8cGVyc29ufGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&w=1000&q=80",
-    },
-    report: { reportStatus: "RECONSIDERED" },
-    topicImg:
-      "https://media-cdn.tripadvisor.com/media/photo-s/13/9f/39/d1/cape-view-clifton.jpg",
-    topicContent: `Lorem ipsum dolor sit amet consectetur  adipisicing elit. Omnis ipsa tempore alias distinctio dolores, dolorem saepe reiciendis, reprehenderit vitae suscipit velit quas possimus deserunt veniam aspernatur repellat ratione! Accusantium, quia similique placeat dolorum in officia possimus praesentium quidem iure eaque quam sint harum aliquid sit, <br/> <div style={{textAlign: "center"}}> <img style= {{display: "block", margin: "10px 0px"}} src="https://media-cdn.tripadvisor.com/media/photo-s/13/9f/39/d1/cape-view-clifton.jpg" /> </div> <br/> tempore laborum non earum! Velit nam sed ipsa, at vitae quidem totam adipisci deserunt omnis odit iusto, provident quo nisi reprehenderit non in vero, nesciunt quas laudantium veniam. Cupiditate natus magnam saepe vero eos totam provident tempore, nihil blanditiis suscipit ipsam ipsa, qui harum! Quo voluptas porro accusantium incidunt rem quos molestiae voluptates quasi nostrum?`,
-    like: [
-      { id: 1, user: { id: 1, username: "กิ้งก่า", userImg: "" } },
-      { id: 7, user: { id: 5, username: "ต้น", userImg: "" } },
-      { id: 8, user: { id: 2, username: "เอก", userImg: "" } },
-    ],
-    comment: [
-      {
-        user: {
-          id: 1,
-          username: "Tom",
-          userImg:
-            "https://www.dmarge.com/wp-content/uploads/2021/01/dwayne-the-rock-.jpg",
-        },
-        commentContent:
-          "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ratione, iure?",
-      },
-      {
-        user: {
-          id: 3,
-          username: "เอก",
-          userImg:
-            "https://www.dmarge.com/wp-content/uploads/2021/01/dwayne-the-rock-.jpg",
-        },
-        commentContent:
-          "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ratione, iure?",
-      },
-    ],
+  const handleEditComment = async (e, id) => {
+    try {
+      e.preventDefault();
+      console.log(commentContent, topic.id);
+      const res = await axios.patch(`/user/comments/${id}`, {
+        commentContent,
+        topicId: topic.id,
+      });
+      setTopic((prev) =>
+        prev.Comments.push({ commentContent, topicId: topic.id })
+      );
+      setCommentContent("");
+    } catch (err) {
+      console.log(err);
+    }
   };
   return (
     <>
@@ -171,7 +164,7 @@ function Topic() {
           <div className="topic-name">
             <div className="room-section">
               <img
-                src={topic.room.roomImg}
+                src={topic?.Room?.roomIcon}
                 alt="room-icon"
                 style={{ width: "50px", height: "50px" }}
               />
@@ -179,21 +172,24 @@ function Topic() {
               <a
                 style={{
                   fontSize: "10px",
-                  color: "gray",
+                  // color: "gray",
                   textDecoration: "none",
                 }}
-                onClick={() => console.log(topic.room.roomName)}
+                onClick={() => history.push(`/room/${topic.Room.id}`)}
               >
-                {topic.room.roomName}
+                {topic?.Room?.roomName}
               </a>
             </div>
             <div
               style={{
                 marginLeft: "10px",
                 marginRight: "10px",
+                fontSize: "25px",
               }}
             >
-              <h3>{topic.topicName}</h3>
+              <div>
+                <strong>{topic?.topicName}</strong>
+              </div>
             </div>
             <div
               className="topic-control-button"
@@ -203,7 +199,7 @@ function Topic() {
                 width: "10%",
               }}
             >
-              {user.id === topic.user.id ? (
+              {user?.id === topic?.User?.id ? (
                 <>
                   <div>
                     <button
@@ -211,6 +207,7 @@ function Topic() {
                         backgroundColor: "#edd1b0",
                         border: "none",
                       }}
+                      onClick={handleEditTopic}
                     >
                       <img
                         src={editIcon}
@@ -229,6 +226,7 @@ function Topic() {
                         backgroundColor: "#edd1b0",
                         border: "none",
                       }}
+                      onClick={handleDeleteTopic}
                     >
                       <img
                         src={deleteIcon}
@@ -248,18 +246,10 @@ function Topic() {
                       backgroundColor: "#edd1b0",
                       border: "none",
                     }}
-                    onClick={
-                      topic.report?.reportStatus === "REPORT"
-                        ? null
-                        : () => console.log("report")
-                    }
+                    onClick={handleReport}
                   >
                     <img
-                      src={
-                        topic.report?.reportStatus === "REPORT"
-                          ? reportRedIcon
-                          : reportBlackIcon
-                      }
+                      src={report ? reportRedIcon : reportBlackIcon}
                       alt="block-red-icon"
                       style={{
                         width: "20px",
@@ -276,13 +266,13 @@ function Topic() {
             <strong>Author : </strong>
             <a
               style={{ color: "brown" }}
-              onClick={() => console.log(topic.user.id)}
+              onClick={() => history.push(`/user/${topic.User.id}`)}
             >
-              {topic.user.username}
+              {topic?.User?.username}
             </a>{" "}
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{" "}
             <strong>Date : </strong> &nbsp;
-            <span>{topic.createdAt}</span>
+            <span>{new Date(topic?.createdAt).toLocaleDateString()}</span>
           </div>
           <div
             style={{
@@ -291,7 +281,7 @@ function Topic() {
               margin: "20px",
             }}
           >
-            <img src={topic.topicImg} />
+            <img src={topic?.topicImg} />
           </div>
           <div
             align="justify"
@@ -301,7 +291,7 @@ function Topic() {
             }}
           >
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            {ReactHtmlParser(topic.topicContent)}
+            {ReactHtmlParser(topic?.topicContent)}
           </div>
           <div
             style={{
@@ -343,7 +333,7 @@ function Topic() {
                 }}
                 // onClick={handleShowlike}
               >
-                {topic.like.length}
+                {topic?.Likes?.length}
               </button>
             </div>
             <div
@@ -376,7 +366,7 @@ function Topic() {
                   border: "none",
                 }}
               >
-                {topic.comment.length}
+                {topic?.Comments?.length}
               </button>
             </div>
           </div>
@@ -451,9 +441,9 @@ function Topic() {
               alignItems: "center",
             }}
           >
-            {topic.comment.map((item) => (
+            {topic?.Comments?.map((item) => (
               <div
-                key={item.user.id}
+                key={item.userId}
                 style={{
                   width: "90%",
                   borderBottom: "solid grey 1px",
@@ -467,7 +457,7 @@ function Topic() {
               >
                 <div>
                   <img
-                    src={item.user.userImg}
+                    src={item.User.userImg}
                     style={{
                       height: "50px",
                       width: "50px",
@@ -477,18 +467,41 @@ function Topic() {
                   />
                 </div>
                 <div>
-                  <a onClick={() => console.log(item.user.id)} style={{}}>
-                    <strong>{item.user.username}</strong>
+                  <a
+                    onClick={() => history.push(`/user/${item.User.id}`)}
+                    style={{}}
+                  >
+                    <strong>{item.User.username}</strong>
                   </a>
-                  <div>{item.commentContent}</div>
+                  {item.User.id === user.id && editComment ? (
+                    <form onSubmit={(e) => handleEditComment(e, item.User.id)}>
+                      <textarea
+                        value={item.commentContent}
+                        onChange={(e) => setCommentContent(e.target.value)}
+                        style={{ width: "30vw" }}
+                      />
+
+                      <button
+                        style={{
+                          backgroundColor: "#edd1b0",
+                          border: "none",
+                        }}
+                      >
+                        Edit Comment
+                      </button>
+                    </form>
+                  ) : (
+                    <div>{item.commentContent}</div>
+                  )}
                 </div>
-                {item.user.id === user.id ? (
+                {item.User.id === user.id && !editComment ? (
                   <div>
                     <button
                       style={{
                         backgroundColor: "#edd1b0",
                         border: "none",
                       }}
+                      onClick={() => setEditComment(true)}
                     >
                       <img
                         src={editIcon}
@@ -505,7 +518,7 @@ function Topic() {
             ))}
 
             <div
-              key={user.id}
+              key={user?.id}
               style={{
                 width: "90%",
                 borderBottom: "solid grey 1px",
@@ -519,7 +532,7 @@ function Topic() {
             >
               <div>
                 <img
-                  src={user.userImg}
+                  src={user?.userImg}
                   style={{
                     height: "50px",
                     width: "50px",
@@ -529,9 +542,10 @@ function Topic() {
                 />
               </div>
               <div>
-                <form onSubmit={() => console.log("send comment")}>
+                <form onSubmit={(e) => handleAddComment(e)}>
                   <textarea
-                    onChange={(e) => console.log(e.target.value)}
+                    value={commentContent}
+                    onChange={(e) => setCommentContent(e.target.value)}
                     style={{ width: "30vw" }}
                   />
 
@@ -547,26 +561,6 @@ function Topic() {
               </div>
             </div>
           </div>
-
-          {/* <div>
-            <textarea
-              style={{ width: "100%", height: "auto" }}
-              value={state}
-              onChange={(e) => {
-                console.log(e.target.value);
-                setState(e.target.value);
-              }}
-            />
-            <div>{ReactHtmlParser(state)}</div>
-          </div>
-          <div
-            id="1"
-            contentEditable="true"
-            value={text}
-            onChange={(e) => console.log(text)}
-          >
-            {text}
-          </div> */}
         </div>
       </div>
       <div style={{ width: "5%", height: "auto" }}></div>
