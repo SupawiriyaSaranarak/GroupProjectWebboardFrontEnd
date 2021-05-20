@@ -1,10 +1,12 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import Navbar from "../components/navbar";
 import TopicList from "../components/TopicList";
 import PinBar from "../components/PinBar";
 import RoomBar from "../components/RoomBar";
+import axios from "../config/axios"
 
 import { HomeIcon, PencilIcon } from "@heroicons/react/outline";
+
 
 // Modal import
 import Modal from "react-modal";
@@ -20,10 +22,14 @@ const customStyles = {
   },
 };
 
+
+
 function HomePage() {
   //modal Report
   const [modalReportIsOpen, setModalReportIsOpen] = useState(false);
 
+   
+  
   const openModalReport = () => {
     setModalReportIsOpen(true);
   };
@@ -32,9 +38,13 @@ function HomePage() {
     setModalReportIsOpen(false);
   };
 
+
   return (
     <div>
-      <div style={{ height: "100px", padding: "30px" }} className="header">
+      <div
+        style={{ height: "80px", backgroundColor: "#faf3e0",width:"100%" }}
+        className="header"
+      >
         <Navbar Icon={HomeIcon} Icon2={PencilIcon} />
       </div>
       <div className="content-body">
