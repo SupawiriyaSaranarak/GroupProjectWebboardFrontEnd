@@ -1,7 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
+import axios from "../../../config/axios";
+
+import { KeyIcon } from "@heroicons/react/outline";
+
+import Swal from "sweetalert2";
 
 import Modal from "react-modal";
-
 const customStyles = {
   content: {
     top: "50%",
@@ -14,6 +18,45 @@ const customStyles = {
 };
 
 function ModalReportDetail(props) {
+  const handlerAdminDesInputChange = (e) => {
+    props.setAdminDesInput({ adminDescription: e.target.value });
+  };
+  // console.log(props.adminDesInput);
+
+  const handlerAdminDesUpdate = async (e) => {
+    e.preventDefault();
+    try {
+      // validate
+      if (!props.adminDesInput.adminDescription) {
+        throw Error("กรุณา กรอก Admin Description");
+      }
+      if (
+        props.adminDesInput.adminDescription === "" ||
+        !props.adminDesInput.adminDescription.trim()
+      ) {
+        throw Error("กรุณา กรอก Admin Description");
+      }
+
+      const adminDesUpdate = await axios.patch(
+        "/admin/report/" + props.reportDetail?.id,
+        { adminDescription: props.adminDesInput.adminDescription }
+      );
+
+      Swal.fire({
+        title: "อัพเดต Admin Description สำเร็จ",
+        icon: "success",
+      });
+
+      props.closeModalReportDetail();
+      props.setAdminDesInput({
+        adminDescription: "",
+      });
+      props.getReport();
+    } catch (err) {
+      console.dir(err);
+    }
+  };
+
   return (
     <Modal
       isOpen={props.modalReportDetailIsOpen}
@@ -33,25 +76,34 @@ function ModalReportDetail(props) {
         </div>
         <div className="modal-reportDetail-box-content">
           <div className="modal-reportDetail-box-content-1">
-            <p>Report Id: {"1"}</p>
-            <p>Report By User Id: {"1"}</p>
-            <p>Report Topic Id: {"1"}</p>
+            <p>Report Id: {props.reportDetail?.id}</p>
+            <p>Report By User Id: {props.reportDetail?.userId}</p>
+            <p>Report Topic Id: {props.reportDetail?.topicId}</p>
+            <p>Report Status: {props.reportDetail?.reportStatus}</p>
             <p>Report Context: </p>
             <div className="modal-reportDetail-box-content-1-reportContext">
-              {
-                "Lorem ipsum dolor sit amet consectetur adipisicing elit. Perferendis corporis sint ex quisquam maxime nihil amet et inventore debitis, necessitatibus culpa cumque fugiat odio! Ea."
-              }
+              {props.reportDetail?.reportContent}
             </div>
           </div>
           <div className="modal-reportDetail-box-content-2">
             <p>Admin Description :</p>
-            <textarea className="modal-reportDetail-box-content-2-adminDescription" />
+            <textarea
+              className="modal-reportDetail-box-content-2-adminDescription"
+              name="adminDescription"
+              defaultValue={props.reportDetail?.adminDescription}
+              onChange={handlerAdminDesInputChange}
+            />
           </div>
         </div>
         <div className="modal-reportDetail-box-footer">
-          <button className="modal-reportDetail-box-footer-btnSubmit">
-            OK
-          </button>
+          <div className="modal-reportDetail-box-footer-content">
+            <button
+              className="modal-reportDetail-box-footer-btnSubmit"
+              onClick={handlerAdminDesUpdate}
+            >
+              UPDATE ADMIN DESCRIPTION
+            </button>
+          </div>
         </div>
       </div>
     </Modal>

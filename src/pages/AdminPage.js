@@ -10,12 +10,7 @@ import ReportManage from "../components/admins/ReportManage";
 import RoomManage from "../components/admins/RoomManage";
 
 function AdminPage() {
-  const [changeDisplayByNavbar, setChangeDisplayByNavbar] = useState({
-    user: true,
-    topic: false,
-    report: false,
-    room: false,
-  });
+  const [changeDisplayByNavbar, setChangeDisplayByNavbar] = useState({});
 
   return (
     <>

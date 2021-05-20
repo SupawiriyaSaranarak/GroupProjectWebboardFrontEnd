@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import commentIcon from "../public/images/commentIcon.png";
 import redHeartIcon from "../public/images/redHeartIcon.png";
 import calendarIcon from "../public/images/calendarIcon.png";
@@ -7,12 +7,10 @@ import pinRedIcon from "../public/images/pinRedIcon.png";
 import userIcon from "../public/images/userIcon.png";
 import axios from "../config/axios";
 
-
 function TopicList() {
-
   const [lastedTopic, setLastedTopi] = useState([]);
-  const [hotTopic,setHotTopic] = useState([])
-  
+  const [hotTopic, setHotTopic] = useState([]);
+
   const fetchLastedTopic = async () => {
     const res = await axios.get("topics/latest-topics");
     setLastedTopi(res.data.lastestTopics);
@@ -21,14 +19,13 @@ function TopicList() {
   const fetchHotTopic = async () => {
     const res = await axios.get("topics/hot-topics");
     setHotTopic(res.data.topicss);
-  }
+  };
 
-
-  console.log( hotTopic);
-   useEffect(() => {
-     fetchLastedTopic();
-     fetchHotTopic();
-   }, []);
+  console.log(hotTopic);
+  useEffect(() => {
+    fetchLastedTopic();
+    fetchHotTopic();
+  }, []);
   const hotTopics = [
     {
       id: 1,
@@ -214,8 +211,8 @@ function TopicList() {
             </h2>
           </div>
           {/* dashboard topic item */}
-          {hotTopic.map((item) => (
-            <div className="topic-item">
+          {hotTopics.map((item) => (
+            <div className="topic-item" key={item.id}>
               <div
                 style={{
                   width: "15%",
@@ -368,8 +365,8 @@ function TopicList() {
             </h2>
           </div>
           {/* dashboard topic item */}
-          {lastedTopic.map((item) => (
-            <div className="topic-item">
+          {latestTopics.map((item) => (
+            <div className="topic-item" key={item.id}>
               <div
                 style={{
                   width: "15%",

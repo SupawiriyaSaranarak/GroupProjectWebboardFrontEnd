@@ -13,7 +13,27 @@ import { useState, useEffect, useContext } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import { AuthContext } from "../contexts/AuthContextProvider";
 
+import ModalReportTopic from "./modals/ModalReportTopic";
+
 function Topic() {
+  //modal Report
+  const [topicDetail, setTopicDetail] = useState();
+  const [modalReportIsOpen, setModalReportIsOpen] = useState(false);
+
+  const openModalReport = (e, topic) => {
+    // console.log(e);
+    // console.log(topic);
+
+    setModalReportIsOpen(true);
+    setTopicDetail(topic);
+  };
+  // console.log(topicDetail);
+
+  const closeModalReport = () => {
+    setModalReportIsOpen(false);
+    setTopicDetail();
+  };
+
   const history = useHistory();
   const { user } = useContext(AuthContext);
   const { id } = useParams();
@@ -259,6 +279,7 @@ function Topic() {
                   </button>
                 </div>
               )}
+              <div onClick={(e) => openModalReport(e, topic)}>Report</div>
             </div>
           </div>
           <div style={{ fontSize: "14px" }}>
@@ -564,6 +585,13 @@ function Topic() {
         </div>
       </div>
       <div style={{ width: "5%", height: "auto" }}></div>
+
+      <ModalReportTopic
+        modalReportIsOpen={modalReportIsOpen}
+        closeModalReport={closeModalReport}
+        topicDetail={topicDetail}
+        setTopicDetail={setTopicDetail}
+      />
     </>
   );
 }
