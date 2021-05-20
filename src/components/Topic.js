@@ -1,4 +1,5 @@
 import React from "react";
+import axios from "../config/axios";
 import commentIcon from "../public/images/commentIcon.png";
 import redHeartIcon from "../public/images/redHeartIcon.png";
 import emtyHeartIcon from "../public/images/emtyHeartIcon.png";
@@ -13,9 +14,16 @@ import deleteIcon from "../public/images/deleteIcon.png";
 import reportRedIcon from "../public/images/reportRedIcon.png";
 import reportBlackIcon from "../public/images/reportBlackIcon.png";
 import ReactHtmlParser from "react-html-parser";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useHistory, useParams } from "react-router-dom";
 
 function Topic() {
+  const { id } = useParams();
+  useEffect(() => {
+    const getTopic = async () => {
+      const res = await axios.get("http://localhost:8000/booking");
+    };
+  }, [id]);
   const [state, setState] = useState();
   const [text, setText] = useState("");
   const [like, setLike] = useState(false);
@@ -55,7 +63,6 @@ function Topic() {
       { id: 7, user: { id: 5, username: "ต้น", userImg: "" } },
       { id: 8, user: { id: 2, username: "เอก", userImg: "" } },
     ],
-    commentCount: 2,
     comment: [
       {
         user: {

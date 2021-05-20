@@ -1,10 +1,13 @@
 import React from "react";
-import Register from "../components/Auth/Register";
-import LogIn from "../components/Auth/LogIn";
+import MyTopicList from "../components/MyTopicList";
+import PinBar from "../components/PinBar";
+import RoomBar from "../components/RoomBar";
 import Navbar from "../components/navbar";
 import { HomeIcon, PencilIcon } from "@heroicons/react/outline";
 
-function LogInPage() {
+import LOGO from "../img/LOGO.png";
+
+function MyPage() {
   return (
     <div>
       <div style={{ height: "100px", padding: "30px" }} className="header">
@@ -12,17 +15,17 @@ function LogInPage() {
       </div>
       <div className="content-body">
         <div className="margin-right"></div>
-        <div style={{ width: "17vw" }}></div>
-
-        <Register className="content-body-register" />
-        <div style={{ width: "6vw" }}></div>
-        <LogIn className="content-body-login" />
-        <div style={{ width: "17vw" }}></div>
-
+        <div className="content-body-room">
+          <RoomBar />
+        </div>
+        <MyTopicList className="content-body-topic" />
+        <div className="content-body-pin">
+          <PinBar />
+        </div>
         <div className="margin-left"></div>
       </div>
     </div>
   );
 }
 
-export default LogInPage;
+export default MyPage;
