@@ -11,23 +11,70 @@ import LogInPage from "./pages/LogInPage";
 import CreateTopicPage from "./pages/CreateTopicPage";
 import UserPage from "./pages/UserPage";
 import AdminPage from "./pages/AdminPage";
+import MyPage from "./pages/MyPage";
 
-const privateRoutes = [
-  // {
-  //   path: "/",
-  //   component: Home,
-  // },
-  // {
-  //   path: "/profile",
-  //   component: Profile,
-  // },
+const adminRoutes = [
+  {
+    path: "/me",
+    component: MyPage,
+  },
+  {
+    path: "/create-topic",
+    component: CreateTopicPage,
+  },
+  {
+    path: "/admin",
+    component: AdminPage,
+  },
+  {
+    path: "/topic/:id",
+    component: TopicPage,
+  },
+  {
+    path: "/user/:id",
+    component: UserPage,
+  },
+  {
+    path: "/",
+    component: HomePage,
+  },
 ];
 
-const publicRoutes = [
-  // {
-  //   path: "/register",
-  //   component: Auth,
-  // },
+const userRoutes = [
+  {
+    path: "/me",
+    component: MyPage,
+  },
+  {
+    path: "/create-topic",
+    component: CreateTopicPage,
+  },
+  {
+    path: "/topic/:id",
+    component: TopicPage,
+  },
+  {
+    path: "/user/:id",
+    component: UserPage,
+  },
+  {
+    path: "/",
+    component: HomePage,
+  },
+];
+const guessRoutes = [
+  {
+    path: "/login",
+    component: LogInPage,
+  },
+  {
+    path: "/topic/:id",
+    component: TopicPage,
+  },
+  {
+    path: "/user/:id",
+    component: UserPage,
+  },
   {
     path: "/",
     component: HomePage,
@@ -35,25 +82,22 @@ const publicRoutes = [
 ];
 
 function App() {
-  const { isAuthenticated } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
   return (
     <Switch>
-      {isAuthenticated &&
-        privateRoutes.map((el, index) => (
+      {user.userRole === "ADMIN" &&
+        adminRoutes.map((el, index) => (
+          <Route key={index} exact path={el.path} component={el.component} />
+        ))}
+      {user.userRole === "USER" &&
+        userRoutes.map((el, index) => (
           <Route key={index} exact path={el.path} component={el.component} />
         ))}
 
-      {!isAuthenticated &&
-        publicRoutes.map((el, index) => (
+      {!user &&
+        guessRoutes.map((el, index) => (
           <Route key={index} exact path={el.path} component={el.component} />
         ))}
-      <Route exact path="/" component={HomePage} />
-      <Route exact path="/login" component={LogInPage} />
-      <Route exact path="/create-topic" component={CreateTopicPage} />
-      <Route exact path="/topic" component={TopicPage} />
-      <Route exact path="/user" component={UserPage} />
-      <Route exact path="/admin" component={AdminPage} />
-
       <Redirect to="/" />
     </Switch>
   );

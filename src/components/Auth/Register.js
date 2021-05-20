@@ -1,6 +1,91 @@
-import React from "react";
+import { useContext, useState, useRef } from "react";
+import axios from "../../config/axios";
+import localStorageService from "../../services/localStorageService";
+import { AuthContext } from "../../contexts/AuthContextProvider";
+import { useHistory } from "react-router-dom";
 
 function Register() {
+  const [input, setInput] = useState({});
+  const [error, setError] = useState({});
+  const { setIsAuthenticated } = useContext(AuthContext);
+  const history = useHistory();
+  const isEmail =
+    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  const isPassword = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$/;
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    console.log(e);
+    setInput((prev) => ({ ...prev, [name]: value }));
+    console.log(input);
+  };
+  console.log("input", input);
+  //Image Upload
+  const [uploadImage, setUploadImage] = useState(null);
+
+  const handlerUploadImage = (e) => {
+    // console.log(e);
+    if (e.target.files[0]) {
+      setUploadImage(e.target.files[0]);
+    } else {
+      setUploadImage(null);
+    }
+  };
+
+  // Hide Upload Input
+  const hiddenFileInput = useRef(null);
+  const handleClickUploadRoomAddImg = (e) => {
+    hiddenFileInput.current.click();
+  };
+  // upload picture
+  const validateInput = () => {
+    const newError = {};
+    if (!input.username || !input.username.trim())
+      newError.username = "Username is required.";
+    if (!input.email || !input.email.trim())
+      newError.email = "Email is required.";
+    if (!input.password || !input.password.trim())
+      newError.password = "Password is required.";
+    if (!input.birthDate || !input.birthDate.trim())
+      newError.birthDate = "Birthdate is required.";
+    if (!isEmail.test(input.email)) newError.email = "This is not an email.";
+    if (!isPassword.test(input.password))
+      newError.password =
+        "Password must contain at least eight characters, one uppercase letter, one lowercase letter and one number .";
+    if (input.password !== input.confirmPassword)
+      newError.confirmPassword =
+        "Password and confirm password are not matched.";
+    setError(newError);
+    console.log(error);
+  };
+  const handleSubmit = async (e) => {
+    try {
+      e.preventDefault();
+      console.log("submit");
+      validateInput();
+
+      const formData = new FormData(); // ทำให้เป็น multipart from data เพื่อให้ axios ตรวจจับได้ง่ายๆ
+      formData.append("image", uploadImage);
+      const res = await axios.post("/upload/user-img", formData);
+      const response = await axios.post("/register", {
+        ...input,
+        userImg: res.data.img,
+      });
+
+      localStorageService.setToken(response.data.token);
+      setIsAuthenticated(true);
+      history.push("/me");
+    } catch (err) {
+      if (err.response) {
+        console.log({ err });
+        // console.log({ server: err.response.data.message });
+        setError({ server: err.response.data.message });
+        console.log(error.server);
+      } else {
+        console.log({ front: err.message });
+        setError({ front: err.message });
+      }
+    }
+  };
   return (
     <div
       style={{
@@ -15,7 +100,7 @@ function Register() {
     >
       <div>REGISTER</div>
       <br />
-      <form>
+      <form onSubmit={handleSubmit}>
         <div
           className="form-div"
           style={{
@@ -33,10 +118,15 @@ function Register() {
               type="text"
               name="username"
               placeholder="Username"
-              // value={}
-              // onChange={handleInputChange}
+              value={input.username}
+              onChange={handleInputChange}
             />
           </div>
+          {error.username ? (
+            <div style={{ fontSize: "12px", color: "red" }}>
+              {error.username}
+            </div>
+          ) : null}
         </div>
         <br />
         <div className=" form-div">
@@ -47,9 +137,12 @@ function Register() {
             type="text"
             name="email"
             placeholder="Email"
-            // value={input.clientEmail}
-            // onChange={handleInputChange}
+            value={input.email}
+            onChange={handleInputChange}
           />
+          {error.email ? (
+            <div style={{ fontSize: "12px", color: "red" }}>{error.email}</div>
+          ) : null}
         </div>
         <br />
         <div className="form-div">
@@ -60,9 +153,14 @@ function Register() {
             type="password"
             name="password"
             placeholder="Password"
-            // value={}
-            // onChange={handleInputChange}
+            value={input.password}
+            onChange={handleInputChange}
           />
+          {error.password ? (
+            <div style={{ fontSize: "12px", color: "red" }}>
+              {error.password}
+            </div>
+          ) : null}
         </div>
         <br />
         <div className="form-div">
@@ -71,71 +169,96 @@ function Register() {
           <div>
             <input
               className="form-div"
-              type="confirmPassword"
+              type="password"
               name="confirmPassword"
               placeholder="Confirm Password"
-              // value={}
-              // onChange={handleInputChange}
+              value={input.confirmPassword}
+              onChange={handleInputChange}
             />
           </div>
+          {error.confirmPassword ? (
+            <div style={{ fontSize: "12px", color: "red" }}>
+              {error.confirmPassword}
+            </div>
+          ) : null}
         </div>
         <br />
         <div className="form-group form-div">
-          <form
-          // onSubmit={handleUpload}
-          >
-            <div>
-              <label htmlFor="userImg">User Image</label>
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  borderBottom: "none",
-                  marginTop: "10px",
-                }}
-              >
-                <input
-                  style={{
-                    borderBottom: "none",
-                  }}
-                  type="file"
-                  //   onChange={handleFileChange}
-                />
-                <button
-                //   onClick={handleUpload}
-                >
-                  Upload
-                </button>
-              </div>
-            </div>
-
-            {/* {productImg && (
-                <>
-                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                  <img
-                    src={productImg}
-                    alt="product"
-                    style={{ width: "40%", height: "40%" }}
-                  />
-                </>
-              )} */}
-          </form>
+          <div>
+            <div>Upload User Image</div>
+            <br />
+            {uploadImage === null ? (
+              <img
+                className="modal-roomAdd-box-content-image-box-Pre-img"
+                onClick={handleClickUploadRoomAddImg}
+              />
+            ) : (
+              <img
+                src={URL.createObjectURL(uploadImage)}
+                className="modal-roomAdd-box-content-image-box-Pre-img"
+                onClick={handleClickUploadRoomAddImg}
+              />
+            )}
+            <label
+              htmlFor="roomAddImg"
+              className="modal-roomAdd-box-content-image-box-insideText"
+            >
+              User Image
+            </label>
+          </div>
+          <input
+            id="roomAddImg"
+            type="file"
+            className="modal-roomAdd-box-content-image-input-uploadImg"
+            ref={hiddenFileInput}
+            onChange={handlerUploadImage}
+          />
         </div>
+
         <br />
         <div className="form-div">
           <label htmlFor="checkinDate">Birth Date</label>
           <input
             type="date"
-            name="checkinDate"
-            //   value={input.checkinDate}
-            //   onChange={handleInputChange}
+            name="birthDate"
+            value={input.birthDate}
+            onChange={handleInputChange}
           />
         </div>
+        {error.birthDate ? (
+          <div style={{ fontSize: "12px", color: "red" }}>
+            {error.birthDate}
+          </div>
+        ) : null}
         <br />
         <div style={{ display: "flex", justifyContent: "center" }}>
-          <button>Register</button>
+          <button disabled={uploadImage ? false : true}>Register</button>
         </div>
       </form>
+      {error.server ? (
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <br />
+          <div style={{ fontSize: "12px", color: "red" }}>{error.server}</div>
+        </div>
+      ) : null}
+      {error.front ? (
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <br />
+          <div style={{ fontSize: "12px", color: "red" }}>{error.front}</div>
+        </div>
+      ) : null}
     </div>
   );
 }
