@@ -85,17 +85,19 @@ function App() {
   const { user } = useContext(AuthContext);
   return (
     <Switch>
-      {console.log(user)}
-      {user.userRole === "ADMIN" &&
+      {/* {console.log(user)} */}
+      {user &&
+        user.userRole === "ADMIN" &&
         adminRoutes.map((el, index) => (
           <Route key={index} exact path={el.path} component={el.component} />
         ))}
-      {user.userRole === "USER" &&
+      {user &&
+        user.userRole === "USER" &&
         userRoutes.map((el, index) => (
           <Route key={index} exact path={el.path} component={el.component} />
         ))}
 
-      { !user &&
+      {!user &&
         guessRoutes.map((el, index) => (
           <Route key={index} exact path={el.path} component={el.component} />
         ))}

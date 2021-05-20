@@ -8,6 +8,9 @@ import { KeyIcon } from "@heroicons/react/outline";
 import Swal from "sweetalert2";
 
 function ReportManage() {
+  // error box
+  const [errBox, setErrBox] = useState("");
+
   //Modal ReportDetail
   const [modalReportDetailIsOpen, setModalReportDetailIsOpen] = useState(false);
 
@@ -23,6 +26,7 @@ function ReportManage() {
     setAdminDesInput({
       adminDescription: "",
     });
+    setErrBox("");
   };
 
   // get All Report
@@ -167,6 +171,8 @@ function ReportManage() {
         getReport={getReport}
         setAdminDesInput={setAdminDesInput}
         adminDesInput={adminDesInput}
+        setErrBox={setErrBox}
+        errBox={errBox}
       />
     </>
   );

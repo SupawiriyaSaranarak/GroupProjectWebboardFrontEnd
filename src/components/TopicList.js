@@ -211,7 +211,7 @@ function TopicList() {
             </h2>
           </div>
           {/* dashboard topic item */}
-          {hotTopics.map((item) => (
+          {hotTopic.map((item) => (
             <div className="topic-item" key={item.id}>
               <div
                 style={{
@@ -365,7 +365,7 @@ function TopicList() {
             </h2>
           </div>
           {/* dashboard topic item */}
-          {latestTopics.map((item) => (
+          {lastedTopic.map((item) => (
             <div className="topic-item" key={item.id}>
               <div
                 style={{

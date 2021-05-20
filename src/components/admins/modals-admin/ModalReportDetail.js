@@ -53,7 +53,12 @@ function ModalReportDetail(props) {
       });
       props.getReport();
     } catch (err) {
-      console.dir(err);
+      console.log(err);
+      if (err.response) {
+        props.setErrBox(err.response.data.message);
+      } else {
+        props.setErrBox(err.message);
+      }
     }
   };
 
@@ -96,6 +101,11 @@ function ModalReportDetail(props) {
           </div>
         </div>
         <div className="modal-reportDetail-box-footer">
+          {props.errBox && (
+            <div className="error-box">
+              <p>{props.errBox}</p>
+            </div>
+          )}
           <div className="modal-reportDetail-box-footer-content">
             <button
               className="modal-reportDetail-box-footer-btnSubmit"

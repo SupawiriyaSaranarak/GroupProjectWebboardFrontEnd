@@ -1,7 +1,6 @@
 import { useContext, useState, useRef } from "react";
 import axios from "../../config/axios";
 import localStorageService from "../../services/localStorageService";
-import jwtDecode from "jwt-decode";
 import { AuthContext } from "../../contexts/AuthContextProvider";
 import { useHistory } from "react-router-dom";
 import jwtDecode from "jwt-decode";
@@ -74,7 +73,7 @@ function Register() {
       });
 
       localStorageService.setToken(response.data.token);
-      const payload = jwtDecode(res.data.token);
+      const payload = jwtDecode(response.data.token);
       setUser(payload);
       history.push("/me");
     } catch (err) {
