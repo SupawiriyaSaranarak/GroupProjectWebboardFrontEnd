@@ -1,9 +1,23 @@
 import React from "react";
-
+import axios from "../config/axios";
 import RoomItems from "./RoomItems";
 import roomIcon from "../img/restaurant.png";
+import {  useState, useEffect } from "react";
+
 
 function RoomBar() {
+  const [rooms, setRooms] = useState([]);
+
+  const fetchRoom = async () => {
+    const res = await axios.get("rooms/active");
+    setRooms(res.data.rooms);
+  };
+
+  useEffect(() => {
+    fetchRoom();
+  }, []);
+
+  // console.log(rooms);
   return (
     <div className="roomBar-container">
       <div className="dashboad-header">
@@ -20,15 +34,9 @@ function RoomBar() {
         </div>
       </div>
       <div className="roomBar-container-contentList">
-        <RoomItems roomIcon={roomIcon} />
-        <RoomItems roomIcon={roomIcon} />
-        <RoomItems roomIcon={roomIcon} />
-        <RoomItems roomIcon={roomIcon} />
-        <RoomItems roomIcon={roomIcon} />
-        <RoomItems roomIcon={roomIcon} />
-        <RoomItems roomIcon={roomIcon} />
-        <RoomItems roomIcon={roomIcon} />
-        <RoomItems roomIcon={roomIcon} />
+        {rooms.map((rooms) => (
+          <RoomItems key={rooms.id} {...rooms} />
+        ))}
       </div>
     </div>
   );
