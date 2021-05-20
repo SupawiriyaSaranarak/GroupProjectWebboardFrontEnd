@@ -130,13 +130,11 @@ function TopicManage() {
                   <td>{item.topicStatus}</td>
                   <td>
                     <div className="admin-table-userList-tr-tbody-management-iconGrp">
-                      <div
-                        className="admin-table-roomList-tr-tbody-management-iconGrp-inside"
-                        onClick={(e) => handlerChangeTopicStatus(e, item)}
-                      >
+                      <div className="admin-table-roomList-tr-tbody-management-iconGrp-inside">
                         <KeyIcon
-                          id="icon-active"
                           className="admin-table-userList-tr-tbody-management-iconGrp-inside-icon"
+                          id="icon-active"
+                          onClick={(e) => handlerChangeTopicStatus(e, item)}
                         />
                         <p className="admin-table-userList-tr-tbody-management-iconGrp-inside-text-1">
                           CHANGE

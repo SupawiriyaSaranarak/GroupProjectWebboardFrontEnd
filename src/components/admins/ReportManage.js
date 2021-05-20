@@ -134,19 +134,17 @@ function ReportManage() {
                   <td>{item.reportStatus}</td>
                   <td>
                     <div className="admin-table-userList-tr-tbody-management-iconGrp">
-                      <div
-                        className="admin-table-roomList-tr-tbody-management-iconGrp-inside"
-                        onClick={(e) =>
-                          handlerChangeReportStatus(
-                            e,
-                            item.id,
-                            item.reportStatus
-                          )
-                        }
-                      >
+                      <div className="admin-table-roomList-tr-tbody-management-iconGrp-inside">
                         <KeyIcon
-                          id="icon-active"
                           className="admin-table-userList-tr-tbody-management-iconGrp-inside-icon"
+                          id="icon-active"
+                          onClick={(e) =>
+                            handlerChangeReportStatus(
+                              e,
+                              item.id,
+                              item.reportStatus
+                            )
+                          }
                         />
                         <p className="admin-table-userList-tr-tbody-management-iconGrp-inside-text-1">
                           CHANGE STATUS
