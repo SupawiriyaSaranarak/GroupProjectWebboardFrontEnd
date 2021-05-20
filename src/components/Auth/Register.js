@@ -7,7 +7,7 @@ import { useHistory } from "react-router-dom";
 function Register() {
   const [input, setInput] = useState({});
   const [error, setError] = useState({});
-  const { setIsAuthenticated } = useContext(AuthContext);
+  const { setUser } = useContext(AuthContext);
   const history = useHistory();
   const isEmail =
     /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -72,7 +72,8 @@ function Register() {
       });
 
       localStorageService.setToken(response.data.token);
-      setIsAuthenticated(true);
+      const payload = jwtDecode(res.data.token);
+      setUser(payload);
       history.push("/me");
     } catch (err) {
       if (err.response) {
