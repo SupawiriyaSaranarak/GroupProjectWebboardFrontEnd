@@ -45,12 +45,51 @@ function ReportManage() {
       console.dir(err);
     }
   };
-  console.log(allReport);
+  // console.log(allReport);
 
   // Admin Description Change
   const [adminDesInput, setAdminDesInput] = useState({
     adminDescription: "",
   });
+
+  // Report Status Change
+  const handlerChangeReportStatus = async (e, reportId, reportStatus) => {
+    try {
+      // console.log(reportId);
+      // console.log(reportStatus);
+
+      let reportReqBody;
+
+      if (reportStatus === "REPORT") {
+        reportReqBody = "REJECT";
+      }
+      if (reportStatus === "REJECT") {
+        reportReqBody = "REPORT";
+      }
+
+      Swal.fire({
+        text: `คุณต้องการ ${reportReqBody} ReportId: ${reportId} ใช่ไหม?`,
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "ใช่",
+        cancelButtonText: "ไม่ใช่",
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          const reportStatusUpdate = await axios.patch(
+            "/admin/report/" + reportId,
+            { reportStatus: reportReqBody }
+          );
+
+          closeModalReportDetail();
+          getReport();
+        }
+      });
+    } catch (err) {
+      console.dir(err);
+    }
+  };
 
   return (
     <>
@@ -93,7 +132,28 @@ function ReportManage() {
                     {item.topicId}
                   </td>
                   <td>{item.reportStatus}</td>
-                  <td></td>
+                  <td>
+                    <div className="admin-table-userList-tr-tbody-management-iconGrp">
+                      <div
+                        className="admin-table-roomList-tr-tbody-management-iconGrp-inside"
+                        onClick={(e) =>
+                          handlerChangeReportStatus(
+                            e,
+                            item.id,
+                            item.reportStatus
+                          )
+                        }
+                      >
+                        <KeyIcon
+                          id="icon-active"
+                          className="admin-table-userList-tr-tbody-management-iconGrp-inside-icon"
+                        />
+                        <p className="admin-table-userList-tr-tbody-management-iconGrp-inside-text-1">
+                          CHANGE STATUS
+                        </p>
+                      </div>
+                    </div>
+                  </td>
                 </tr>
               );
             })}
