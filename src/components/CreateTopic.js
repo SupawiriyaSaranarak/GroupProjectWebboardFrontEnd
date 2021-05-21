@@ -364,11 +364,9 @@ function CreateTopic() {
                   Select Room
                 </option>
                 {room?.map((item) => (
-                  <>
-                    <option name="roomId" value={item.id}>
-                      {item.roomName}
-                    </option>
-                  </>
+                  <option name="roomId" value={item.id} key={item.id}>
+                    {item.roomName}
+                  </option>
                 ))}
               </select>
             </div>
