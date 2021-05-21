@@ -133,7 +133,7 @@ function Topic() {
       e.preventDefault();
       console.log(editCommentContent, topic.id, id);
       const res = await axios.patch(`/user/comments/${id}`, {
-        commentContent,
+        commentContent: editCommentContent,
         topicId: topic.id,
       });
       let comment = topic.Comments;
@@ -155,6 +155,7 @@ function Topic() {
   };
   const handleDeleteComment = (e, userId, commentId) => {
     console.log(userId, commentId);
+
     let comment = topic.Comments;
   };
   const linkToUserPage = (e, id) => {
