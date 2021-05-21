@@ -36,6 +36,7 @@ function Topic() {
 
   const history = useHistory();
   const { user } = useContext(AuthContext);
+  // console.log(user.id, "context");
   const { id } = useParams();
 
   const [topic, setTopic] = useState();
@@ -369,7 +370,11 @@ function Topic() {
             <strong>Author : </strong>
             <a
               style={{ color: "brown" }}
-              onClick={() => history.push(`/user/${topic.User.id}`)}
+              onClick={
+                user.id === topic?.User.id
+                  ? () => history.push(`/me`)
+                  : () => history.push(`/user/${topic?.User.id}`)
+              }
             >
               {topic?.User?.username}
             </a>{" "}
