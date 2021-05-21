@@ -35,7 +35,7 @@ function PinBar() {
       console.log(err);
     }
   };
-  console.log(userPin);
+  // console.log(userPin);
 
   return (
     <div className="roomBar-container">
@@ -54,7 +54,7 @@ function PinBar() {
       </div>
       <div className="roomBar-container-contentList">
         {userPin?.map((item, index) => {
-          return <PinItems item={item} key={item.id} />;
+          return <PinItems item={item} key={item.id} getUserPin={getUserPin} />;
         })}
       </div>
     </div>
