@@ -41,6 +41,7 @@ function Topic() {
   const [topic, setTopic] = useState();
   const [like, setLike] = useState(false);
   const [report, setReport] = useState(topic?.Reports?.length ? true : false);
+  const [reported, setReported] = useState(false);
   const [editCommentContent, setEditCommentContent] = useState("");
   const [addCommentContent, setAddCommentContent] = useState("");
   const [editComment, setEditComment] = useState({});
@@ -48,16 +49,24 @@ function Topic() {
   useEffect(() => {
     const getTopic = async () => {
       try {
-        let checkLike;
         const res = await axios.get(`/topics/active/${id}`);
         setTopic(res.data.topic);
         console.log(res.data.topic);
-        checkLike = res.data.topic["Likes"];
+        let checkLike = res.data.topic["Likes"];
         console.log(typeof checkLike);
         for (const like of checkLike) {
           console.log("log", like);
 
           if (like.userId === user.id) setLike(true);
+        }
+        let checkReport = res.data.topic["Reports"];
+        for (const report of checkReport) {
+          console.log("report", report);
+
+          if (report.userId === user.id) {
+            setReported(true);
+            setReport(true);
+          }
         }
       } catch (err) {
         console.log(err);
@@ -132,7 +141,7 @@ function Topic() {
     try {
       e.preventDefault();
       console.log(editCommentContent, topic.id, id);
-      const res = await axios.patch(`/user/comments/${id}`, {
+      const res = await axios.patch(`/user/comments/${commentId}`, {
         commentContent: editCommentContent,
         topicId: topic.id,
       });
@@ -153,10 +162,17 @@ function Topic() {
       console.log(err);
     }
   };
-  const handleDeleteComment = (e, userId, commentId) => {
-    console.log(userId, commentId);
-
-    let comment = topic.Comments;
+  const handleDeleteComment = async (e, userId, commentId) => {
+    try {
+      console.log(userId, commentId);
+      await axios.delete(`/user/comments/${commentId}`);
+      let Comments = topic.Comments.filter(
+        (comment) => comment.id !== commentId
+      );
+      setTopic((prev) => ({ ...prev, Comments }));
+    } catch (err) {
+      console.log(err);
+    }
   };
   const linkToUserPage = (e, id) => {
     console.log(id);
@@ -333,7 +349,7 @@ function Topic() {
                       backgroundColor: "#edd1b0",
                       border: "none",
                     }}
-                    onClick={handleReport}
+                    onClick={reported ? null : (e) => openModalReport(e, topic)}
                   >
                     <img
                       src={report ? reportRedIcon : reportBlackIcon}
@@ -346,7 +362,6 @@ function Topic() {
                   </button>
                 </div>
               )}
-              <div onClick={(e) => openModalReport(e, topic)}>Report</div>
             </div>
           </div>
           <div style={{ fontSize: "14px" }}>
@@ -703,6 +718,7 @@ function Topic() {
         modalReportIsOpen={modalReportIsOpen}
         closeModalReport={closeModalReport}
         topicDetail={topicDetail}
+        handleReport={handleReport}
         setTopicDetail={setTopicDetail}
       />
     </>
