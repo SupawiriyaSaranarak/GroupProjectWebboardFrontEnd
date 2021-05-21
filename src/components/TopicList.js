@@ -219,11 +219,7 @@ function TopicList() {
             </h2>
           </div>
           {/* dashboard topic item */}
-<<<<<<< HEAD
-          {hotTopics?.map((item) => (
-=======
-          {hotTopic.map((item) => (
->>>>>>> f69a97a4fe0ffdb1124522c8820754d0ef66ede3
+          {hotTopic?.map((item) => (
             <div className="topic-item" key={item.id}>
               <div
                 style={{
@@ -377,11 +373,7 @@ function TopicList() {
             </h2>
           </div>
           {/* dashboard topic item */}
-<<<<<<< HEAD
-          {latestTopics?.map((item) => (
-=======
-          {lastedTopic.map((item) => (
->>>>>>> f69a97a4fe0ffdb1124522c8820754d0ef66ede3
+          {lastedTopic?.map((item) => (
             <div className="topic-item" key={item.id}>
               <div
                 style={{
