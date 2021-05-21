@@ -1,130 +1,43 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
+
 import commentIcon from "../public/images/commentIcon.png";
 import redHeartIcon from "../public/images/redHeartIcon.png";
 import calendarIcon from "../public/images/calendarIcon.png";
+
 import pinBlackIcon from "../public/images/pinBlackIcon.png";
 import pinRedIcon from "../public/images/pinRedIcon.png";
+
 import userIcon from "../public/images/userIcon.png";
+
 import { AuthContext } from "../contexts/AuthContextProvider";
+
+import moment from "moment";
+import axios from "../config/axios";
 
 function UserTopicList() {
   const { user } = useContext(AuthContext);
-  console.log(user);
-  const user1 = {
-    id: 2,
-    username: "Tom",
-    email: "tomtom@gmail.com",
-    userImg:
-      "https://res.cloudinary.com/dqns1bgvx/image/upload/v1620360479/ewbccattypcirfphx6uz.jpg",
-    userRole: "USER",
-    userStatus: "ACTIVE",
+  // console.log(user);
+
+  const [myLastTopic, setMyLastTopic] = useState([]);
+
+  useEffect(() => {
+    getUserLastTopic();
+  }, []);
+
+  const getUserLastTopic = async () => {
+    try {
+      const resUserTopic = await axios.get("/topics//mytopic");
+      // console.log(resUserTopic.data.topics);
+      const {
+        data: { topics },
+      } = resUserTopic;
+      setMyLastTopic(topics);
+    } catch (err) {
+      console.log(err);
+    }
   };
-  const hotTopics = [
-    {
-      id: 1,
-      createdAt: "2021-01-09",
-      topicName:
-        "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Harum enim sint ad praesentium ut rerum incidunt soluta, velit magnam, consectetur dignissimos reprehenderit aliquid officiis adipisci.",
-      room: {
-        id: 1,
-        roomIcon: "http://pngimg.com/uploads/light/light_PNG14440.png",
-      },
-      user: {
-        username: "Lorem, ipsum.",
-        email: "aa@gmail.com",
-      },
-      like: 50,
-      comment: 60,
-      pin: "YES",
-    },
-    {
-      id: 2,
-      createdAt: "2021-02-14",
-      topicName:
-        "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Harum enim sint ad praesentium ut rerum incidunt soluta, velit magnam, consectetur dignissimos reprehenderit aliquid officiis adipisci.",
-      room: {
-        id: 3,
-        roomIcon: "http://pngimg.com/uploads/light/light_PNG14440.png",
-      },
-      user: {
-        username: "Lorem, ipsum.",
-        email: "aa@gmail.com",
-      },
-      like: 80,
-      comment: 1000,
-      pin: "NO",
-    },
-    {
-      id: 3,
-      createdAt: "2021-03-14",
-      topicName:
-        "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Harum enim sint ad praesentium ut rerum incidunt soluta, velit magnam, consectetur dignissimos reprehenderit aliquid officiis adipisci.",
-      room: {
-        id: 6,
-        roomIcon: "http://pngimg.com/uploads/light/light_PNG14440.png",
-      },
-      user: {
-        username: "Lorem, ipsum.",
-        email: "aa@gmail.com",
-      },
-      like: 960,
-      comment: 1350,
-      pin: "YES",
-    },
-  ];
-  const latestTopics = [
-    {
-      id: 1,
-      createdAt: "2021-01-09",
-      topicName:
-        "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Harum enim sint ad praesentium ut rerum incidunt soluta, velit magnam, consectetur dignissimos reprehenderit aliquid officiis adipisci.",
-      room: {
-        id: 1,
-        roomIcon: "http://pngimg.com/uploads/light/light_PNG14440.png",
-      },
-      user: {
-        username: "Lorem, ipsum.",
-        email: "aa@gmail.com",
-      },
-      like: 50,
-      comment: 60,
-      pin: "YES",
-    },
-    {
-      id: 2,
-      createdAt: "2021-02-14",
-      topicName:
-        "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Harum enim sint ad praesentium ut rerum incidunt soluta, velit magnam, consectetur dignissimos reprehenderit aliquid officiis adipisci.",
-      room: {
-        id: 3,
-        roomIcon: "http://pngimg.com/uploads/light/light_PNG14440.png",
-      },
-      user: {
-        username: "Lorem, ipsum.",
-        email: "aa@gmail.com",
-      },
-      like: 80,
-      comment: 1000,
-      pin: "NO",
-    },
-    {
-      id: 3,
-      createdAt: "2021-03-14",
-      topicName:
-        "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Harum enim sint ad praesentium ut rerum incidunt soluta, velit magnam, consectetur dignissimos reprehenderit aliquid officiis adipisci.",
-      room: {
-        id: 6,
-        roomIcon: "http://pngimg.com/uploads/light/light_PNG14440.png",
-      },
-      user: {
-        username: "Lorem, ipsum.",
-        email: "aa@gmail.com",
-      },
-      like: 960,
-      comment: 1350,
-      pin: "YES",
-    },
-  ];
+  // console.log(myLastTopic);
+
   return (
     <>
       <div style={{ width: "5%", height: "auto" }}></div>
@@ -306,7 +219,7 @@ function UserTopicList() {
             </h2>
           </div>
           {/* dashboard topic item */}
-          {latestTopics.map((item) => (
+          {myLastTopic?.map((item) => (
             <div className="topic-item">
               <div
                 style={{
@@ -318,7 +231,7 @@ function UserTopicList() {
               >
                 <img
                   style={{ width: "20px", height: "20px" }}
-                  src={item.room.roomIcon}
+                  src={item.Room.roomIcon}
                 />
               </div>
               <div
@@ -349,11 +262,11 @@ function UserTopicList() {
                   >
                     <img
                       style={{ width: "20px", height: "20px" }}
-                      src={userIcon}
+                      src={item.User.userImg}
                     />{" "}
                     &nbsp;&nbsp;
                     <a href="#" style={{ textDecoration: "none" }}>
-                      {item.user.username}
+                      {item.User.username}
                     </a>
                   </div>
                   <div
@@ -368,7 +281,7 @@ function UserTopicList() {
                       src={calendarIcon}
                     />
                     &nbsp;&nbsp;
-                    {item.createdAt}
+                    {moment(item.createdAt).format("DD/MM/YYYY ,HH:mm:ss")}
                   </div>
                 </div>
               </div>
@@ -401,7 +314,7 @@ function UserTopicList() {
                       width: "60%",
                     }}
                   >
-                    {item.like}
+                    {item.Likes.length}
                   </div>
                 </div>
                 <div
@@ -426,7 +339,7 @@ function UserTopicList() {
                       width: "60%",
                     }}
                   >
-                    {item.comment}
+                    {item.Comments.length}
                   </div>
                 </div>
               </div>
