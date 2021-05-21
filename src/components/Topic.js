@@ -113,9 +113,14 @@ function Topic() {
   };
   // console.log(like);
 
-  const handleEditTopic = () => {
+  const handleEditTopic = (e, topicDetail) => {
+    console.log("edit CLICK", "topicDetail", topicDetail);
+    console.log("userIdContext", user.id);
     try {
-      console.log("edit CLICK");
+      // validate
+      if (topicDetail.User.id !== user.id) {
+        throw Error("Cannot edit other's topic.");
+      }
     } catch (err) {
       console.log(err);
     }
@@ -355,7 +360,7 @@ function Topic() {
                         backgroundColor: "#edd1b0",
                         border: "none",
                       }}
-                      onClick={handleEditTopic}
+                      onClick={(e) => handleEditTopic(e, topic)}
                     >
                       <img
                         src={editIcon}
