@@ -30,7 +30,7 @@ export default function SimpleMenu() {
     try{
     e.preventDefault();
     localStorageService.clearToken()
-     window.location.reload();
+    window.location.reload();
     }catch(err){
        console.log({ front: err.message });
     }
@@ -56,7 +56,7 @@ export default function SimpleMenu() {
         onClose={handleClose}
       >
         <MenuItem onClick={handleClose}>Profile</MenuItem>
-        {user.userRole === "ADMIN" &&<MenuItem onClick={handleLogOut}>Admin Page</MenuItem>}
+        {user.userRole === "ADMIN" &&<MenuItem onClick={()=> history.push("/admin")}>Admin Page</MenuItem>}
         <MenuItem onClick={handleLogOut}>Logout</MenuItem>
       </Menu>
     </div>

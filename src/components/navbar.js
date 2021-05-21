@@ -163,7 +163,7 @@ function Navbar({ Icon, Icon2 }) {
                   marginTop:"7px"
                 }}
               >
-                Login
+                 Go to Login
               </Button>
             )}
             {user && (
