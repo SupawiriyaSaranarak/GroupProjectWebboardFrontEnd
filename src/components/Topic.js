@@ -50,6 +50,7 @@ function Topic() {
         setTopic(res.data.topic);
       } catch (err) {
         console.log(err);
+        console.dir(err);
       }
     };
     getTopic();

@@ -1,4 +1,5 @@
 import React from "react";
+import { useHistory } from "react-router-dom";
 
 import pinIcon from "../img/office-pin.png";
 import pinedIcon from "../img/office-pin-red.png";
@@ -8,6 +9,8 @@ import Swal from "sweetalert2";
 
 function PinItems(props) {
   const showTopicText = props.item.Topic.topicName.substr(0, 13);
+
+  const history = useHistory();
 
   const handlerDeletePin = async (e, pinned) => {
     console.log("handlerDeletePin", pinned);
@@ -42,8 +45,13 @@ function PinItems(props) {
     }
   };
 
-  const handlerGoToPinTopic = (e, topic) => {
-    console.log("handlerGoToPinTopic", topic);
+  const handlerGoToPinTopic = (e, goTopic) => {
+    console.log("handlerGoToPinTopic", goTopic);
+    try {
+      history.push("/topic/" + goTopic.id);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
