@@ -175,16 +175,24 @@
   height: 10%;
   padding: 10px;
   display: flex;
+  flex-direction: column;
   justify-content: center;
+  align-items: center;
 }
 
 .modal-roomAdd-box-footer-btnSubmit {
+  width: max-content;
   padding: 10px;
   background-color: green;
   border-radius: 15px;
   border: none;
-  outline: none;
+  outline: none !important;
   color: white;
+}
+
+.modal-roomAdd-box-footer-btnSubmit:hover {
+  background-color: #aaaaaa;
+  color: green;
 }
 
 /* Modal ReportTopic */
@@ -258,6 +266,7 @@
 .admin-all-body {
   height: 100vh;
   width: 100vw;
+  max-width: 100%;
 }
 
 .admin-header {
@@ -355,7 +364,7 @@
 .admin-content-content-body {
   margin-top: 15px;
   padding: 10px;
-  min-width: max-content;
+  min-width: 590px;
   border-radius: 15px;
 
   background-color: #edd1b0;
@@ -368,13 +377,16 @@
 }
 
 .admin-table-roomList,
-.admin-table-reportList {
+.admin-table-topicList,
+.admin-table-reportList,
+.admin-table-userList {
   width: 100%;
   min-width: max-content;
 }
 
 .admin-table-roomList-tr-thead > th,
-.admin-table-reportList-tr-thead > th {
+.admin-table-reportList-tr-thead > th,
+.admin-table-userList-tr-thead > th {
   text-align: left;
   background: #666;
   color: #fff;
@@ -382,13 +394,23 @@
 }
 
 .admin-table-roomList-tr-tbody,
-.admin-table-reportList-tr-tbody {
+.admin-table-reportList-tr-tbody,
+.admin-table-userList-tr-tbody {
   border-bottom: solid 1px black;
 }
 
-.admin-table-roomList-tr-tbody > td,
 .admin-table-reportList-tr-tbody > td {
   padding: 10px;
+}
+
+.admin-table-roomList-tr-tbody > td,
+.admin-table-userList-tr-tbody > td {
+  padding: 10px;
+}
+
+/* POINTER */
+.admin-table-reportList-tr-tbody-td-pointer,
+.admin-table-reportList-tr-tbody-td-pointer {
   cursor: pointer;
 }
 
@@ -496,6 +518,13 @@
   height: 10%;
   padding: 10px;
   display: flex;
+  flex-direction: column;
+}
+
+.modal-reportDetail-box-footer-content {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
   justify-content: flex-end;
 }
 
@@ -505,8 +534,6 @@
   border-radius: 15px;
   color: white;
   font-weight: 700;
-
-  width: 100px;
 
   outline: none !important;
   cursor: pointer;
@@ -519,7 +546,54 @@
   color: green;
 }
 
+/* ADMIN RoomList */
+.admin-table-roomList-tr-tbody-management-iconGrp,
+.admin-table-userList-tr-tbody-management-iconGrp {
+  display: flex;
+  flex-direction: row;
+}
+
+.admin-table-roomList-tr-tbody-management-iconGrp-inside {
+  width: min-content;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-right: 2px;
+}
+
+.admin-table-roomList-tr-tbody-management-iconGrp-inside-icon,
+.admin-table-userList-tr-tbody-management-iconGrp-inside-icon {
+  width: 30px;
+  height: 30px;
+  object-fit: cover;
+  overflow: hidden;
+  object-position: 50% 50%;
+  cursor: pointer;
+}
+
+.admin-table-roomList-tr-tbody-management-iconGrp-inside-text-1,
+.admin-table-roomList-tr-tbody-management-iconGrp-inside-text-2,
+.admin-table-userList-tr-tbody-management-iconGrp-inside-text-1,
+.admin-table-userList-tr-tbody-management-iconGrp-inside-text-2 {
+  font-size: 0.75rem;
+  opacity: 0;
+}
+
+.admin-table-roomList-tr-tbody-management-iconGrp-inside-text-hidden,
+.admin-table-userList-tr-tbody-management-iconGrp-inside-text-hidden {
+  font-size: 0.75rem;
+  visibility: hidden;
+}
+
+.admin-table-roomList-tr-tbody-management-iconGrp-inside:hover,
+.admin-table-roomList-tr-tbody-management-iconGrp-inside:hover > p {
+  color: #e27900;
+  opacity: 100;
+}
+
 /* ADMIN TopicList */
+
 .modal-topicList-box-content-2 > * {
   padding-top: 10px;
   padding-bottom: 10px;
@@ -534,6 +608,7 @@
 
   width: 500px;
   max-width: 500px;
+  max-height: 500px;
   display: block;
 
   object-fit: cover;
@@ -554,12 +629,28 @@
 }
 
 /* ADMIN USER LIST */
+.admin-table-reportList-tr-thead-longTxt {
+  display: flex;
+  flex-direction: row;
+}
+
+.admin-table-userList-tr-thead-col-8 {
+  width: 11%;
+}
+
 .admin-table-userList-tr-tbody-userImg {
   width: 100px;
   height: 100px;
   object-fit: cover;
   overflow: hidden;
   object-position: 50% 50%;
+  cursor: pointer;
+}
+
+.admin-table-userList-tr-tbody-userImg:hover {
+  border: 5px solid #e2780000;
+  border-radius: 15px;
+  transform: rotate(5deg);
 }
 
 .modal-userDetail-box-content-1-userImg {
@@ -576,4 +667,122 @@
   object-fit: cover;
   overflow: hidden;
   object-position: 50% 50%;
+}
+
+/* น่าจะไม่ได้ใช้แล้ว (ยังไม่ลบเพื่อมีที่ใช้) */
+/* .admin-table-userList-tr-tbody-management-iconGrp {
+  display: flex;
+  flex-direction: row;
+}
+
+.admin-table-userList-tr-tbody-management-iconGrp-icon {
+  width: 30px;
+  height: 30px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.admin-table-userList-tr-tbody-management-iconGrp-text {
+  font-size: 0.75rem;
+  opacity: 0;
+}
+
+.admin-table-userList-tr-tbody-management-iconGrp-icon:hover,
+.admin-table-userList-tr-tbody-management-iconGrp-icon:hover > p {
+  color: #e27900;
+  opacity: 100;
+} */
+
+/* Loading */
+.loader-group {
+  padding: 10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin: 10px;
+}
+
+.loader-text {
+  align-self: center;
+  font-size: 2rem;
+  font-weight: bold;
+  margin: 0px 20px;
+}
+
+.loader {
+  border: 16px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 16px solid #000000;
+  width: 75px;
+  height: 75px;
+  -webkit-animation: spin 2s linear infinite; /* Safari */
+  animation: spin 2s linear infinite;
+}
+
+/* ERROR */
+.error-box {
+  color: red;
+  padding: 10px;
+}
+
+.error-box > * {
+  text-align: center;
+  padding: 10px;
+  background-color: rgba(255, 0, 0, 0.1);
+  color: red;
+  margin: auto;
+}
+
+/* RESPONSIVE */
+@media only screen and (max-width: 1250px) {
+  .admin-table-userList > * {
+    font-size: 0.9rem;
+  }
+  .admin-table-userList-tr-tbody-userImg {
+    width: 75px;
+    height: 75px;
+  }
+}
+
+@media only screen and (max-width: 1100px) {
+  .admin-table-userList > * {
+    font-size: 0.75rem;
+  }
+  .admin-table-userList-tr-tbody-userImg {
+    width: 50px;
+    height: 50px;
+  }
+  .admin-table-userList-tr-tbody-management-iconGrp {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+@media only screen and (max-width: 900px) {
+  .admin-table-roomList > *,
+  .admin-table-userList > *,
+  .admin-table-topicList > * {
+    font-size: 0.7rem;
+  }
+
+  .admin-table-userList-tr-tbody-management-iconGrp-inside-icon {
+    width: 20px;
+    height: 20px;
+  }
+  .admin-table-userList-tr-tbody-userEmail {
+    font-size: 0.6rem;
+  }
+  .admin-table-userList-tr-tbody-management-iconGrp-inside-text-1,
+  .admin-table-userList-tr-tbody-management-iconGrp-inside-text-2,
+  .admin-table-userList-tr-tbody-management-iconGrp-inside-text-hidden {
+    font-size: 0.5rem;
+  }
+
+  .admin-table-userList-tr-thead > th {
+    font-size: 0.5rem;
+  }
+
+  .admin-table-reportList-tr-thead-longTxt {
+    flex-direction: column;
+  }
 }

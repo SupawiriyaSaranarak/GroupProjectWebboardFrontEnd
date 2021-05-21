@@ -3,88 +3,181 @@ import axios from "../config/axios";
 import commentIcon from "../public/images/commentIcon.png";
 import redHeartIcon from "../public/images/redHeartIcon.png";
 import emtyHeartIcon from "../public/images/emtyHeartIcon.png";
-import calendarIcon from "../public/images/calendarIcon.png";
-import pinBlackIcon from "../public/images/pinBlackIcon.png";
-import pinRedIcon from "../public/images/pinRedIcon.png";
-import userIcon from "../public/images/userIcon.png";
-import RoomBar from "./RoomBar";
-import hotFood from "../public/images/hot-food.png";
+
 import editIcon from "../public/images/editIcon.png";
 import deleteIcon from "../public/images/deleteIcon.png";
 import reportRedIcon from "../public/images/reportRedIcon.png";
 import reportBlackIcon from "../public/images/reportBlackIcon.png";
 import ReactHtmlParser from "react-html-parser";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useHistory, useParams } from "react-router-dom";
+import { AuthContext } from "../contexts/AuthContextProvider";
+
+import ModalReportTopic from "./modals/ModalReportTopic";
 
 function Topic() {
+  //modal Report
+  const [topicDetail, setTopicDetail] = useState();
+  const [modalReportIsOpen, setModalReportIsOpen] = useState(false);
+
+  const openModalReport = (e, topic) => {
+    // console.log(e);
+    // console.log(topic);
+
+    setModalReportIsOpen(true);
+    setTopicDetail(topic);
+  };
+  // console.log(topicDetail);
+
+  const closeModalReport = () => {
+    setModalReportIsOpen(false);
+    setTopicDetail();
+  };
+
+  const history = useHistory();
+  const { user } = useContext(AuthContext);
   const { id } = useParams();
+
+  const [topic, setTopic] = useState();
+  const [like, setLike] = useState(false);
+  const [report, setReport] = useState(topic?.Reports?.length ? true : false);
+  const [reported, setReported] = useState(false);
+  const [editCommentContent, setEditCommentContent] = useState("");
+  const [addCommentContent, setAddCommentContent] = useState("");
+  const [editComment, setEditComment] = useState({});
+
   useEffect(() => {
     const getTopic = async () => {
-      const res = await axios.get("http://localhost:8000/booking");
+      try {
+        const res = await axios.get(`/topics/active/${id}`);
+        setTopic(res.data.topic);
+        console.log(res.data.topic);
+        let checkLike = res.data.topic["Likes"];
+        console.log(typeof checkLike);
+        for (const like of checkLike) {
+          console.log("log", like);
+
+          if (like.userId === user.id) setLike(true);
+        }
+        let checkReport = res.data.topic["Reports"];
+        for (const report of checkReport) {
+          console.log("report", report);
+
+          if (report.userId === user.id) {
+            setReported(true);
+            setReport(true);
+          }
+        }
+      } catch (err) {
+        console.log(err);
+        console.dir(err);
+      }
     };
+    getTopic();
   }, [id]);
-  const [state, setState] = useState();
-  const [text, setText] = useState("");
-  const [like, setLike] = useState(false);
-  const handleLike = () => {
-    console.log(like);
-    setLike((prev) => !prev);
+  console.log(topic);
+  console.log(report);
+
+  // console.log("checkLike", checkLike);
+  // console.log(typeof checkLike);
+  // for (const like of checkLike) {
+  //   console.log(like);
+  //   // if (like.userId === user.id) setLike(true);
+  // }
+
+  const handleReport = () => {
+    console.log("report");
+    setReport(true);
+  };
+
+  const handleLike = async () => {
+    const Likes = topic.Likes;
+    if (!like) {
+      const res = await axios.post(`/user/likes/topic/${topic.id}`);
+      console.log(res.data.like);
+      Likes.push(res.data.like);
+      console.log("Like", Likes);
+      setTopic((prev) => ({ ...prev, Likes }));
+      setLike(true);
+    } else {
+      console.log(like);
+      const res = await axios.delete(`/user/likes/topic/${topic.id}`);
+      const unLike = Likes.filter((item) => item.userId !== user.id);
+      console.log(unLike);
+      setTopic((prev) => ({ ...prev, Likes: unLike }));
+      setLike(false);
+    }
   };
   console.log(like);
-  const user = {
-    id: 2,
-    username: "Tom",
-    email: "tomtom@gmail.com",
-    userImg:
-      "https://res.cloudinary.com/dqns1bgvx/image/upload/v1620360479/ewbccattypcirfphx6uz.jpg",
-    userRole: "USER",
+  const handleEditTopic = () => {};
+  const handleDeleteTopic = () => {};
+  console.log(addCommentContent);
+  const handleAddComment = async (e) => {
+    try {
+      e.preventDefault();
+      console.log(addCommentContent, topic.id);
+      const res = await axios.post("/user/comments", {
+        commentContent: addCommentContent,
+        topicId: topic.id,
+      });
+      console.log(res.data.comment.id);
+      let comment = topic.Comments;
+      comment.push({
+        id: res.data.comment.id,
+        commentContent: addCommentContent,
+        topicId: topic.id,
+        User: user,
+      });
+      setTopic((prev) => ({ ...prev, Comments: comment }));
+
+      setAddCommentContent("");
+    } catch (err) {
+      console.log(err);
+    }
   };
-  const topic = {
-    id: 1,
-    topicName: "Lorem ipsum dolor sit amet consectetur adipisicing.",
-    room: {
-      roomImg: hotFood,
-      roomName: "FOOD/DRINK",
-    },
-    createdAt: "2021-04-05",
-    user: {
-      id: 2,
-      username: "สายฟ้าพายุ",
-      userImg:
-        "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8cGVyc29ufGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&w=1000&q=80",
-    },
-    report: { reportStatus: "RECONSIDERED" },
-    topicImg:
-      "https://media-cdn.tripadvisor.com/media/photo-s/13/9f/39/d1/cape-view-clifton.jpg",
-    topicContent: `Lorem ipsum dolor sit amet consectetur  adipisicing elit. Omnis ipsa tempore alias distinctio dolores, dolorem saepe reiciendis, reprehenderit vitae suscipit velit quas possimus deserunt veniam aspernatur repellat ratione! Accusantium, quia similique placeat dolorum in officia possimus praesentium quidem iure eaque quam sint harum aliquid sit, <br/> <div style={{textAlign: "center"}}> <img style= {{display: "block", margin: "10px 0px"}} src="https://media-cdn.tripadvisor.com/media/photo-s/13/9f/39/d1/cape-view-clifton.jpg" /> </div> <br/> tempore laborum non earum! Velit nam sed ipsa, at vitae quidem totam adipisci deserunt omnis odit iusto, provident quo nisi reprehenderit non in vero, nesciunt quas laudantium veniam. Cupiditate natus magnam saepe vero eos totam provident tempore, nihil blanditiis suscipit ipsam ipsa, qui harum! Quo voluptas porro accusantium incidunt rem quos molestiae voluptates quasi nostrum?`,
-    like: [
-      { id: 1, user: { id: 1, username: "กิ้งก่า", userImg: "" } },
-      { id: 7, user: { id: 5, username: "ต้น", userImg: "" } },
-      { id: 8, user: { id: 2, username: "เอก", userImg: "" } },
-    ],
-    comment: [
-      {
-        user: {
-          id: 1,
-          username: "Tom",
-          userImg:
-            "https://www.dmarge.com/wp-content/uploads/2021/01/dwayne-the-rock-.jpg",
-        },
-        commentContent:
-          "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ratione, iure?",
-      },
-      {
-        user: {
-          id: 3,
-          username: "เอก",
-          userImg:
-            "https://www.dmarge.com/wp-content/uploads/2021/01/dwayne-the-rock-.jpg",
-        },
-        commentContent:
-          "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ratione, iure?",
-      },
-    ],
+
+  const handleEditComment = async (e, userId, commentId) => {
+    console.log(userId, commentId);
+    try {
+      e.preventDefault();
+      console.log(editCommentContent, topic.id, id);
+      const res = await axios.patch(`/user/comments/${commentId}`, {
+        commentContent: editCommentContent,
+        topicId: topic.id,
+      });
+      let comment = topic.Comments;
+      console.log(comment);
+      const Comments = comment.map((item) =>
+        item.id === commentId
+          ? { ...item, commentContent: editCommentContent }
+          : { ...item }
+      );
+      console.log(Comments);
+      setTopic((prev) => ({ ...prev, Comments }));
+      console.log(topic);
+
+      setEditComment((prev) => (prev.status = false));
+      setEditCommentContent("");
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  const handleDeleteComment = async (e, userId, commentId) => {
+    try {
+      console.log(userId, commentId);
+      await axios.delete(`/user/comments/${commentId}`);
+      let Comments = topic.Comments.filter(
+        (comment) => comment.id !== commentId
+      );
+      setTopic((prev) => ({ ...prev, Comments }));
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  const linkToUserPage = (e, id) => {
+    console.log(id);
+
+    history.push(`/user/${id}`);
   };
   return (
     <>
@@ -171,7 +264,7 @@ function Topic() {
           <div className="topic-name">
             <div className="room-section">
               <img
-                src={topic.room.roomImg}
+                src={topic?.Room?.roomIcon}
                 alt="room-icon"
                 style={{ width: "50px", height: "50px" }}
               />
@@ -179,21 +272,24 @@ function Topic() {
               <a
                 style={{
                   fontSize: "10px",
-                  color: "gray",
+                  // color: "gray",
                   textDecoration: "none",
                 }}
-                onClick={() => console.log(topic.room.roomName)}
+                onClick={() => history.push(`/room/${topic.Room.id}`)}
               >
-                {topic.room.roomName}
+                {topic?.Room?.roomName}
               </a>
             </div>
             <div
               style={{
                 marginLeft: "10px",
                 marginRight: "10px",
+                fontSize: "25px",
               }}
             >
-              <h3>{topic.topicName}</h3>
+              <div>
+                <strong>{topic?.topicName}</strong>
+              </div>
             </div>
             <div
               className="topic-control-button"
@@ -203,14 +299,16 @@ function Topic() {
                 width: "10%",
               }}
             >
-              {user.id === topic.user.id ? (
+              {user?.id === topic?.User?.id ? (
                 <>
                   <div>
                     <button
+                      className="button"
                       style={{
                         backgroundColor: "#edd1b0",
                         border: "none",
                       }}
+                      onClick={handleEditTopic}
                     >
                       <img
                         src={editIcon}
@@ -225,10 +323,12 @@ function Topic() {
                   <div>
                     {" "}
                     <button
+                      className="button"
                       style={{
                         backgroundColor: "#edd1b0",
                         border: "none",
                       }}
+                      onClick={handleDeleteTopic}
                     >
                       <img
                         src={deleteIcon}
@@ -244,22 +344,15 @@ function Topic() {
               ) : (
                 <div>
                   <button
+                    className="button"
                     style={{
                       backgroundColor: "#edd1b0",
                       border: "none",
                     }}
-                    onClick={
-                      topic.report?.reportStatus === "REPORT"
-                        ? null
-                        : () => console.log("report")
-                    }
+                    onClick={reported ? null : (e) => openModalReport(e, topic)}
                   >
                     <img
-                      src={
-                        topic.report?.reportStatus === "REPORT"
-                          ? reportRedIcon
-                          : reportBlackIcon
-                      }
+                      src={report ? reportRedIcon : reportBlackIcon}
                       alt="block-red-icon"
                       style={{
                         width: "20px",
@@ -276,13 +369,13 @@ function Topic() {
             <strong>Author : </strong>
             <a
               style={{ color: "brown" }}
-              onClick={() => console.log(topic.user.id)}
+              onClick={() => history.push(`/user/${topic.User.id}`)}
             >
-              {topic.user.username}
+              {topic?.User?.username}
             </a>{" "}
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{" "}
             <strong>Date : </strong> &nbsp;
-            <span>{topic.createdAt}</span>
+            <span>{new Date(topic?.createdAt).toLocaleDateString()}</span>
           </div>
           <div
             style={{
@@ -291,7 +384,7 @@ function Topic() {
               margin: "20px",
             }}
           >
-            <img src={topic.topicImg} />
+            <img src={topic?.topicImg} />
           </div>
           <div
             align="justify"
@@ -301,7 +394,7 @@ function Topic() {
             }}
           >
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            {ReactHtmlParser(topic.topicContent)}
+            {ReactHtmlParser(topic?.topicContent)}
           </div>
           <div
             style={{
@@ -320,6 +413,7 @@ function Topic() {
               }}
             >
               <button
+                className="button"
                 style={{
                   backgroundColor: "#edd1b0",
                   border: "none",
@@ -337,13 +431,14 @@ function Topic() {
               </button>
               &nbsp;&nbsp;
               <button
+                className="button"
                 style={{
                   backgroundColor: "#edd1b0",
                   border: "none",
                 }}
                 // onClick={handleShowlike}
               >
-                {topic.like.length}
+                {topic?.Likes?.length}
               </button>
             </div>
             <div
@@ -355,6 +450,7 @@ function Topic() {
               }}
             >
               <button
+                className="button"
                 style={{
                   backgroundColor: "#edd1b0",
                   border: "none",
@@ -371,12 +467,13 @@ function Topic() {
               </button>
               &nbsp;&nbsp;
               <button
+                className="button"
                 style={{
                   backgroundColor: "#edd1b0",
                   border: "none",
                 }}
               >
-                {topic.comment.length}
+                {topic?.Comments?.length}
               </button>
             </div>
           </div>
@@ -451,9 +548,9 @@ function Topic() {
               alignItems: "center",
             }}
           >
-            {topic.comment.map((item) => (
+            {topic?.Comments?.map((item) => (
               <div
-                key={item.user.id}
+                key={item.id}
                 style={{
                   width: "90%",
                   borderBottom: "solid grey 1px",
@@ -461,37 +558,100 @@ function Topic() {
                   paddingBottom: "5px",
                   display: "flex",
                   flexDirection: "row",
-                  justifyContent: "flex-start",
+                  justifyContent: "space-between",
                   alignItems: "center",
                 }}
               >
-                <div>
-                  <img
-                    src={item.user.userImg}
-                    style={{
-                      height: "50px",
-                      width: "50px",
-                      borderRadius: "50px",
-                      margin: "0 15px",
-                    }}
-                  />
+                <div style={{ display: "flex", flexDirection: "row" }}>
+                  <div>
+                    <img
+                      src={item?.User?.userImg}
+                      style={{
+                        height: "50px",
+                        width: "50px",
+                        borderRadius: "50px",
+                        margin: "0 15px",
+                      }}
+                    />{" "}
+                  </div>
+                  <div>
+                    <a
+                      onClick={(e) => linkToUserPage(e, item.User.id)}
+                      style={{}}
+                    >
+                      {" "}
+                      <strong>{item?.User?.username}</strong>{" "}
+                    </a>
+                    {item.User.id === user.id &&
+                    editComment.status &&
+                    editComment.id === item.id ? (
+                      <form
+                        key={item.id}
+                        onSubmit={(e) =>
+                          handleEditComment(e, item.User.id, item.id)
+                        }
+                      >
+                        <textarea
+                          value={editCommentContent}
+                          onChange={(e) =>
+                            setEditCommentContent(e.target.value)
+                          }
+                          style={{ width: "30vw" }}
+                          defaultValue={item.commentContent}
+                        />
+
+                        <button
+                          className="button"
+                          key={item.id}
+                          style={{
+                            backgroundColor: "#edd1b0",
+                            border: "none",
+                          }}
+                        >
+                          Edit Comment
+                        </button>
+                      </form>
+                    ) : (
+                      <div>{item.commentContent}</div>
+                    )}
+                  </div>
                 </div>
-                <div>
-                  <a onClick={() => console.log(item.user.id)} style={{}}>
-                    <strong>{item.user.username}</strong>
-                  </a>
-                  <div>{item.commentContent}</div>
-                </div>
-                {item.user.id === user.id ? (
+                {item.User.id === user.id && !editComment.status ? (
                   <div>
                     <button
+                      className="button"
+                      key={item.id}
                       style={{
                         backgroundColor: "#edd1b0",
                         border: "none",
                       }}
+                      onClick={() => {
+                        setEditComment({ status: true, id: item.id });
+                        setEditCommentContent(item.commentContent);
+                      }}
                     >
                       <img
                         src={editIcon}
+                        alt="edit-icon"
+                        style={{
+                          width: "20px",
+                          height: "20px",
+                        }}
+                      />
+                    </button>
+                    <button
+                      className="button"
+                      key={item.id}
+                      style={{
+                        backgroundColor: "#edd1b0",
+                        border: "none",
+                      }}
+                      onClick={(e) =>
+                        handleDeleteComment(e, item.User.id, item.id)
+                      }
+                    >
+                      <img
+                        src={deleteIcon}
                         alt="edit-icon"
                         style={{
                           width: "20px",
@@ -505,7 +665,7 @@ function Topic() {
             ))}
 
             <div
-              key={user.id}
+              key={user?.id}
               style={{
                 width: "90%",
                 borderBottom: "solid grey 1px",
@@ -519,7 +679,7 @@ function Topic() {
             >
               <div>
                 <img
-                  src={user.userImg}
+                  src={user?.userImg}
                   style={{
                     height: "50px",
                     width: "50px",
@@ -529,16 +689,19 @@ function Topic() {
                 />
               </div>
               <div>
-                <form onSubmit={() => console.log("send comment")}>
+                <form onSubmit={(e) => handleAddComment(e)}>
                   <textarea
-                    onChange={(e) => console.log(e.target.value)}
+                    value={addCommentContent}
+                    onChange={(e) => setAddCommentContent(e.target.value)}
                     style={{ width: "30vw" }}
                   />
 
                   <button
+                    className="button"
                     style={{
                       backgroundColor: "#edd1b0",
                       border: "none",
+                      maginLeft: "40px",
                     }}
                   >
                     Comment
@@ -547,29 +710,17 @@ function Topic() {
               </div>
             </div>
           </div>
-
-          {/* <div>
-            <textarea
-              style={{ width: "100%", height: "auto" }}
-              value={state}
-              onChange={(e) => {
-                console.log(e.target.value);
-                setState(e.target.value);
-              }}
-            />
-            <div>{ReactHtmlParser(state)}</div>
-          </div>
-          <div
-            id="1"
-            contentEditable="true"
-            value={text}
-            onChange={(e) => console.log(text)}
-          >
-            {text}
-          </div> */}
         </div>
       </div>
       <div style={{ width: "5%", height: "auto" }}></div>
+
+      <ModalReportTopic
+        modalReportIsOpen={modalReportIsOpen}
+        closeModalReport={closeModalReport}
+        topicDetail={topicDetail}
+        handleReport={handleReport}
+        setTopicDetail={setTopicDetail}
+      />
     </>
   );
 }

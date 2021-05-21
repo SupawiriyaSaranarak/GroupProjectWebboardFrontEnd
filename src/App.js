@@ -12,6 +12,7 @@ import CreateTopicPage from "./pages/CreateTopicPage";
 import UserPage from "./pages/UserPage";
 import AdminPage from "./pages/AdminPage";
 import MyPage from "./pages/MyPage";
+import RoomListsTopicPage from "./pages/RoomListsTopicPage";
 
 const adminRoutes = [
   {
@@ -38,6 +39,10 @@ const adminRoutes = [
     path: "/",
     component: HomePage,
   },
+  {
+    path: "/room/:roomId",
+    component: RoomListsTopicPage,
+  },
 ];
 
 const userRoutes = [
@@ -61,6 +66,10 @@ const userRoutes = [
     path: "/",
     component: HomePage,
   },
+  {
+    path: "/room/:roomId",
+    component: RoomListsTopicPage,
+  },
 ];
 const guessRoutes = [
   {
@@ -79,18 +88,24 @@ const guessRoutes = [
     path: "/",
     component: HomePage,
   },
+  {
+    path: "/room/:roomId",
+    component: RoomListsTopicPage,
+  },
 ];
 
 function App() {
   const { user } = useContext(AuthContext);
   return (
     <Switch>
-      {console.log(user)}
-      {user.userRole === "ADMIN" &&
+      {/* {console.log(user)} */}
+      {user &&
+        user.userRole === "ADMIN" &&
         adminRoutes.map((el, index) => (
           <Route key={index} exact path={el.path} component={el.component} />
         ))}
-      {user.userRole === "USER" &&
+      {user &&
+        user.userRole === "USER" &&
         userRoutes.map((el, index) => (
           <Route key={index} exact path={el.path} component={el.component} />
         ))}

@@ -66,14 +66,14 @@ function Register() {
 
       const formData = new FormData(); // ทำให้เป็น multipart from data เพื่อให้ axios ตรวจจับได้ง่ายๆ
       formData.append("image", uploadImage);
-      const res = await axios.post("/upload/user-img", formData);
+      const res = await axios.post("/upload", formData);
       const response = await axios.post("/register", {
         ...input,
         userImg: res.data.img,
       });
 
       localStorageService.setToken(response.data.token);
-      const payload = jwtDecode(res.data.token);
+      const payload = jwtDecode(response.data.token);
       setUser(payload);
       history.push("/me");
     } catch (err) {

@@ -1,9 +1,7 @@
 import React from "react";
-// Dummy Image
-import dummyImage from "../../../img/dummy-image.jpg";
+import moment from "moment";
 // Modal import
 import Modal from "react-modal";
-
 const customStyles = {
   content: {
     top: "50%",
@@ -16,6 +14,10 @@ const customStyles = {
 };
 
 function ModalTopicDetail(props) {
+  const handlerOnClick = (e) => {
+    console.log("click");
+  };
+
   return (
     <Modal
       isOpen={props.modalTopicDetailIsOpen}
@@ -33,25 +35,29 @@ function ModalTopicDetail(props) {
         </div>
         <div className="modal-reportDetail-box-content">
           <div className="modal-reportDetail-box-content-1">
-            <p>Topic Id: {"1"}</p>
-            <p>Topic Status: {"INACTIVE"}</p>
-            <p>Post By User Id: {"1"}</p>
+            <p>Topic Id: {props.topicDetail?.id}</p>
+            <p>Topic Status: {props.topicDetail?.topicStatus}</p>
+            <p>Post By User Id: {props.topicDetail?.User.username}</p>
+            <p>
+              Post At:{" "}
+              {moment(props.topicDetail?.createdAt).format(
+                "DD/MM/YYYY ,HH:mm:ss"
+              )}
+            </p>
+            <p>Like: {props.topicDetail?.Likes.length}</p>
+            <p>Comment: {props.topicDetail?.Comments.length}</p>
           </div>
           <div className="modal-topicList-box-content-2">
-            <p>Topic Name: {"1"}</p>
+            <p>Topic Name: {props.topicDetail?.topicName}</p>
             <p>Topic Img:</p>
             <div className="modal-topicList-box-content-2-topicImg">
-              <img src={dummyImage} />
-            </div>
-            <p>Topic Context: </p>
-            <div className="modal-topicList-box-content-2-topicContext">
-              {
-                "Lorem ipsum dolor sit amet consectetur adipisicing elit. Perferendis corporis sint ex quisquam maxime nihil amet et inventore debitis, necessitatibus culpa cumque fugiat odio! Ea."
-              }
+              <img src={props.topicDetail?.topicImg} />
             </div>
           </div>
         </div>
-        <div className="modal-reportDetail-box-footer"></div>
+        <div className="modal-reportDetail-box-footer">
+          <div onClick={handlerOnClick}></div>
+        </div>
       </div>
     </Modal>
   );

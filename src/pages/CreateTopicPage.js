@@ -10,18 +10,14 @@ import LOGO from "../img/LOGO.png";
 function CreateTopicPage() {
   return (
     <div>
-      <div>
+      <div className="header">
         <Navbar Icon={HomeIcon} Icon2={PencilIcon} />
       </div>
       <div className="content-body">
         <div className="margin-right"></div>
-        <div className="content-body-room">
-          <RoomBar />
-        </div>
+
         <CreateTopic className="content-body-topic" />
-        <div className="content-body-pin">
-          <PinBar />
-        </div>
+
         <div className="margin-left"></div>
       </div>
     </div>

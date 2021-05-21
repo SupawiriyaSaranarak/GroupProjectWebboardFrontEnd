@@ -1,16 +1,15 @@
-import React, { useRef, useState, useEffect } from "react";
-import Navbar from "../components/navbar";
-import TopicList from "../components/TopicList";
+import React from "react";
+
+import RoomTopics from "../components/RoomTopics";
 import PinBar from "../components/PinBar";
 import RoomBar from "../components/RoomBar";
-import axios from "../config/axios";
-
+import Navbar from "../components/navbar";
 import { HomeIcon, PencilIcon } from "@heroicons/react/outline";
 
-function HomePage() {
+function RoomListsTopicPage() {
   return (
     <div>
-      <div>
+      <div className="header">
         <Navbar Icon={HomeIcon} Icon2={PencilIcon} />
       </div>
       <div className="content-body">
@@ -18,7 +17,7 @@ function HomePage() {
         <div className="content-body-room">
           <RoomBar />
         </div>
-        <TopicList className="content-body-topic" />
+        <RoomTopics className="content-body-topic" />
         <div className="content-body-pin">
           <PinBar />
         </div>
@@ -28,4 +27,4 @@ function HomePage() {
   );
 }
 
-export default HomePage;
+export default RoomListsTopicPage;

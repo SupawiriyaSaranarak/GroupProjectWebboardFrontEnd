@@ -1,23 +1,31 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import axios from "../config/axios";
-import RoomItems from "./RoomItems";
-import roomIcon from "../img/restaurant.png";
-import {  useState, useEffect } from "react";
 
+import RoomItems from "./RoomItems";
 
 function RoomBar() {
-  const [rooms, setRooms] = useState([]);
+  const [allActiveRoom, setAllActiveRoom] = useState();
 
-  const fetchRoom = async () => {
-    const res = await axios.get("rooms/active");
-    setRooms(res.data.rooms);
-  };
-
-  useEffect(() => {
-    fetchRoom();
+  useEffect(async () => {
+    await getAllActiveRoom();
   }, []);
 
-  // console.log(rooms);
+  const getAllActiveRoom = async () => {
+    try {
+      const resAllActiveRoom = await axios.get("/rooms/active");
+      // console.log(resAllActiveRoom.data.rooms);
+      const {
+        data: { rooms },
+      } = resAllActiveRoom;
+      setAllActiveRoom(rooms);
+    } catch (err) {
+      if (err.response) {
+        console.log(err.response);
+      }
+    }
+  };
+  // console.log(allActiveRoom);
+
   return (
     <div className="roomBar-container">
       <div className="dashboad-header">
@@ -34,9 +42,9 @@ function RoomBar() {
         </div>
       </div>
       <div className="roomBar-container-contentList">
-        {rooms.map((rooms) => (
-          <RoomItems key={rooms.id} {...rooms} />
-        ))}
+        {allActiveRoom?.map((item, index) => {
+          return <RoomItems key={item.id} item={item} />;
+        })}
       </div>
     </div>
   );

@@ -1,14 +1,12 @@
-import { Avatar, IconButton } from "@material-ui/core";
+import { Avatar } from "@material-ui/core";
 import { Link } from "react-router-dom";
+// import { Avatar } from "@material-ui/core";
 import ImgFile from "../img/unnamed.png";
 import { fade, makeStyles } from "@material-ui/core/styles";
 import InputBase from "@material-ui/core/InputBase";
 import SearchIcon from "@material-ui/icons/Search";
 import { useState } from "react";
 import PopoverLogout from "../components/LogoutAndProfilePopover"
-
-
-
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -64,13 +62,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-
-
 function Navbar({ Icon, Icon2 }) {
     const [search, setSearch] = useState("");
     const [anchorEl, setAnchorEl] = useState(null);
 
-    const classes = useStyles();
+  const classes = useStyles();
 
   
   const handleClick = (event) => {
@@ -118,7 +114,7 @@ function Navbar({ Icon, Icon2 }) {
           </div>
 
           <div
-            style={{ display: "flex", position: "relative", right: "60px" }}
+            style={{ display: "flex", position: "relative", right: "45px" }}
             className="flex  mt-3"
           >
             <div className="group  sm:w-20 flex flex-col cursor-pointer  hover:text-yellow-500 items-center">

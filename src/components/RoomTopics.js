@@ -14,29 +14,40 @@ import { AuthContext } from "../contexts/AuthContextProvider";
 import moment from "moment";
 import axios from "../config/axios";
 
-function UserTopicList() {
-  const { user } = useContext(AuthContext);
-  // console.log(user);
+import { useParams } from "react-router";
 
-  const [myLastTopic, setMyLastTopic] = useState([]);
+function RoomTopics() {
+  const { roomId } = useParams();
+  // console.log(roomId);
 
-  useEffect(() => {
-    getUserLastTopic();
-  }, []);
+  const [roomByParams, setRoomByParams] = useState([]);
+  const [topicByRoomData, setTopicByRoomData] = useState([]);
+  const [pinByRoomData, setPinByRoomData] = useState([]);
 
-  const getUserLastTopic = async () => {
+  useEffect(async () => {
+    await getTopicsByRoom();
+  }, [roomId]);
+
+  const getTopicsByRoom = async () => {
     try {
-      const resUserTopic = await axios.get("/topics//mytopic");
-      // console.log(resUserTopic.data.topics);
-      const {
-        data: { topics },
-      } = resUserTopic;
-      setMyLastTopic(topics);
+      const resRoom = await axios.get("/rooms/active/" + roomId);
+      // console.log(resRoom);
+
+      setRoomByParams(resRoom.data.room);
+
+      const resTopic = await axios.get("/topics/room/" + roomId + "?page=1");
+      // console.log(topicByRoomData);
+
+      setTopicByRoomData(resTopic.data.topics);
+      setPinByRoomData(resTopic.data.pin);
     } catch (err) {
       console.log(err);
+      // console.dir(err);
     }
   };
-  // console.log(myLastTopic);
+  console.log(roomByParams);
+  console.log(topicByRoomData);
+  console.log(pinByRoomData);
 
   return (
     <>
@@ -79,7 +90,7 @@ function UserTopicList() {
               height: "auto",
             }}
           >
-            DASHBOARD
+            ROOM "{roomByParams?.roomName}"
           </div>
           <div
             style={{
@@ -177,7 +188,7 @@ function UserTopicList() {
           }}
         >
           <div
-            key={user.id}
+            key={roomByParams?.id}
             style={{
               width: "90%",
 
@@ -190,7 +201,7 @@ function UserTopicList() {
             }}
           >
             <img
-              src={user.userImg}
+              src={roomByParams?.roomIcon}
               style={{
                 height: "100px",
                 width: "100px",
@@ -201,8 +212,8 @@ function UserTopicList() {
                 objectPosition: "50% 50%",
               }}
             />
-            <a onClick={() => console.log(user.id)}>
-              <h1>{user.username}</h1>{" "}
+            <a onClick={() => console.log("user.id")}>
+              <h1>{roomByParams?.roomName}</h1>{" "}
             </a>
           </div>
         </div>
@@ -215,11 +226,11 @@ function UserTopicList() {
             }}
           >
             <h2>
-              <b>{user.username}'s Topics</b>
+              <b>{roomByParams?.roomName}'s Topics</b>
             </h2>
           </div>
           {/* dashboard topic item */}
-          {myLastTopic?.map((item) => (
+          {topicByRoomData?.map((item) => (
             <div className="topic-item" key={item.id}>
               <div
                 style={{
@@ -367,4 +378,4 @@ function UserTopicList() {
   );
 }
 
-export default UserTopicList;
+export default RoomTopics;

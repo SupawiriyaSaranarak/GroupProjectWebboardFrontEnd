@@ -1,37 +1,186 @@
-import React from "react";
-import commentIcon from "../public/images/commentIcon.png";
-import redHeartIcon from "../public/images/redHeartIcon.png";
-import calendarIcon from "../public/images/calendarIcon.png";
-import pinBlackIcon from "../public/images/pinBlackIcon.png";
-import pinRedIcon from "../public/images/pinRedIcon.png";
-import userIcon from "../public/images/userIcon.png";
-import RoomBar from "./RoomBar";
+import React, { useState, useEffect, useContext } from "react";
+import { useHistory } from "react-router-dom";
+import axios from "../config/axios";
+
+import ReactHtmlParser from "react-html-parser";
 
 function CreateTopic() {
-  const room = [
-    {
-      id: 1,
-      roomName: "FOOD",
-    },
-    {
-      id: 2,
-      roomName: "SCIENCE/ENGINEER",
-    },
-    {
-      id: 3,
-      roomName: "DIY",
-    },
-    {
-      id: 4,
-      roomName: "FICTION",
-    },
-    {
-      id: 5,
-      roomName: "IT",
-    },
-  ];
+  const history = useHistory();
+  const [room, setRoom] = useState();
+
+  const [input, setInput] = useState({});
+  //upload topic img
+  const [fileTopicImg, setFileTopicImg] = useState(null);
+  const [topicImg, setTopicImg] = useState(null);
+  const handleFileTopicImgChange = (e) => {
+    console.log(e);
+    setFileTopicImg(e.target.files[0]);
+  };
+
+  const handleUploadTopicImg = async (e) => {
+    e.preventDefault();
+    const formData = new FormData();
+    formData.append("image", fileTopicImg);
+    console.log(formData);
+    const res = await axios.post("/upload", formData);
+    setTopicImg(res.data.img);
+  };
+  //upload content img
+  const [fileContentImg, setFileContentImg] = useState(null);
+
+  const handleFileContentImgChange = (e) => {
+    console.log(e);
+    setFileContentImg(e.target.files[0]);
+  };
+  const handleUploadContentImg = async (e) => {
+    e.preventDefault();
+    const formData = new FormData();
+    formData.append("image", fileContentImg);
+    console.log(formData);
+    const res = await axios.post("/upload", formData);
+    const x = `<br /><br /><div style={{ textAlign: "center" }}><img style={{ display: "block", margin: "10px 0px" }} src=${res.data.img} /></div><br />`;
+    setInput((prev) => ({ ...prev, topicContent: prev.topicContent + x }));
+  };
+
+  useEffect(() => {
+    const getRoom = async () => {
+      const res = await axios.get("/rooms/active");
+      console.log(res.data.rooms);
+      setRoom(res.data.rooms);
+    };
+    getRoom();
+  }, []);
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setInput((prev) => ({ ...prev, [name]: value }));
+    console.log(input);
+  };
+  console.log(room);
+
+  const handleSubmit = async (e) => {
+    try {
+      e.preventDefault();
+      console.log(input);
+      console.log(input.topicContent.length);
+      const response = await axios.post("/user/topics", {
+        ...input,
+        topicImg,
+      });
+      history.push(`/topic/${response.data.newTopic.id}`);
+    } catch (err) {
+      console.log(err);
+    }
+  };
   return (
     <>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "flex-start",
+          padding: "20px",
+
+          borderRadius: "10px",
+          width: "50%",
+        }}
+      >
+        {/* dashboard header */}
+        <div className="dashboad-header">
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              width: "100%",
+              height: "auto",
+            }}
+          >
+            <div
+              style={{
+                height: "50%",
+                borderBottom: "solid rgb(167, 167, 167) 1px",
+              }}
+            ></div>
+            <div></div>
+          </div>
+          <div
+            style={{
+              width: "2%",
+            }}
+          ></div>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              color: "rgb(167, 167, 167)",
+              height: "auto",
+              width: "auto",
+            }}
+          >
+            <div>PREVIEW</div>
+          </div>
+          <div
+            style={{
+              width: "2%",
+            }}
+          ></div>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              width: "100%",
+              height: "auto",
+            }}
+          >
+            <div
+              style={{
+                height: "50%",
+                borderBottom: "solid rgb(167, 167, 167) 1px",
+              }}
+            ></div>
+            <div></div>
+          </div>
+        </div>
+        {/* dashboard header */}
+        <div
+          style={{
+            marginTop: "10px",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "flex-start",
+            padding: "20px",
+            backgroundColor: "#edd1b0",
+            borderRadius: "10px",
+            width: "100%",
+          }}
+        >
+          <div style={{ fontSize: "25px", width: "100%" }}>
+            <strong>{input.topicName}</strong>
+          </div>
+          <br />
+          {topicImg && (
+            <>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              <img
+                src={topicImg}
+                alt="product"
+                style={{ width: "40%", height: "40%" }}
+              />
+            </>
+          )}
+          <br />
+          <div style={{ width: "100%" }}>
+            {ReactHtmlParser(input.topicContent)}
+          </div>
+          {input.roomId && (
+            <div>
+              <img
+                src={room.filter((item) => item.id === input.roomId).roomIcon}
+              />
+            </div>
+          )}
+        </div>
+      </div>
       <div style={{ width: "5%", height: "auto" }}></div>
       <div
         style={{
@@ -41,7 +190,7 @@ function CreateTopic() {
           padding: "20px",
 
           borderRadius: "10px",
-          width: "100%",
+          width: "50%",
         }}
       >
         {/* dashboard header */}
@@ -114,7 +263,7 @@ function CreateTopic() {
             width: "100%",
           }}
         >
-          <form>
+          <form onSubmit={handleSubmit}>
             <div
               className="form-div"
               style={{
@@ -131,12 +280,37 @@ function CreateTopic() {
                   type="text"
                   name="topicName"
                   placeholder="Topic Name"
-                  // value={}
-                  // onChange={handleInputChange}
+                  value={input.topicName}
+                  onChange={handleInputChange}
                 />
               </div>
             </div>
             <br />
+            <div className="form-group form-div">
+              <form>
+                <div>
+                  <label>Topic Image</label>
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                      borderBottom: "none",
+                      marginTop: "10px",
+                    }}
+                  >
+                    <input
+                      style={{
+                        borderBottom: "none",
+                      }}
+                      type="file"
+                      onChange={handleFileTopicImgChange}
+                    />
+                    <button onClick={handleUploadTopicImg}>Upload</button>
+                  </div>
+                </div>
+              </form>
+            </div>
+
             <br />
             <div className=" form-div">
               <label htmlFor="topicContent">Topic Content</label>
@@ -146,37 +320,31 @@ function CreateTopic() {
                 type="text"
                 name="topicContent"
                 placeholder="Content"
-                // value={input.clientEmail}
-                // onChange={handleInputChange}
+                value={input.topicContent}
+                onChange={handleInputChange}
               />
-              <form
-              // onSubmit={handleUpload}
-              >
-                <div>
-                  <div
-                    style={{
-                      display: "flex",
-                      flexDirection: "row",
-                      borderBottom: "none",
-                      marginTop: "10px",
-                    }}
-                  >
-                    <input
-                      style={{
-                        borderBottom: "none",
-                      }}
-                      type="file"
-                      //   onChange={handleFileChange}
-                    />
-                    <button
-                    //   onClick={handleUpload}
-                    >
-                      Upload
-                    </button>
-                  </div>
-                </div>
 
-                {/* {productImg && (
+              <div>
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    borderBottom: "none",
+                    marginTop: "10px",
+                  }}
+                >
+                  <input
+                    style={{
+                      borderBottom: "none",
+                    }}
+                    type="file"
+                    onChange={handleFileContentImgChange}
+                  />
+                  <button onClick={handleUploadContentImg}>Upload</button>
+                </div>
+              </div>
+
+              {/* {productImg && (
                 <>
                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                   <img
@@ -186,65 +354,17 @@ function CreateTopic() {
                   />
                 </>
               )} */}
-              </form>
             </div>
             <br />
-            <br />
-            <div className="form-group form-div">
-              <form
-              // onSubmit={handleUpload}
-              >
-                <div>
-                  <label htmlFor="userImg">Topic Image</label>
-                  <div
-                    style={{
-                      display: "flex",
-                      flexDirection: "row",
-                      borderBottom: "none",
-                      marginTop: "10px",
-                    }}
-                  >
-                    <input
-                      style={{
-                        borderBottom: "none",
-                      }}
-                      type="file"
-                      //   onChange={handleFileChange}
-                    />
-                    <button
-                    //   onClick={handleUpload}
-                    >
-                      Upload
-                    </button>
-                  </div>
-                </div>
 
-                {/* {productImg && (
-                <>
-                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                  <img
-                    src={productImg}
-                    alt="product"
-                    style={{ width: "40%", height: "40%" }}
-                  />
-                </>
-              )} */}
-              </form>
-            </div>
-            <br />
-            <br />
             <div className="form-div">
               <label htmlFor="roomId">Room</label>
-              <select
-                id="roomId"
-                name="roomId"
-                // onChange={handleInputChange}
-              >
+              <select id="roomId" name="roomId" onChange={handleInputChange}>
                 <option name="roomId" selected>
                   Select Room
                 </option>
-                {room.map((item) => (
-                  <option name="roomId" value={item.id}>
+                {room?.map((item) => (
+                  <option name="roomId" value={item.id} key={item.id}>
                     {item.roomName}
                   </option>
                 ))}
@@ -253,12 +373,11 @@ function CreateTopic() {
             <br />
             <br />
             <div style={{ display: "flex", justifyContent: "center" }}>
-              <button>Create Topic</button>
+              <button className="button">Create Topic</button>
             </div>
           </form>
         </div>
       </div>
-      <div style={{ width: "5%", height: "auto" }}></div>
     </>
   );
 }

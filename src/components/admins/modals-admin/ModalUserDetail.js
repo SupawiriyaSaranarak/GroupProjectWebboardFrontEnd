@@ -1,6 +1,7 @@
 import React from "react";
-// Dummy Image
-import dummyImage from "../../../img/dummy-image.jpg";
+
+import moment from "moment";
+
 // Modal import
 import Modal from "react-modal";
 
@@ -16,6 +17,7 @@ const customStyles = {
 };
 
 function ModalUserDetail(props) {
+  // console.log(props);
   return (
     <Modal
       isOpen={props.modalUserDetailIsOpen}
@@ -33,9 +35,9 @@ function ModalUserDetail(props) {
         </div>
         <div className="modal-reportDetail-box-content">
           <div className="modal-reportDetail-box-content-1">
-            <p>User Id: {"1"}</p>
-            <p>Username: {"INACTIVE"}</p>
-            <p>Email: {"INACTIVE"}</p>
+            <p>User Id: {props.userDetail?.id}</p>
+            <p>Username: {props.userDetail?.username}</p>
+            <p>Email: {props.userDetail?.email}</p>
             <div
               style={{
                 display: "flex",
@@ -45,14 +47,22 @@ function ModalUserDetail(props) {
             >
               <p>Img:</p>
               <img
-                src={dummyImage}
+                src={props.userDetail?.userImg}
                 className="modal-userDetail-box-content-1-userImg"
               />
             </div>
-            <p>Birthday: {"INACTIVE"}</p>
-            <p>Role: {"INACTIVE"}</p>
-            <p>Status: {"1"}</p>
-            <p>created At: {"1"}</p>
+            <p>
+              Birthday:{" "}
+              {moment(props.userDetail?.birthDate).format("DD/MM/YYYY")}
+            </p>
+            <p>Role: {props.userDetail?.userRole}</p>
+            <p>Status: {props.userDetail?.userStatus}</p>
+            <p>
+              created At:{" "}
+              {moment(props.userDetail?.createdAt).format(
+                "DD/MM/YYYY ,HH:mm:ss"
+              )}
+            </p>
           </div>
         </div>
         <div className="modal-reportDetail-box-footer"></div>
