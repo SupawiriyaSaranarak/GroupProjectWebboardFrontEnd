@@ -10,7 +10,10 @@ import LOGO from "../img/LOGO.png";
 function MyPage() {
   return (
     <div>
-      <div style={{ height: "100px", padding: "30px" }} className="header">
+      <div
+        style={{ height: "80px", backgroundColor: "#faf3e0", width: "100%" }}
+        className="header"
+      >
         <Navbar Icon={HomeIcon} Icon2={PencilIcon} />
       </div>
       <div className="content-body">

@@ -9,6 +9,9 @@ import { IsLoadingContext } from "../../contexts/LoadingContextProvider";
 import Loading from "../utils/Loading";
 
 function RoomManage() {
+  // error box
+  const [errBox, setErrBox] = useState("");
+
   //modal RoomAdd
   const [modalRoomAddIsOpen, setModalRoomAddIsOpen] = useState(false);
 
@@ -19,6 +22,7 @@ function RoomManage() {
   const closeModalRoomAdd = () => {
     setModalRoomAddIsOpen(false);
     setUploadImage(null);
+    setErrBox("");
   };
 
   // Loading Context
@@ -235,7 +239,7 @@ function RoomManage() {
               <th>Room Name</th>
               <th>Room Icon</th>
               <th>Room Status</th>
-              <th>Management</th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
@@ -318,6 +322,8 @@ function RoomManage() {
         hiddenFileInput={hiddenFileInput}
         handlerUploadImage={handlerUploadImage}
         getRoom={getRoom}
+        setErrBox={setErrBox}
+        errBox={errBox}
       />
     </>
   );

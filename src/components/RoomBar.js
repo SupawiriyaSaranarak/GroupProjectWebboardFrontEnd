@@ -12,7 +12,7 @@ function RoomBar() {
 
   const getAllActiveRoom = async () => {
     try {
-      const resAllActiveRoom = await axios.get("/room/active");
+      const resAllActiveRoom = await axios.get("/rooms/active");
       // console.log(resAllActiveRoom.data.rooms);
       const {
         data: { rooms },

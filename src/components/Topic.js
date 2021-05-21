@@ -37,10 +37,12 @@ function Topic() {
   const history = useHistory();
   const { user } = useContext(AuthContext);
   const { id } = useParams();
+
   const [topic, setTopic] = useState();
   const [report, setReport] = useState(topic?.Reports?.length ? true : false);
   const [commentContent, setCommentContent] = useState("");
   const [editComment, setEditComment] = useState(false);
+
   useEffect(() => {
     const getTopic = async () => {
       try {
@@ -48,12 +50,14 @@ function Topic() {
         setTopic(res.data.topic);
       } catch (err) {
         console.log(err);
+        console.dir(err);
       }
     };
     getTopic();
-  }, [id, topic]);
+  }, [id]);
   console.log(topic);
   console.log(report);
+
   const handleReport = () => {
     console.log("report");
     setReport(true);
@@ -67,6 +71,7 @@ function Topic() {
   console.log(like);
   const handleEditTopic = () => {};
   const handleDeleteTopic = () => {};
+
   const handleAddComment = async (e) => {
     try {
       e.preventDefault();
@@ -75,6 +80,7 @@ function Topic() {
         commentContent,
         topicId: topic.id,
       });
+      console.log(res);
       setTopic((prev) =>
         prev.Comments.push({ commentContent, topicId: topic.id })
       );
@@ -83,6 +89,7 @@ function Topic() {
       console.log(err);
     }
   };
+
   const handleEditComment = async (e, id) => {
     try {
       e.preventDefault();
@@ -464,7 +471,7 @@ function Topic() {
           >
             {topic?.Comments?.map((item) => (
               <div
-                key={item.userId}
+                key={item.id}
                 style={{
                   width: "90%",
                   borderBottom: "solid grey 1px",

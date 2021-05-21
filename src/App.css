@@ -518,6 +518,7 @@
   height: 10%;
   padding: 10px;
   display: flex;
+  flex-direction: column;
 }
 
 .modal-reportDetail-box-footer-content {

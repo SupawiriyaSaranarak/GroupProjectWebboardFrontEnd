@@ -56,7 +56,7 @@ function ModalTopicDetail(props) {
           </div>
         </div>
         <div className="modal-reportDetail-box-footer">
-          <div onClick={handlerOnClick}>GO TO TOPIC</div>
+          <div onClick={handlerOnClick}></div>
         </div>
       </div>
     </Modal>

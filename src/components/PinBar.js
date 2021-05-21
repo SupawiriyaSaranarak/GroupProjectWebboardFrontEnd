@@ -1,10 +1,42 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import axios from "../config/axios";
+import service from "../services/localStorageService";
+import jwtDecode from "jwt-decode";
 
 import PinItems from "./PinItems";
-import pinIcon from "../img/office-pin.png";
-import pinedIcon from "../img/office-pin-red.png";
 
 function PinBar() {
+  const [userPin, setUserPin] = useState([]);
+
+  useEffect(async () => {
+    await getUserPin();
+  }, []);
+
+  const getUserPin = async () => {
+    try {
+      // console.log(service.getToken());
+      // console.log(jwtDecode(service.getToken()));
+
+      // validate
+      if (!service.getToken()) {
+        // console.log("No token");
+        return;
+      }
+
+      const userData = await jwtDecode(service.getToken());
+      const resUserPinDat = await axios.get("/pins/user/" + userData.id);
+      // console.log(resUserPinDat.data.pinned);
+      const {
+        data: { pinned },
+      } = resUserPinDat;
+
+      setUserPin(pinned);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  // console.log(userPin);
+
   return (
     <div className="roomBar-container">
       <div className="dashboad-header">
@@ -21,10 +53,9 @@ function PinBar() {
         </div>
       </div>
       <div className="roomBar-container-contentList">
-        <PinItems pinIcon={pinIcon} />
-        <PinItems pinIcon={pinedIcon} />
-        <PinItems pinIcon={pinIcon} />
-        <PinItems pinIcon={pinedIcon} />
+        {userPin?.map((item, index) => {
+          return <PinItems item={item} key={item.id} getUserPin={getUserPin} />;
+        })}
       </div>
     </div>
   );

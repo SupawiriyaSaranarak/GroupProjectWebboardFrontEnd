@@ -74,7 +74,7 @@ function ModalReportTopic(props) {
         <div className="modal-reportTopic-box-content">
           <div className="modal-reportTopic-box-content-textDiv1">
             <p>Report Topic Id: {props.topicDetail?.id}</p>
-            <p>Post By Username: {props.topicDetail?.user.username}</p>
+            <p>Post By Username: {props.topicDetail?.User.username}</p>
           </div>
           <div className="modal-reportTopic-box-content-textDiv2">
             <p>เหตุผลการ Report</p>

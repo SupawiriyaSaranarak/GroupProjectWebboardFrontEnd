@@ -1,8 +1,7 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import axios from "../../../config/axios";
 
 import Loading from "../../utils/Loading";
-import { IsLoadingContext } from "../../../contexts/LoadingContextProvider";
 import Swal from "sweetalert2";
 
 import Modal from "react-modal";
@@ -27,9 +26,8 @@ function ModalRoomAdd(props) {
   };
   // console.log(roomAddInput);
 
-  // Loading Context
-  const { isLoading, setIsLoading, ClearLoading } =
-    useContext(IsLoadingContext);
+  // Loading Modal
+  const [isLoadingModal, setIsLoadingModal] = useState(false);
 
   const handlerCreateRoom = async (e) => {
     e.preventDefault();
@@ -48,7 +46,7 @@ function ModalRoomAdd(props) {
         throw Error("กรุณาอัพโหลด รูปภาพ");
       }
 
-      setIsLoading(true);
+      setIsLoadingModal(true);
 
       const imgFromData = new FormData();
       imgFromData.append("roomIcon", props.uploadImage);
@@ -68,20 +66,21 @@ function ModalRoomAdd(props) {
         showConfirmButton: true,
       });
 
-      ClearLoading();
+      setIsLoadingModal(false);
 
       props.getRoom();
       props.closeModalRoomAdd();
     } catch (err) {
-      // setErr(err.message);
-      console.dir(err);
-      ClearLoading();
+      console.log(err);
+      if (err.response) {
+        props.setErrBox(err.response.data.message);
+      } else {
+        props.setErrBox(err.message);
+      }
+      setIsLoadingModal(false);
     }
   };
   // console.log(roomAddInput);
-
-  // // error box
-  // const [err, setErr] = useState("");
 
   return (
     <Modal
@@ -140,12 +139,12 @@ function ModalRoomAdd(props) {
           </div>
         </div>
         <div className="modal-roomAdd-box-footer">
-          {/* {err && (
+          {props.errBox && (
             <div className="error-box">
-              <p>{err}</p>
+              <p>{props.errBox}</p>
             </div>
-          )} */}
-          {isLoading && <Loading />}
+          )}
+          {isLoadingModal && <Loading />}
           <button
             className="modal-roomAdd-box-footer-btnSubmit"
             onClick={(e) => handlerCreateRoom(e)}
