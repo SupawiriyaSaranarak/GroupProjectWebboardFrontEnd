@@ -479,49 +479,54 @@ function Topic() {
                   paddingBottom: "5px",
                   display: "flex",
                   flexDirection: "row",
-                  justifyContent: "flex-start",
+                  justifyContent: "space-between",
                   alignItems: "center",
                 }}
               >
-                <div>
-                  <img
-                    src={item.User.userImg}
-                    style={{
-                      height: "50px",
-                      width: "50px",
-                      borderRadius: "50px",
-                      margin: "0 15px",
-                    }}
-                  />
-                </div>
-                <div>
-                  <a
-                    onClick={() => history.push(`/user/${item.User.id}`)}
-                    style={{}}
-                  >
-                    <strong>{item.User.username}</strong>
-                  </a>
-                  {item.User.id === user.id && editComment ? (
-                    <form onSubmit={(e) => handleEditComment(e, item.User.id)}>
-                      <textarea
-                        value={item.commentContent}
-                        onChange={(e) => setCommentContent(e.target.value)}
-                        style={{ width: "30vw" }}
-                      />
-
-                      <button
-                        style={{
-                          backgroundColor: "#edd1b0",
-                          border: "none",
-                        }}
+                <div style={{ display: "flex", flexDirection: "row" }}>
+                  <div>
+                    <img
+                      src={item.User.userImg}
+                      style={{
+                        height: "50px",
+                        width: "50px",
+                        borderRadius: "50px",
+                        margin: "0 15px",
+                      }}
+                    />
+                  </div>
+                  <div>
+                    <a
+                      onClick={() => history.push(`/user/${item.User.id}`)}
+                      style={{}}
+                    >
+                      <strong>{item.User.username}</strong>
+                    </a>
+                    {item.User.id === user.id && editComment ? (
+                      <form
+                        onSubmit={(e) => handleEditComment(e, item.User.id)}
                       >
-                        Edit Comment
-                      </button>
-                    </form>
-                  ) : (
-                    <div>{item.commentContent}</div>
-                  )}
+                        <textarea
+                          value={item.commentContent}
+                          onChange={(e) => setCommentContent(e.target.value)}
+                          style={{ width: "30vw" }}
+                        />
+
+                        <button
+                          style={{
+                            backgroundColor: "#edd1b0",
+                            border: "none",
+                          }}
+                        >
+                          Edit Comment
+                        </button>
+                      </form>
+                    ) : (
+                      <div>{item.commentContent}</div>
+                    )}
+                  </div>
                 </div>
+
                 {item.User.id === user.id && !editComment ? (
                   <div>
                     <button
