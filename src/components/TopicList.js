@@ -12,13 +12,21 @@ function TopicList() {
   const [hotTopic, setHotTopic] = useState([]);
 
   const fetchLastedTopic = async () => {
-    const res = await axios.get("topics/latest-topics");
-    setLastedTopi(res.data.lastestTopics);
+    try {
+      const res = await axios.get("topics/latest-topics");
+      setLastedTopi(res.data.lastestTopics);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   const fetchHotTopic = async () => {
-    const res = await axios.get("topics/hot-topics");
-    setHotTopic(res.data.topicss);
+    try {
+      const res = await axios.get("topics/hot-topics");
+      setHotTopic(res.data.topicss);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   console.log(hotTopic);
@@ -211,7 +219,11 @@ function TopicList() {
             </h2>
           </div>
           {/* dashboard topic item */}
+<<<<<<< HEAD
+          {hotTopics?.map((item) => (
+=======
           {hotTopic.map((item) => (
+>>>>>>> f69a97a4fe0ffdb1124522c8820754d0ef66ede3
             <div className="topic-item" key={item.id}>
               <div
                 style={{
@@ -223,7 +235,7 @@ function TopicList() {
               >
                 <img
                   style={{ width: "20px", height: "20px" }}
-                  src={item.Room.roomIcon}
+                  src={item?.Room?.roomIcon}
                 />
               </div>
               <div
@@ -258,7 +270,7 @@ function TopicList() {
                     />
                     &nbsp;&nbsp;
                     <a href="#" style={{ textDecoration: "none" }}>
-                      {item.User.username}
+                      {item?.User?.username}
                     </a>
                   </div>
                   <div
@@ -305,7 +317,7 @@ function TopicList() {
                       width: "60%",
                     }}
                   >
-                    {item.Likes.length}
+                    {item?.Likes?.length}
                   </div>
                 </div>
                 <div
@@ -330,7 +342,7 @@ function TopicList() {
                       width: "60%",
                     }}
                   >
-                    {item.Comments.length}
+                    {item?.Comments?.length}
                   </div>
                 </div>
               </div>
@@ -365,7 +377,11 @@ function TopicList() {
             </h2>
           </div>
           {/* dashboard topic item */}
+<<<<<<< HEAD
+          {latestTopics?.map((item) => (
+=======
           {lastedTopic.map((item) => (
+>>>>>>> f69a97a4fe0ffdb1124522c8820754d0ef66ede3
             <div className="topic-item" key={item.id}>
               <div
                 style={{
@@ -377,7 +393,7 @@ function TopicList() {
               >
                 <img
                   style={{ width: "20px", height: "20px" }}
-                  src={item.Room.roomIcon}
+                  src={item?.Room?.roomIcon}
                 />
               </div>
               <div
@@ -389,7 +405,7 @@ function TopicList() {
               >
                 <div>
                   <a href="#" style={{ textDecoration: "none" }}>
-                    <strong>{item.topicName.slice(0, 35) + "..."}</strong>
+                    <strong>{item?.topicName?.slice(0, 35) + "..."}</strong>
                   </a>
                 </div>
                 <div
@@ -408,11 +424,11 @@ function TopicList() {
                   >
                     <img
                       style={{ width: "20px", height: "20px" }}
-                      src={item.User.userImg}
+                      src={item?.User?.userImg}
                     />{" "}
                     &nbsp;&nbsp;
                     <a href="#" style={{ textDecoration: "none" }}>
-                      {item.User.username}
+                      {item?.User?.username}
                     </a>
                   </div>
                   <div
@@ -427,7 +443,7 @@ function TopicList() {
                       src={calendarIcon}
                     />
                     &nbsp;&nbsp;
-                    {item.createdAt.slice(0, -14)}
+                    {item?.createdAt?.slice(0, -14)}
                   </div>
                 </div>
               </div>
@@ -460,7 +476,7 @@ function TopicList() {
                       width: "60%",
                     }}
                   >
-                    {item.Likes.length}
+                    {item?.Likes?.length}
                   </div>
                 </div>
                 <div
@@ -485,7 +501,7 @@ function TopicList() {
                       width: "60%",
                     }}
                   >
-                    {item.Comments.length}
+                    {item?.Comments?.length}
                   </div>
                 </div>
               </div>
@@ -499,7 +515,7 @@ function TopicList() {
               >
                 <img
                   style={{ width: "20px", height: "20px" }}
-                  src={item.pin === "YES" ? pinRedIcon : pinBlackIcon}
+                  src={item?.pin === "YES" ? pinRedIcon : pinBlackIcon}
                 />
               </div>
             </div>
