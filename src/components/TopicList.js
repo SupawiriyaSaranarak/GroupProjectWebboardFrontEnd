@@ -34,112 +34,7 @@ function TopicList() {
     fetchLastedTopic();
     fetchHotTopic();
   }, []);
-  const hotTopics = [
-    {
-      id: 1,
-      createdAt: "2021-01-09",
-      topicName:
-        "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Harum enim sint ad praesentium ut rerum incidunt soluta, velit magnam, consectetur dignissimos reprehenderit aliquid officiis adipisci.",
-      room: {
-        id: 1,
-        roomIcon: "http://pngimg.com/uploads/light/light_PNG14440.png",
-      },
-      user: {
-        username: "Lorem, ipsum.",
-        email: "aa@gmail.com",
-      },
-      like: 50,
-      comment: 60,
-      pin: "YES",
-    },
-    {
-      id: 2,
-      createdAt: "2021-02-14",
-      topicName:
-        "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Harum enim sint ad praesentium ut rerum incidunt soluta, velit magnam, consectetur dignissimos reprehenderit aliquid officiis adipisci.",
-      room: {
-        id: 3,
-        roomIcon: "http://pngimg.com/uploads/light/light_PNG14440.png",
-      },
-      user: {
-        username: "Lorem, ipsum.",
-        email: "aa@gmail.com",
-      },
-      like: 80,
-      comment: 1000,
-      pin: "NO",
-    },
-    {
-      id: 3,
-      createdAt: "2021-03-14",
-      topicName:
-        "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Harum enim sint ad praesentium ut rerum incidunt soluta, velit magnam, consectetur dignissimos reprehenderit aliquid officiis adipisci.",
-      room: {
-        id: 6,
-        roomIcon: "http://pngimg.com/uploads/light/light_PNG14440.png",
-      },
-      user: {
-        username: "Lorem, ipsum.",
-        email: "aa@gmail.com",
-      },
-      like: 960,
-      comment: 1350,
-      pin: "YES",
-    },
-  ];
-  const latestTopics = [
-    {
-      id: 1,
-      createdAt: "2021-01-09",
-      topicName:
-        "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Harum enim sint ad praesentium ut rerum incidunt soluta, velit magnam, consectetur dignissimos reprehenderit aliquid officiis adipisci.",
-      room: {
-        id: 1,
-        roomIcon: "http://pngimg.com/uploads/light/light_PNG14440.png",
-      },
-      user: {
-        username: "Lorem, ipsum.",
-        email: "aa@gmail.com",
-      },
-      like: 50,
-      comment: 60,
-      pin: "YES",
-    },
-    {
-      id: 2,
-      createdAt: "2021-02-14",
-      topicName:
-        "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Harum enim sint ad praesentium ut rerum incidunt soluta, velit magnam, consectetur dignissimos reprehenderit aliquid officiis adipisci.",
-      room: {
-        id: 3,
-        roomIcon: "http://pngimg.com/uploads/light/light_PNG14440.png",
-      },
-      user: {
-        username: "Lorem, ipsum.",
-        email: "aa@gmail.com",
-      },
-      like: 80,
-      comment: 1000,
-      pin: "NO",
-    },
-    {
-      id: 3,
-      createdAt: "2021-03-14",
-      topicName:
-        "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Harum enim sint ad praesentium ut rerum incidunt soluta, velit magnam, consectetur dignissimos reprehenderit aliquid officiis adipisci.",
-      room: {
-        id: 6,
-        roomIcon: "http://pngimg.com/uploads/light/light_PNG14440.png",
-      },
-      user: {
-        username: "Lorem, ipsum.",
-        email: "aa@gmail.com",
-      },
-      like: 960,
-      comment: 1350,
-      pin: "YES",
-    },
-  ];
+
   return (
     <>
       <div style={{ width: "5%", height: "auto" }}></div>
@@ -219,11 +114,7 @@ function TopicList() {
             </h2>
           </div>
           {/* dashboard topic item */}
-<<<<<<< HEAD
-          {hotTopics?.map((item) => (
-=======
-          {hotTopic.map((item) => (
->>>>>>> f69a97a4fe0ffdb1124522c8820754d0ef66ede3
+          {hotTopic?.map((item) => (
             <div className="topic-item" key={item.id}>
               <div
                 style={{
@@ -377,11 +268,7 @@ function TopicList() {
             </h2>
           </div>
           {/* dashboard topic item */}
-<<<<<<< HEAD
-          {latestTopics?.map((item) => (
-=======
-          {lastedTopic.map((item) => (
->>>>>>> f69a97a4fe0ffdb1124522c8820754d0ef66ede3
+          {lastedTopic?.map((item) => (
             <div className="topic-item" key={item.id}>
               <div
                 style={{

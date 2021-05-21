@@ -39,15 +39,26 @@ function Topic() {
   const { id } = useParams();
 
   const [topic, setTopic] = useState();
+  const [like, setLike] = useState(false);
   const [report, setReport] = useState(topic?.Reports?.length ? true : false);
-  const [commentContent, setCommentContent] = useState("");
-  const [editComment, setEditComment] = useState(false);
+  const [editCommentContent, setEditCommentContent] = useState("");
+  const [addCommentContent, setAddCommentContent] = useState("");
+  const [editComment, setEditComment] = useState({});
 
   useEffect(() => {
     const getTopic = async () => {
       try {
+        let checkLike;
         const res = await axios.get(`/topics/active/${id}`);
         setTopic(res.data.topic);
+        console.log(res.data.topic);
+        checkLike = res.data.topic["Likes"];
+        console.log(typeof checkLike);
+        for (const like of checkLike) {
+          console.log("log", like);
+
+          if (like.userId === user.id) setLike(true);
+        }
       } catch (err) {
         console.log(err);
         console.dir(err);
@@ -58,53 +69,96 @@ function Topic() {
   console.log(topic);
   console.log(report);
 
+  // console.log("checkLike", checkLike);
+  // console.log(typeof checkLike);
+  // for (const like of checkLike) {
+  //   console.log(like);
+  //   // if (like.userId === user.id) setLike(true);
+  // }
+
   const handleReport = () => {
     console.log("report");
     setReport(true);
   };
 
-  const [like, setLike] = useState(false);
-  const handleLike = () => {
-    console.log(like);
-    setLike((prev) => !prev);
+  const handleLike = async () => {
+    const Likes = topic.Likes;
+    if (!like) {
+      const res = await axios.post(`/user/likes/topic/${topic.id}`);
+      console.log(res.data.like);
+      Likes.push(res.data.like);
+      console.log("Like", Likes);
+      setTopic((prev) => ({ ...prev, Likes }));
+      setLike(true);
+    } else {
+      console.log(like);
+      const res = await axios.delete(`/user/likes/topic/${topic.id}`);
+      const unLike = Likes.filter((item) => item.userId !== user.id);
+      console.log(unLike);
+      setTopic((prev) => ({ ...prev, Likes: unLike }));
+      setLike(false);
+    }
   };
   console.log(like);
   const handleEditTopic = () => {};
   const handleDeleteTopic = () => {};
-
+  console.log(addCommentContent);
   const handleAddComment = async (e) => {
     try {
       e.preventDefault();
-      console.log(commentContent, topic.id);
+      console.log(addCommentContent, topic.id);
       const res = await axios.post("/user/comments", {
-        commentContent,
+        commentContent: addCommentContent,
         topicId: topic.id,
       });
-      console.log(res);
-      setTopic((prev) =>
-        prev.Comments.push({ commentContent, topicId: topic.id })
-      );
-      setCommentContent("");
+      console.log(res.data.comment.id);
+      let comment = topic.Comments;
+      comment.push({
+        id: res.data.comment.id,
+        commentContent: addCommentContent,
+        topicId: topic.id,
+        User: user,
+      });
+      setTopic((prev) => ({ ...prev, Comments: comment }));
+
+      setAddCommentContent("");
     } catch (err) {
       console.log(err);
     }
   };
 
-  const handleEditComment = async (e, id) => {
+  const handleEditComment = async (e, userId, commentId) => {
+    console.log(userId, commentId);
     try {
       e.preventDefault();
-      console.log(commentContent, topic.id);
-      const res = await axios.patch(`/user/comments/${id}`, {
-        commentContent,
-        topicId: topic.id,
-      });
-      setTopic((prev) =>
-        prev.Comments.push({ commentContent, topicId: topic.id })
+      console.log(editCommentContent, topic.id, id);
+      let comment = topic.Comments;
+      console.log(comment);
+      const Comments = comment.map((item) =>
+        item.id === commentId
+          ? { ...item, commentContent: editCommentContent }
+          : { ...item }
       );
-      setCommentContent("");
+      console.log(Comments);
+      setTopic((prev) => ({ ...prev, Comments }));
+      console.log(topic);
+      // const res = await axios.patch(`/user/comments/${id}`, {
+      //   commentContent,
+      //   topicId: topic.id,
+      // });
+      // setTopic((prev) =>
+      //   prev.Comments.push({ commentContent, topicId: topic.id })
+      // );
+      setEditComment((prev) => (prev.status = false));
+      setEditCommentContent("");
     } catch (err) {
       console.log(err);
     }
+  };
+  const linkToUserPage = (e, id) => {
+    console.log(id);
+
+    history.push(`/user/${id}`);
   };
   return (
     <>
@@ -485,7 +539,7 @@ function Topic() {
               >
                 <div>
                   <img
-                    src={item.User.userImg}
+                    src={item?.User?.userImg}
                     style={{
                       height: "50px",
                       width: "50px",
@@ -496,20 +550,29 @@ function Topic() {
                 </div>
                 <div>
                   <a
-                    onClick={() => history.push(`/user/${item.User.id}`)}
+                    onClick={(e) => linkToUserPage(e, item.User.id)}
                     style={{}}
                   >
-                    <strong>{item.User.username}</strong>
+                    <strong>{item?.User?.username}</strong>
                   </a>
-                  {item.User.id === user.id && editComment ? (
-                    <form onSubmit={(e) => handleEditComment(e, item.User.id)}>
+                  {item.User.id === user.id &&
+                  editComment.status &&
+                  editComment.id === item.id ? (
+                    <form
+                      key={item.id}
+                      onSubmit={(e) =>
+                        handleEditComment(e, item.User.id, item.id)
+                      }
+                    >
                       <textarea
-                        value={item.commentContent}
-                        onChange={(e) => setCommentContent(e.target.value)}
+                        value={editCommentContent}
+                        onChange={(e) => setEditCommentContent(e.target.value)}
                         style={{ width: "30vw" }}
+                        defaultValue={item.commentContent}
                       />
 
                       <button
+                        key={item.id}
                         style={{
                           backgroundColor: "#edd1b0",
                           border: "none",
@@ -522,14 +585,18 @@ function Topic() {
                     <div>{item.commentContent}</div>
                   )}
                 </div>
-                {item.User.id === user.id && !editComment ? (
+                {item.User.id === user.id && !editComment.status ? (
                   <div>
                     <button
+                      key={item.id}
                       style={{
                         backgroundColor: "#edd1b0",
                         border: "none",
                       }}
-                      onClick={() => setEditComment(true)}
+                      onClick={() => {
+                        setEditComment({ status: true, id: item.id });
+                        setEditCommentContent(item.commentContent);
+                      }}
                     >
                       <img
                         src={editIcon}
@@ -572,8 +639,8 @@ function Topic() {
               <div>
                 <form onSubmit={(e) => handleAddComment(e)}>
                   <textarea
-                    value={commentContent}
-                    onChange={(e) => setCommentContent(e.target.value)}
+                    value={addCommentContent}
+                    onChange={(e) => setAddCommentContent(e.target.value)}
                     style={{ width: "30vw" }}
                   />
 
