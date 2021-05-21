@@ -15,6 +15,8 @@ import { AuthContext } from "../contexts/AuthContextProvider";
 
 import ModalReportTopic from "./modals/ModalReportTopic";
 
+import Swal from "sweetalert2";
+
 function Topic() {
   //modal Report
   const [topicDetail, setTopicDetail] = useState();
@@ -52,9 +54,9 @@ function Topic() {
       try {
         const res = await axios.get(`/topics/active/${id}`);
         setTopic(res.data.topic);
-        console.log(res.data.topic);
+        // console.log(res.data.topic);
         let checkLike = res.data.topic["Likes"];
-        console.log(typeof checkLike);
+        // console.log(typeof checkLike);
         for (const like of checkLike) {
           console.log("log", like);
 
@@ -71,13 +73,13 @@ function Topic() {
         }
       } catch (err) {
         console.log(err);
-        console.dir(err);
+        // console.dir(err);
       }
     };
     getTopic();
   }, [id]);
-  console.log(topic);
-  console.log(report);
+  // console.log(topic);
+  // console.log(report);
 
   // console.log("checkLike", checkLike);
   // console.log(typeof checkLike);
@@ -109,10 +111,54 @@ function Topic() {
       setLike(false);
     }
   };
-  console.log(like);
-  const handleEditTopic = () => {};
-  const handleDeleteTopic = () => {};
-  console.log(addCommentContent);
+  // console.log(like);
+
+  const handleEditTopic = () => {
+    try {
+      console.log("edit CLICK");
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const handleDeleteTopic = async (e, topicId, authorId) => {
+    // console.log("delete CLICK", "topicId", topicId, "authorId", authorId);
+    // console.log("userIdContext", user.id);
+    try {
+      // validate
+      if (authorId !== user.id) {
+        throw Error("Cannot delete other's topic.");
+      }
+
+      const confirmDeleteTopic = await Swal.fire({
+        text: `คุณต้องการลบกระทู้นี้ใช่ไหม?`,
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "ใช่",
+        cancelButtonText: "ไม่ใช่",
+      });
+
+      if (!confirmDeleteTopic.isConfirmed) {
+        return;
+      }
+
+      const inactiveUrTopic = await axios.patch("/topics/inactive/" + topicId, {
+        topicStatus: "INACTIVE",
+      });
+
+      await Swal.fire({
+        icon: "success",
+        text: "ลบกระทู้สำเร็จ",
+      });
+      history.push("/");
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  // console.log(addCommentContent);
   const handleAddComment = async (e) => {
     try {
       e.preventDefault();
@@ -329,7 +375,9 @@ function Topic() {
                         backgroundColor: "#edd1b0",
                         border: "none",
                       }}
-                      onClick={handleDeleteTopic}
+                      onClick={(e) =>
+                        handleDeleteTopic(e, topic.id, topic.User.id)
+                      }
                     >
                       <img
                         src={deleteIcon}
