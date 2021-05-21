@@ -13,8 +13,11 @@ import { AuthContext } from "../contexts/AuthContextProvider";
 
 import moment from "moment";
 import axios from "../config/axios";
+import { useHistory } from "react-router";
 
 function UserTopicList() {
+  const history = useHistory();
+
   const { user } = useContext(AuthContext);
   // console.log(user);
 
@@ -243,7 +246,9 @@ function UserTopicList() {
               >
                 <div>
                   <a href="#" style={{ textDecoration: "none" }}>
-                    <strong>{item.topicName.slice(0, 35) + "..."}</strong>
+                    <strong onClick={() => history.push(`/topic/${item.id}`)}>
+                      {item.topicName.slice(0, 35) + "..."}
+                    </strong>
                   </a>
                 </div>
                 <div
