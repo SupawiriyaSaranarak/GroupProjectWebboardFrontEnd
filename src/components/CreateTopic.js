@@ -70,7 +70,7 @@ function CreateTopic() {
       history.push(`/topic/${response.data.newTopic.id}`);
     } catch (err) {
       console.log(err);
-      console.dir(err);
+      // console.dir(err);
     }
   };
   return (
