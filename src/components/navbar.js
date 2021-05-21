@@ -181,7 +181,7 @@ function Navbar({ Icon, Icon2 }) {
             )}
             {user && (
               <p className="mt-1 ml-3" style={{ paddingTop: "5px" }}>
-                TomAndJerry
+                {user.username}
               </p>
             )}
             <PopoverLogout />
