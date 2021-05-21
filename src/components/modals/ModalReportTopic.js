@@ -48,6 +48,7 @@ function ModalReportTopic(props) {
         title: `Report TopicId ${props.topicDetail.id} สำเร็จ`,
         icon: "success",
       });
+      props.handleReport();
 
       props.closeModalReport();
       props.setTopicDetail();
