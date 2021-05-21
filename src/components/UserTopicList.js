@@ -329,7 +329,7 @@ function UserTopicList() {
           {/* dashboard topic item */}
           {userTopic?.map((item) => {
             return (
-              <div className="topic-item">
+              <div className="topic-item" key={item.id}>
                 <div
                   style={{
                     width: "15%",

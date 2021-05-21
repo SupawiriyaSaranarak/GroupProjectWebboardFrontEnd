@@ -220,7 +220,7 @@ function UserTopicList() {
           </div>
           {/* dashboard topic item */}
           {myLastTopic?.map((item) => (
-            <div className="topic-item">
+            <div className="topic-item" key={item.id}>
               <div
                 style={{
                   width: "15%",

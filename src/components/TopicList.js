@@ -272,7 +272,7 @@ function TopicList() {
           </div>
           {/* dashboard topic item */}
           {lastedTopic?.map((item) => {
-            console.log(item);
+            // console.log(item);
             return (
               <div className="topic-item" key={item.id}>
                 <div
