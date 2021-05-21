@@ -7,14 +7,10 @@ import calendarIcon from "../public/images/calendarIcon.png";
 import pinBlackIcon from "../public/images/pinBlackIcon.png";
 import pinRedIcon from "../public/images/pinRedIcon.png";
 
-import userIcon from "../public/images/userIcon.png";
-
-import { AuthContext } from "../contexts/AuthContextProvider";
-
 import moment from "moment";
 import axios from "../config/axios";
 
-import { useParams } from "react-router";
+import { useHistory, useParams } from "react-router";
 
 function RoomTopics() {
   const { roomId } = useParams();
@@ -45,9 +41,11 @@ function RoomTopics() {
       // console.dir(err);
     }
   };
-  console.log(roomByParams);
-  console.log(topicByRoomData);
-  console.log(pinByRoomData);
+  // console.log(roomByParams);
+  // console.log(topicByRoomData);
+  // console.log(pinByRoomData);
+
+  const history = useHistory();
 
   return (
     <>
@@ -212,7 +210,7 @@ function RoomTopics() {
                 objectPosition: "50% 50%",
               }}
             />
-            <a onClick={() => console.log("user.id")}>
+            <a>
               <h1>{roomByParams?.roomName}</h1>{" "}
             </a>
           </div>
@@ -254,7 +252,9 @@ function RoomTopics() {
               >
                 <div>
                   <a href="#" style={{ textDecoration: "none" }}>
-                    <strong>{item.topicName.slice(0, 35) + "..."}</strong>
+                    <strong onClick={() => history.push(`/topic/${item.id}`)}>
+                      {item.topicName.slice(0, 35) + "..."}
+                    </strong>
                   </a>
                 </div>
                 <div
@@ -274,9 +274,14 @@ function RoomTopics() {
                     <img
                       style={{ width: "20px", height: "20px" }}
                       src={item.User.userImg}
+                      onClick={() => history.push(`/user/${item.User.id}`)}
                     />{" "}
                     &nbsp;&nbsp;
-                    <a href="#" style={{ textDecoration: "none" }}>
+                    <a
+                      href="#"
+                      style={{ textDecoration: "none" }}
+                      onClick={() => history.push(`/user/${item.User.id}`)}
+                    >
                       {item.User.username}
                     </a>
                   </div>
