@@ -95,7 +95,7 @@ function App() {
           <Route key={index} exact path={el.path} component={el.component} />
         ))}
 
-      { !user &&
+      {!user &&
         guessRoutes.map((el, index) => (
           <Route key={index} exact path={el.path} component={el.component} />
         ))}

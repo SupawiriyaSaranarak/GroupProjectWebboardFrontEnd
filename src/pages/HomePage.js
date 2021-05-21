@@ -41,10 +41,7 @@ function HomePage() {
 
   return (
     <div>
-      <div
-        style={{ height: "80px", backgroundColor: "#faf3e0",width:"100%" }}
-        className="header"
-      >
+      <div>
         <Navbar Icon={HomeIcon} Icon2={PencilIcon} />
       </div>
       <div className="content-body">
