@@ -76,7 +76,7 @@ function TopicManage() {
         }
       });
     } catch (error) {
-      console.dir(err);
+      console.dir(error);
     }
   };
 

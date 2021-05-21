@@ -4,7 +4,6 @@ import localStorageService from "../../services/localStorageService";
 import jwtDecode from "jwt-decode";
 import { AuthContext } from "../../contexts/AuthContextProvider";
 import { useHistory } from "react-router-dom";
-import jwtDecode from "jwt-decode";
 
 function Register() {
   const [input, setInput] = useState({});

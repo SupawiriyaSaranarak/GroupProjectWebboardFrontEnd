@@ -1,5 +1,5 @@
 import React from "react";
-
+import moment from "moment";
 // Modal import
 import Modal from "react-modal";
 const customStyles = {
@@ -12,8 +12,6 @@ const customStyles = {
     transform: "translate(-50%, -50%)",
   },
 };
-
-import moment from "moment";
 
 function ModalTopicDetail(props) {
   const handlerOnClick = (e) => {
