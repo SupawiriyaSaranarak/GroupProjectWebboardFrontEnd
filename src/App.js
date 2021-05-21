@@ -12,6 +12,7 @@ import CreateTopicPage from "./pages/CreateTopicPage";
 import UserPage from "./pages/UserPage";
 import AdminPage from "./pages/AdminPage";
 import MyPage from "./pages/MyPage";
+import RoomListsTopicPage from "./pages/RoomListsTopicPage";
 
 const adminRoutes = [
   {
@@ -38,6 +39,10 @@ const adminRoutes = [
     path: "/",
     component: HomePage,
   },
+  {
+    path: "/room/:roomId",
+    component: RoomListsTopicPage,
+  },
 ];
 
 const userRoutes = [
@@ -61,6 +66,10 @@ const userRoutes = [
     path: "/",
     component: HomePage,
   },
+  {
+    path: "/room/:roomId",
+    component: RoomListsTopicPage,
+  },
 ];
 const guessRoutes = [
   {
@@ -78,6 +87,10 @@ const guessRoutes = [
   {
     path: "/",
     component: HomePage,
+  },
+  {
+    path: "/room/:roomId",
+    component: RoomListsTopicPage,
   },
 ];
 

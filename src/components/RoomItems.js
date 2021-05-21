@@ -1,8 +1,13 @@
 import React from "react";
+import { useHistory } from "react-router";
 
 function RoomItems(props) {
+  const history = useHistory();
+
   const handlerClick = (e, room) => {
-    console.log("Click", room.id);
+    // console.log("Click", room.id);
+
+    history.push("/room/" + room.id);
   };
 
   return (
