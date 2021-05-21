@@ -43,6 +43,7 @@ const adminRoutes = [
     path: "/room/:roomId",
     component: RoomListsTopicPage,
   },
+  
 ];
 
 const userRoutes = [
@@ -70,6 +71,7 @@ const userRoutes = [
     path: "/room/:roomId",
     component: RoomListsTopicPage,
   },
+ 
 ];
 const guessRoutes = [
   {
@@ -96,9 +98,10 @@ const guessRoutes = [
 
 function App() {
   const { user } = useContext(AuthContext);
+  
   return (
     <Switch>
-      {/* {console.log(user)} */}
+      {console.log(user)}
       {user &&
         user.userRole === "ADMIN" &&
         adminRoutes.map((el, index) => (

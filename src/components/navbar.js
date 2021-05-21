@@ -7,6 +7,12 @@ import InputBase from "@material-ui/core/InputBase";
 import SearchIcon from "@material-ui/icons/Search";
 import { useState } from "react";
 import PopoverLogout from "../components/LogoutAndProfilePopover"
+import { Button } from "@material-ui/core";
+import { useContext } from "react";
+import { AuthContext } from "../contexts/AuthContextProvider";
+import { useHistory } from "react-router-dom";
+
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -63,8 +69,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function Navbar({ Icon, Icon2 }) {
-    const [search, setSearch] = useState("");
-    const [anchorEl, setAnchorEl] = useState(null);
+  const [search, setSearch] = useState("");
+  const [anchorEl, setAnchorEl] = useState(null);
+  const { user } = useContext(AuthContext);
+  const history = useHistory();
 
   const classes = useStyles();
 
@@ -86,7 +94,6 @@ function Navbar({ Icon, Icon2 }) {
           width: "100%",
         }}
       >
-        
         <div style={{ display: "flex", justifyContent: "space-between" }}>
           <div style={{ display: "flex" }}>
             <div>
@@ -130,6 +137,7 @@ function Navbar({ Icon, Icon2 }) {
               </p>
             </div>
           </div>
+
           <div
             style={{
               display: "flex",
@@ -141,19 +149,40 @@ function Navbar({ Icon, Icon2 }) {
               marginRight: "60px",
             }}
           >
-            <Avatar
-              className={classes.small}
-              style={{
-                marginTop: "2px",
-                marginLeft: "6px",
-              }}
-            >
-              H
-            </Avatar>
-            <p className="mt-1 ml-3" style={{ paddingTop: "5px" }}>
-              TomAndJerry
-            </p>
-            <PopoverLogout/>
+            {!user && (
+              <Button
+                color="primary"
+                variant="contained"
+                onClick={(e) => history.push("/login")
+                }
+                style={{
+                  border: "none",
+                  outline: "none",
+                  height: "30px",
+                  margin: "0 auto",
+                  marginTop:"7px"
+                }}
+              >
+                Login
+              </Button>
+            )}
+            {user && (
+              <Avatar
+                className={classes.small}
+                style={{
+                  marginTop: "2px",
+                  marginLeft: "6px",
+                }}
+              >
+                H
+              </Avatar>
+            )}
+            {user && (
+              <p className="mt-1 ml-3" style={{ paddingTop: "5px" }}>
+                TomAndJerry
+              </p>
+            )}
+            <PopoverLogout />
           </div>
         </div>
       </div>

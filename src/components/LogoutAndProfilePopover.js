@@ -27,14 +27,19 @@ export default function SimpleMenu() {
   };
 
   const handleLogOut = (e) => {
+    try{
     e.preventDefault();
-    localStorageService.clearToken();
-    history.push("/");
+    localStorageService.clearToken()
+     window.location.reload();
+    }catch(err){
+       console.log({ front: err.message });
+    }
+   
   };
 
   return (
     <div>
-      <IconButton
+      {user &&<IconButton
         style={{
           border: "none",
           outline: "none",
@@ -42,7 +47,7 @@ export default function SimpleMenu() {
         onClick={handleClick}
       >
         <ExpandMoreIcon />
-      </IconButton>
+      </IconButton>}
       <Menu
         id="simple-menu"
         anchorEl={anchorEl}

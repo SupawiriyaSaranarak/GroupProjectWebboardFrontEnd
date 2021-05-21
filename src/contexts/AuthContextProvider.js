@@ -9,9 +9,11 @@ function AuthContextProvider({ children }) {
   // const [isAuthenticated, setIsAuthenticated] = useState(
   //   localStorageService.getToken()
   // );
+  // const [isAuthenticated, setIsAuthenticated] = useState(localStorageService.getToken())
+
   const payload = localStorageService.getToken()
     ? jwtDecode(localStorageService.getToken())
-    : null;
+    : false;
   const [user, setUser] = useState(payload);
   return (
     <AuthContext.Provider value={{ user, setUser }}>
