@@ -6,9 +6,6 @@ import InputBase from "@material-ui/core/InputBase";
 import SearchIcon from "@material-ui/icons/Search";
 import { useState, useEffect } from "react";
 
-
-
-
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -70,17 +67,22 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-
-
 function Navbar({ Icon, Icon2 }) {
-    const [search, setSearch] = useState("");
+  const [search, setSearch] = useState("");
 
-    const classes = useStyles();
-
+  const classes = useStyles();
 
   return (
     <>
-      <div style={{ display: "flex", justifyContent: "space-between" }}>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          height: "80px",
+          backgroundColor: "#faf3e0",
+          width: "100%",
+        }}
+      >
         <div style={{ display: "flex" }}>
           <div>
             <Link on to="/">
@@ -110,7 +112,7 @@ function Navbar({ Icon, Icon2 }) {
         </div>
 
         <div
-          style={{ display: "flex", position:"relative", right:"40px" }}
+          style={{ display: "flex", position: "relative", right: "40px" }}
           className="flex  mt-3"
         >
           <div className="group  sm:w-20 flex flex-col cursor-pointer  hover:text-yellow-500 items-center">
@@ -138,7 +140,8 @@ function Navbar({ Icon, Icon2 }) {
             marginRight: "60px",
           }}
         >
-          <Avatar className={classes.small}
+          <Avatar
+            className={classes.small}
             style={{
               marginTop: "2px",
               marginLeft: "6px",

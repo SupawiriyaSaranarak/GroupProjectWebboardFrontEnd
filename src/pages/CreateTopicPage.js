@@ -10,7 +10,7 @@ import LOGO from "../img/LOGO.png";
 function CreateTopicPage() {
   return (
     <div>
-      <div style={{ height: "100px", padding: "30px" }} className="header">
+      <div className="header">
         <Navbar Icon={HomeIcon} Icon2={PencilIcon} />
       </div>
       <div className="content-body">

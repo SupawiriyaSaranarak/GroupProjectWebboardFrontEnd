@@ -132,6 +132,10 @@ function Topic() {
     try {
       e.preventDefault();
       console.log(editCommentContent, topic.id, id);
+      const res = await axios.patch(`/user/comments/${id}`, {
+        commentContent,
+        topicId: topic.id,
+      });
       let comment = topic.Comments;
       console.log(comment);
       const Comments = comment.map((item) =>
@@ -142,18 +146,16 @@ function Topic() {
       console.log(Comments);
       setTopic((prev) => ({ ...prev, Comments }));
       console.log(topic);
-      // const res = await axios.patch(`/user/comments/${id}`, {
-      //   commentContent,
-      //   topicId: topic.id,
-      // });
-      // setTopic((prev) =>
-      //   prev.Comments.push({ commentContent, topicId: topic.id })
-      // );
+
       setEditComment((prev) => (prev.status = false));
       setEditCommentContent("");
     } catch (err) {
       console.log(err);
     }
+  };
+  const handleDeleteComment = (e, userId, commentId) => {
+    console.log(userId, commentId);
+    let comment = topic.Comments;
   };
   const linkToUserPage = (e, id) => {
     console.log(id);
@@ -284,6 +286,7 @@ function Topic() {
                 <>
                   <div>
                     <button
+                      className="button"
                       style={{
                         backgroundColor: "#edd1b0",
                         border: "none",
@@ -303,6 +306,7 @@ function Topic() {
                   <div>
                     {" "}
                     <button
+                      className="button"
                       style={{
                         backgroundColor: "#edd1b0",
                         border: "none",
@@ -323,6 +327,7 @@ function Topic() {
               ) : (
                 <div>
                   <button
+                    className="button"
                     style={{
                       backgroundColor: "#edd1b0",
                       border: "none",
@@ -392,6 +397,7 @@ function Topic() {
               }}
             >
               <button
+                className="button"
                 style={{
                   backgroundColor: "#edd1b0",
                   border: "none",
@@ -409,6 +415,7 @@ function Topic() {
               </button>
               &nbsp;&nbsp;
               <button
+                className="button"
                 style={{
                   backgroundColor: "#edd1b0",
                   border: "none",
@@ -427,6 +434,7 @@ function Topic() {
               }}
             >
               <button
+                className="button"
                 style={{
                   backgroundColor: "#edd1b0",
                   border: "none",
@@ -443,6 +451,7 @@ function Topic() {
               </button>
               &nbsp;&nbsp;
               <button
+                className="button"
                 style={{
                   backgroundColor: "#edd1b0",
                   border: "none",
@@ -533,61 +542,68 @@ function Topic() {
                   paddingBottom: "5px",
                   display: "flex",
                   flexDirection: "row",
-                  justifyContent: "flex-start",
+                  justifyContent: "space-between",
                   alignItems: "center",
                 }}
               >
-                <div>
-                  <img
-                    src={item?.User?.userImg}
-                    style={{
-                      height: "50px",
-                      width: "50px",
-                      borderRadius: "50px",
-                      margin: "0 15px",
-                    }}
-                  />
-                </div>
-                <div>
-                  <a
-                    onClick={(e) => linkToUserPage(e, item.User.id)}
-                    style={{}}
-                  >
-                    <strong>{item?.User?.username}</strong>
-                  </a>
-                  {item.User.id === user.id &&
-                  editComment.status &&
-                  editComment.id === item.id ? (
-                    <form
-                      key={item.id}
-                      onSubmit={(e) =>
-                        handleEditComment(e, item.User.id, item.id)
-                      }
+                <div style={{ display: "flex", flexDirection: "row" }}>
+                  <div>
+                    <img
+                      src={item?.User?.userImg}
+                      style={{
+                        height: "50px",
+                        width: "50px",
+                        borderRadius: "50px",
+                        margin: "0 15px",
+                      }}
+                    />{" "}
+                  </div>
+                  <div>
+                    <a
+                      onClick={(e) => linkToUserPage(e, item.User.id)}
+                      style={{}}
                     >
-                      <textarea
-                        value={editCommentContent}
-                        onChange={(e) => setEditCommentContent(e.target.value)}
-                        style={{ width: "30vw" }}
-                        defaultValue={item.commentContent}
-                      />
-
-                      <button
+                      {" "}
+                      <strong>{item?.User?.username}</strong>{" "}
+                    </a>
+                    {item.User.id === user.id &&
+                    editComment.status &&
+                    editComment.id === item.id ? (
+                      <form
                         key={item.id}
-                        style={{
-                          backgroundColor: "#edd1b0",
-                          border: "none",
-                        }}
+                        onSubmit={(e) =>
+                          handleEditComment(e, item.User.id, item.id)
+                        }
                       >
-                        Edit Comment
-                      </button>
-                    </form>
-                  ) : (
-                    <div>{item.commentContent}</div>
-                  )}
+                        <textarea
+                          value={editCommentContent}
+                          onChange={(e) =>
+                            setEditCommentContent(e.target.value)
+                          }
+                          style={{ width: "30vw" }}
+                          defaultValue={item.commentContent}
+                        />
+
+                        <button
+                          className="button"
+                          key={item.id}
+                          style={{
+                            backgroundColor: "#edd1b0",
+                            border: "none",
+                          }}
+                        >
+                          Edit Comment
+                        </button>
+                      </form>
+                    ) : (
+                      <div>{item.commentContent}</div>
+                    )}
+                  </div>
                 </div>
                 {item.User.id === user.id && !editComment.status ? (
                   <div>
                     <button
+                      className="button"
                       key={item.id}
                       style={{
                         backgroundColor: "#edd1b0",
@@ -600,6 +616,26 @@ function Topic() {
                     >
                       <img
                         src={editIcon}
+                        alt="edit-icon"
+                        style={{
+                          width: "20px",
+                          height: "20px",
+                        }}
+                      />
+                    </button>
+                    <button
+                      className="button"
+                      key={item.id}
+                      style={{
+                        backgroundColor: "#edd1b0",
+                        border: "none",
+                      }}
+                      onClick={(e) =>
+                        handleDeleteComment(e, item.User.id, item.id)
+                      }
+                    >
+                      <img
+                        src={deleteIcon}
                         alt="edit-icon"
                         style={{
                           width: "20px",
@@ -645,9 +681,11 @@ function Topic() {
                   />
 
                   <button
+                    className="button"
                     style={{
                       backgroundColor: "#edd1b0",
                       border: "none",
+                      maginLeft: "40px",
                     }}
                   >
                     Comment

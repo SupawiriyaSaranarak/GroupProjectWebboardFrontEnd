@@ -375,7 +375,7 @@ function CreateTopic() {
             <br />
             <br />
             <div style={{ display: "flex", justifyContent: "center" }}>
-              <button className="create-topic-button">Create Topic</button>
+              <button className="button">Create Topic</button>
             </div>
           </form>
         </div>
