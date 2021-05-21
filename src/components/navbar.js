@@ -6,19 +6,17 @@ import { fade, makeStyles } from "@material-ui/core/styles";
 import InputBase from "@material-ui/core/InputBase";
 import SearchIcon from "@material-ui/icons/Search";
 import { useState } from "react";
-import PopoverLogout from "../components/LogoutAndProfilePopover"
+import PopoverLogout from "../components/LogoutAndProfilePopover";
 import { Button } from "@material-ui/core";
 import { useContext } from "react";
 import { AuthContext } from "../contexts/AuthContextProvider";
 import { useHistory } from "react-router-dom";
 
-
-
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
   },
-  
+
   title: {
     flexGrow: 1,
     display: "none",
@@ -28,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
   },
   search: {
     position: "relative",
-    top:"20px",
+    top: "20px",
     borderRadius: theme.shape.borderRadius,
     backgroundColor: fade(theme.palette.common.white, 2),
     "&:hover": {
@@ -76,7 +74,6 @@ function Navbar({ Icon, Icon2 }) {
 
   const classes = useStyles();
 
-  
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -125,13 +122,19 @@ function Navbar({ Icon, Icon2 }) {
             className="flex  mt-3"
           >
             <div className="group  sm:w-20 flex flex-col cursor-pointer  hover:text-yellow-500 items-center">
-              <Icon className="h-10 transform group-hover:transition delay-150 duration-150 " />
+              <Icon
+                className="h-10 transform group-hover:transition delay-150 duration-150 "
+                onClick={(e) => history.push("/")}
+              />
               <p className="opacity-0 group-hover:opacity-100 group-hover:transition delay-150 duration-150 font-bold tracking-widest">
                 Home
               </p>
             </div>
             <div className="group flex flex-col cursor-pointer hover:text-yellow-500  items-center">
-              <Icon2 className="h-10 group-hover:transition delay-150 duration-150 ease-in-out ..." />
+              <Icon2
+                className="h-10 group-hover:transition delay-150 duration-150 ease-in-out ..."
+                onClick={(e) => history.push("/create-topic")}
+              />
               <p className="opacity-0 group-hover:opacity-100 font-bold group-hover:transition delay-150 duration-150 tracking-widest">
                 Post
               </p>
@@ -153,17 +156,16 @@ function Navbar({ Icon, Icon2 }) {
               <Button
                 color="primary"
                 variant="contained"
-                onClick={(e) => history.push("/login")
-                }
+                onClick={(e) => history.push("/login")}
                 style={{
                   border: "none",
                   outline: "none",
                   height: "30px",
                   margin: "0 auto",
-                  marginTop:"7px"
+                  marginTop: "7px",
                 }}
               >
-                 Go to Login
+                Go to Login
               </Button>
             )}
             {user && (
