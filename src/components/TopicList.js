@@ -1,40 +1,76 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import commentIcon from "../public/images/commentIcon.png";
 import redHeartIcon from "../public/images/redHeartIcon.png";
 import calendarIcon from "../public/images/calendarIcon.png";
-import pinBlackIcon from "../public/images/pinBlackIcon.png";
-import pinRedIcon from "../public/images/pinRedIcon.png";
+import PinRedIcon from "../public/images/pinRedIcon.png";
+import PinBlackIcon from "../public/images/pinBlackIcon.png";
 import userIcon from "../public/images/userIcon.png";
 import axios from "../config/axios";
+import { PinContext } from "../contexts/PinContextProvider";
+import { AuthContext } from "../contexts/AuthContextProvider";
 
 function TopicList() {
-  const [lastedTopic, setLastedTopi] = useState([]);
+  const [lastedTopic, setLastedTopic] = useState([]);
   const [hotTopic, setHotTopic] = useState([]);
-
-  const fetchLastedTopic = async () => {
-    try {
-      const res = await axios.get("topics/latest-topics");
-      setLastedTopi(res.data.lastestTopics);
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  const fetchHotTopic = async () => {
-    try {
-      const res = await axios.get("topics/hot-topics");
-      setHotTopic(res.data.topicss);
-    } catch (err) {
-      console.log(err);
-    }
-  };
-  // console.log(hotTopic);
+  const { user } = useContext(AuthContext);
+  const { pin, setPin, pinTrigger, setPinTrigger } = useContext(PinContext);
 
   useEffect(() => {
-    fetchLastedTopic();
-    fetchHotTopic();
-  }, []);
+    const getAllTopic = async () => {
+      try {
+        const res1 = await axios.get("topics/latest-topics");
 
+        const latesttopic = res1.data.lastestTopics;
+        const res = await axios.get("topics/hot-topics");
+
+        const hottopic = res.data.topicss;
+
+        const newLatestTopic = latesttopic.map((topic) => {
+          return topic.Pins.filter((pin) => pin.userId === user.id)[0]
+            ? { ...topic, pinned: "YES" }
+            : { ...topic, pinned: "NO" };
+        });
+
+        console.log("latestTop", latesttopic);
+        console.log("newlatestTop", newLatestTopic);
+
+        const newHotTopic = hottopic.map((topic) => {
+          return topic.Pins.filter((pin) => pin.userId === user.id)[0]
+            ? { ...topic, pinned: "YES" }
+            : { ...topic, pinned: "NO" };
+        });
+        setLastedTopic(newLatestTopic);
+        setHotTopic(newHotTopic);
+        console.log("hotTop", hottopic);
+        console.log("newHotTop", newHotTopic);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    getAllTopic();
+  }, [pinTrigger]);
+
+  const handlePin = async (e, item, pinned) => {
+    console.log("xxx", item, pinned);
+    const topicId = item.id;
+    try {
+      if (pinned === "NO") {
+        const res = await axios.post("/user/pins/", { topicId });
+        setPinTrigger(!pinTrigger);
+      } else {
+        let pinId;
+        for (let p of item.Pins) {
+          console.log("p", p, p.id);
+          if (p.topicId === item.id) pinId = p.id;
+        }
+        const res = await axios.delete(`/user/pins/${pinId}`);
+        setPin((prev) => prev.filter((item) => item.id !== pinId));
+        setPinTrigger(!pinTrigger);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
   return (
     <>
       <div style={{ width: "5%", height: "auto" }}></div>
@@ -247,10 +283,19 @@ function TopicList() {
                     width: "15%",
                   }}
                 >
-                  <img
-                    style={{ width: "20px", height: "20px" }}
-                    src={item.pin === "YES" ? pinRedIcon : pinBlackIcon}
-                  />
+                  <button
+                    className="button"
+                    style={{
+                      backgroundColor: "#edd1b0",
+                      border: "none",
+                    }}
+                    onClick={(e) => handlePin(e, item, item.pinned)}
+                  >
+                    <img
+                      style={{ width: "20px", height: "20px" }}
+                      src={item.pinned === "YES" ? PinRedIcon : PinBlackIcon}
+                    />
+                  </button>
                 </div>
               </div>
             );
@@ -405,10 +450,19 @@ function TopicList() {
                     width: "15%",
                   }}
                 >
-                  <img
-                    style={{ width: "20px", height: "20px" }}
-                    src={item?.pin === "YES" ? pinRedIcon : pinBlackIcon}
-                  />
+                  <button
+                    className="button"
+                    style={{
+                      backgroundColor: "#edd1b0",
+                      border: "none",
+                    }}
+                    onClick={(e) => handlePin(e, item, item.pinned)}
+                  >
+                    <img
+                      style={{ width: "20px", height: "20px" }}
+                      src={item.pinned === "YES" ? PinRedIcon : PinBlackIcon}
+                    />
+                  </button>
                 </div>
               </div>
             );
