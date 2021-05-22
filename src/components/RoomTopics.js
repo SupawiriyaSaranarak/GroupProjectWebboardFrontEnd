@@ -86,6 +86,7 @@ function RoomTopics() {
             style={{
               color: "rgb(167, 167, 167)",
               height: "auto",
+              textAlign: "center",
             }}
           >
             ROOM "{roomByParams?.roomName}"
