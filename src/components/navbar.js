@@ -76,7 +76,7 @@ function Navbar({ Icon, Icon2 }) {
 
   const classes = useStyles();
 
-  
+  console.log(user.userImg)
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -153,33 +153,33 @@ function Navbar({ Icon, Icon2 }) {
               <Button
                 color="primary"
                 variant="contained"
-                onClick={(e) => history.push("/login")
-                }
+                onClick={(e) => history.push("/login")}
                 style={{
                   border: "none",
                   outline: "none",
                   height: "30px",
                   margin: "0 auto",
-                  marginTop:"7px"
+                  marginTop: "7px",
                 }}
               >
-                 Go to Login
+                Go to Login
               </Button>
             )}
             {user && (
               <Avatar
+                src={
+                  "https://res.cloudinary.com/dvgvqcxyh/image/upload/v1618988876/mmzpyfiiffjdn1xpk7vl.jpg"
+                }
                 className={classes.small}
                 style={{
                   marginTop: "2px",
                   marginLeft: "6px",
                 }}
-              >
-                H
-              </Avatar>
+              ></Avatar>
             )}
             {user && (
-              <p className="mt-1 ml-3" style={{ paddingTop: "5px" }}>
-                TomAndJerry
+              <p className="mt-1 ml-3 mr-4" style={{ paddingTop: "5px", fontWeight:"bolder"}}>
+                {user.username}
               </p>
             )}
             <PopoverLogout />

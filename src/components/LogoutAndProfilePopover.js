@@ -43,6 +43,8 @@ export default function SimpleMenu() {
         style={{
           border: "none",
           outline: "none",
+          position: "fixed",
+          right:"70px"
         }}
         onClick={handleClick}
       >
@@ -55,7 +57,7 @@ export default function SimpleMenu() {
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >
-        <MenuItem onClick={handleClose}>Profile</MenuItem>
+        <MenuItem onClick={()=>history.push("/me")}>Profile</MenuItem>
         {user.userRole === "ADMIN" &&<MenuItem onClick={()=> history.push("/admin")}>Admin Page</MenuItem>}
         <MenuItem onClick={handleLogOut}>Logout</MenuItem>
       </Menu>
