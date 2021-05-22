@@ -6,10 +6,13 @@ import pinBlackIcon from "../public/images/pinBlackIcon.png";
 import pinRedIcon from "../public/images/pinRedIcon.png";
 import userIcon from "../public/images/userIcon.png";
 import axios from "../config/axios";
+import { useHistory } from "react-router-dom";
+
 
 function TopicList() {
   const [lastedTopic, setLastedTopi] = useState([]);
   const [hotTopic, setHotTopic] = useState([]);
+  const history = useHistory();
 
   const fetchLastedTopic = async () => {
     try {
@@ -139,8 +142,13 @@ function TopicList() {
                   }}
                 >
                   <div>
-                    <a href="#" style={{ textDecoration: "none" }}>
-                      <strong>{item.topicName.slice(0, 40) + "..."}</strong>
+                    <a style={{ textDecoration: "none" }}>
+                      <strong
+                        className="cursor-pointer"
+                        onClick={() => history.push(`/topic/${item.id}`)}
+                      >
+                        {item.topicName.slice(0, 40) + "..."}
+                      </strong>
                     </a>
                   </div>
                   <div
@@ -162,7 +170,11 @@ function TopicList() {
                         src={userIcon}
                       />
                       &nbsp;&nbsp;
-                      <a href="#" style={{ textDecoration: "none" }}>
+                      <a
+                        className="cursor-pointer"
+                        onClick={() => history.push(`/user/${item.User.id}`)}
+                        style={{ textDecoration: "none" }}
+                      >
                         {item?.User?.username}
                       </a>
                     </div>
@@ -296,8 +308,13 @@ function TopicList() {
                   }}
                 >
                   <div>
-                    <a href="#" style={{ textDecoration: "none" }}>
-                      <strong>{item?.topicName?.slice(0, 35) + "..."}</strong>
+                    <a style={{ textDecoration: "none" }}>
+                      <strong
+                        className="cursor-pointer"
+                        onClick={() => history.push(`/topic/${item.id}`)}
+                      >
+                        {item?.topicName?.slice(0, 35) + "..."}
+                      </strong>
                     </a>
                   </div>
                   <div
@@ -319,7 +336,11 @@ function TopicList() {
                         src={item?.User?.userImg}
                       />{" "}
                       &nbsp;&nbsp;
-                      <a href="#" style={{ textDecoration: "none" }}>
+                      <a
+                        className="cursor-pointer"
+                        onClick={() => history.push(`/user/${item.User.id}`)}
+                        style={{ textDecoration: "none" }}
+                      >
                         {item?.User?.username}
                       </a>
                     </div>
