@@ -6,14 +6,17 @@ import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter } from "react-router-dom";
 import AuthContextProvider from "./contexts/AuthContextProvider";
 import IsLoadingProvider from "./contexts/LoadingContextProvider";
+import PinContextProvider from "./contexts/PinContextProvider";
 
 ReactDOM.render(
   <React.StrictMode>
     <IsLoadingProvider>
       <AuthContextProvider>
-        <BrowserRouter>
-          <App />
-        </BrowserRouter>
+        <PinContextProvider>
+          <BrowserRouter>
+            <App />
+          </BrowserRouter>
+        </PinContextProvider>
       </AuthContextProvider>
     </IsLoadingProvider>
   </React.StrictMode>,

@@ -80,8 +80,7 @@ function CreateTopic() {
           display: "flex",
           flexDirection: "column",
           justifyContent: "flex-start",
-          padding: "20px",
-
+          padding: " 0 20px 20px",
           borderRadius: "10px",
           width: "50%",
         }}
@@ -188,8 +187,7 @@ function CreateTopic() {
           display: "flex",
           flexDirection: "column",
           justifyContent: "flex-start",
-          padding: "20px",
-
+          padding: " 0 20px 20px",
           borderRadius: "10px",
           width: "50%",
         }}

@@ -1,16 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import axios from "../config/axios";
 import service from "../services/localStorageService";
 import jwtDecode from "jwt-decode";
-
+import { PinContext } from "../contexts/PinContextProvider";
 import PinItems from "./PinItems";
 
 function PinBar() {
-  const [userPin, setUserPin] = useState([]);
+  const { pin, setPin, pinTrigger } = useContext(PinContext);
+  // const [pintrigger, setPintrigger] = React.useState(true);
 
-  useEffect(async () => {
-    await getUserPin();
-  }, []);
+  useEffect(() => {
+    getUserPin();
+  }, [pinTrigger]);
 
   const getUserPin = async () => {
     try {
@@ -30,12 +31,12 @@ function PinBar() {
         data: { pinned },
       } = resUserPinDat;
 
-      setUserPin(pinned);
+      setPin(pinned);
     } catch (err) {
       console.log(err);
     }
   };
-  // console.log(userPin);
+  console.log(pin);
 
   return (
     <div className="roomBar-container">
@@ -53,7 +54,7 @@ function PinBar() {
         </div>
       </div>
       <div className="roomBar-container-contentList">
-        {userPin?.map((item, index) => {
+        {pin?.map((item, index) => {
           return <PinItems item={item} key={item.id} getUserPin={getUserPin} />;
         })}
       </div>

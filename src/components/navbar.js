@@ -26,11 +26,12 @@ const useStyles = makeStyles((theme) => ({
   },
   search: {
     position: "relative",
-    top: "20px",
+    // top: "20px",
+    top: "10px",
     borderRadius: theme.shape.borderRadius,
-    backgroundColor: fade(theme.palette.common.white, 2),
+    backgroundColor: fade(theme.palette.common.black, 0.1),
     "&:hover": {
-      backgroundColor: fade(theme.palette.common.white, 2),
+      backgroundColor: fade(theme.palette.common.black, 0.2),
     },
     marginLeft: 0,
     width: "100%",
@@ -58,7 +59,8 @@ const useStyles = makeStyles((theme) => ({
     transition: theme.transitions.create("width"),
     width: "100%",
     [theme.breakpoints.up("sm")]: {
-      width: "12ch",
+      // width: "12ch",
+      width: "20ch",
       "&:focus": {
         width: "20ch",
       },
@@ -85,17 +87,29 @@ function Navbar({ Icon, Icon2 }) {
   return (
     <>
       <div
+        class="shadow-md"
         style={{
-          height: "80px",
-          backgroundColor: "#faf3e0",
+          // height: "80px",
+          height: "55px",
+          // backgroundColor: "#faf3e0",
+          backgroundColor: "white",
           width: "100%",
+          minWidth: "max-content",
+          marginBottom: "10px",
         }}
       >
         <div style={{ display: "flex", justifyContent: "space-between" }}>
           <div style={{ display: "flex" }}>
             <div>
               <Link on to="/">
-                <img style={{ height: "80px" }} src={ImgFile} layout="fixed" />
+                <img
+                  style={{
+                    // height: "80px",
+                    height: "55px",
+                  }}
+                  src={ImgFile}
+                  layout="fixed"
+                />
               </Link>
             </div>
             <div
@@ -119,25 +133,31 @@ function Navbar({ Icon, Icon2 }) {
 
           <div
             style={{ display: "flex", position: "relative", right: "45px" }}
-            className="flex  mt-3"
+            class="flex mt-2"
           >
-            <div className="group  sm:w-20 flex flex-col cursor-pointer  hover:text-yellow-500 items-center">
+            <div className="group sm:w-20 flex flex-col cursor-pointer hover:text-yellow-500 items-center">
               <Icon
                 className="h-10 transform group-hover:transition delay-150 duration-150 "
                 onClick={(e) => history.push("/")}
               />
-              <p className="opacity-0 group-hover:opacity-100 group-hover:transition delay-150 duration-150 font-bold tracking-widest">
+              <span
+                class="opacity-0 mt-3 w-20 h-6 text-center text-yellow-500 rounded-lg group-hover:opacity-100 group-hover:transition delay-150 duration-150 font-bold tracking-widest"
+                style={{ backgroundColor: "rgba(0, 0, 0, 0.75)" }}
+              >
                 Home
-              </p>
+              </span>
             </div>
-            <div className="group flex flex-col cursor-pointer hover:text-yellow-500  items-center">
+            <div className="group sm:w-20 flex flex-col cursor-pointer hover:text-yellow-500 items-center">
               <Icon2
                 className="h-10 group-hover:transition delay-150 duration-150 ease-in-out ..."
                 onClick={(e) => history.push("/create-topic")}
               />
-              <p className="opacity-0 group-hover:opacity-100 font-bold group-hover:transition delay-150 duration-150 tracking-widest">
+              <span
+                class="opacity-0 mt-3 w-20 h-6 text-center text-yellow-500 rounded-lg group-hover:opacity-100 font-bold group-hover:transition delay-150 duration-150 tracking-widest"
+                style={{ backgroundColor: "rgba(0, 0, 0, 0.75)" }}
+              >
                 Post
-              </p>
+              </span>
             </div>
           </div>
 
@@ -148,7 +168,8 @@ function Navbar({ Icon, Icon2 }) {
               borderRadius: "1.5rem",
               height: "45px",
               width: "200px",
-              marginTop: "15px",
+              // marginTop: "15px",
+              marginTop: "5px",
               marginRight: "60px",
             }}
           >
