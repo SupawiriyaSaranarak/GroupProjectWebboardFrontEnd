@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import axios from "../config/axios";
 import { useHistory } from "react-router";
 
+import {  useParams } from "react-router-dom";
 import commentIcon from "../public/images/commentIcon.png";
 import redHeartIcon from "../public/images/redHeartIcon.png";
 import calendarIcon from "../public/images/calendarIcon.png";
@@ -12,48 +13,25 @@ import userIcon from "../public/images/userIcon.png";
 import { PinContext } from "../contexts/PinContextProvider";
 import { AuthContext } from "../contexts/AuthContextProvider";
 
-function TopicList() {
-  const [lastedTopic, setLastedTopic] = useState([]);
-  const [hotTopic, setHotTopic] = useState([]);
+function SearchList() {
+  const [Topic, setTopic] = useState([]);
   const { user } = useContext(AuthContext);
   const { pin, setPin, pinTrigger, setPinTrigger } = useContext(PinContext);
   const history = useHistory();
+  const { search } = useParams();
 
   useEffect(() => {
     const getAllTopic = async () => {
       try {
-        const res1 = await axios.get("topics/latest-topics");
-
-        const latesttopic = res1.data.lastestTopics;
-        const res = await axios.get("topics/hot-topics");
-
-        const hottopic = res.data.topicss;
-
-        const newLatestTopic = latesttopic.map((topic) => {
-          return topic.Pins.filter((pin) => pin.userId === user.id)[0]
-            ? { ...topic, pinned: "YES" }
-            : { ...topic, pinned: "NO" };
-        });
-
-        console.log("latestTop", latesttopic);
-        console.log("newlatestTop", newLatestTopic);
-
-        const newHotTopic = hottopic.map((topic) => {
-          return topic.Pins.filter((pin) => pin.userId === user.id)[0]
-            ? { ...topic, pinned: "YES" }
-            : { ...topic, pinned: "NO" };
-        });
-        setLastedTopic(newLatestTopic);
-        setHotTopic(newHotTopic);
-        console.log("hotTop", hottopic);
-        console.log("newHotTop", newHotTopic);
+         const res = await axios.get("topics/all-active");
+          setTopic(res.data.topics);
       } catch (err) {
         console.log(err);
       }
     };
     getAllTopic();
-  }, [pinTrigger]);
-
+  }, []);
+  console.log(Topic);
   const handlePin = async (e, item, pinned) => {
     console.log("xxx", item, pinned);
     const topicId = item.id;
@@ -75,7 +53,6 @@ function TopicList() {
       console.log(err);
     }
   };
-  console.log(lastedTopic);
   return (
     <>
       <div style={{ width: "5%", height: "auto" }}></div>
@@ -151,12 +128,16 @@ function TopicList() {
             }}
           >
             <h2>
-              <b>Hot Topics</b>
+              <b>Search Topics</b>
             </h2>
+            {!!Topic.filter((item) =>
+              item.topicName.toLowerCase().includes(search.toLowerCase())
+            ) && <strong style={{color:"red"}}>Cant Find this Topic  {`"${search}"` }</strong>}
           </div>
           {/* dashboard topic item */}
-          {hotTopic.map((item) => {
-            // console.log(item);
+          {Topic.filter((item) =>
+            item.topicName.toLowerCase().includes(search.toLowerCase())
+          ).map((item) => {
             return (
               <div className="topic-item" key={item.id}>
                 <div
@@ -167,7 +148,7 @@ function TopicList() {
                     alignItems: "center",
                   }}
                 >
-                  <img 
+                  <img
                     style={{ width: "20px", height: "20px" }}
                     src={item?.Room?.roomIcon}
                   />
@@ -317,181 +298,6 @@ function TopicList() {
           {/* dashboard topic item */}
         </div>
         <div style={{ height: "50px" }}> </div>
-
-        <div className="topic-list-box">
-          <div
-            style={{
-              width: "100%",
-              borderBottom: "solid black 1px",
-            }}
-          >
-            <h2>
-              <b>Latest Topics</b>
-            </h2>
-          </div>
-          {/* dashboard topic item */}
-          {lastedTopic.map((item) => {
-            // console.log(item);
-            return (
-              <div className="topic-item" key={item.id}>
-                <div
-                  style={{
-                    width: "15%",
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                  }}
-                >
-                  <img
-                    style={{ width: "20px", height: "20px" }}
-                    src={item?.Room?.roomIcon}
-                  />
-                </div>
-                <div
-                  style={{
-                    width: "55%",
-                    display: "flex",
-                    flexDirection: "column",
-                  }}
-                >
-                  <div>
-                    <a style={{ textDecoration: "none" }}>
-                      <strong
-                        className="cursor-pointer"
-                        onClick={() => history.push(`/topic/${item.id}`)}
-                      >
-                        {item?.topicName?.slice(0, 35) + "..."}
-                      </strong>
-                    </a>
-                  </div>
-                  <div
-                    style={{
-                      width: "100%",
-                      display: "flex",
-                      flexDirection: "row",
-                    }}
-                  >
-                    <div
-                      style={{
-                        width: "50%",
-                        display: "flex",
-                        flexDirection: "row",
-                      }}
-                    >
-                      <img
-                        style={{ width: "20px", height: "20px" }}
-                        src={item?.User?.userImg}
-                      />{" "}
-                      &nbsp;&nbsp;
-                      <a
-                        className="cursor-pointer"
-                        onClick={() => history.push(`/user/${item.User.id}`)}
-                        style={{ textDecoration: "none" }}
-                      >
-                        {item?.User?.username}
-                      </a>
-                    </div>
-                    <div
-                      style={{
-                        width: "50%",
-                        display: "flex",
-                        flexDirection: "row",
-                      }}
-                    >
-                      <img
-                        style={{ width: "20px", height: "20px" }}
-                        src={calendarIcon}
-                      />
-                      &nbsp;&nbsp;
-                      {item?.createdAt?.slice(0, -14)}
-                    </div>
-                  </div>
-                </div>
-                <div
-                  style={{
-                    width: "15%",
-                    display: "flex",
-                    flexDirection: "column",
-                  }}
-                >
-                  <div
-                    style={{
-                      width: "100%",
-                      display: "flex",
-                      flexDirection: "row",
-                    }}
-                  >
-                    <div
-                      style={{
-                        width: "40%",
-                      }}
-                    >
-                      <img
-                        style={{ width: "20px", height: "20px" }}
-                        src={redHeartIcon}
-                      />
-                    </div>
-                    <div
-                      style={{
-                        width: "60%",
-                      }}
-                    >
-                      {item?.Likes?.length}
-                    </div>
-                  </div>
-                  <div
-                    style={{
-                      width: "100%",
-                      display: "flex",
-                      flexDirection: "row",
-                    }}
-                  >
-                    <div
-                      style={{
-                        width: "40%",
-                      }}
-                    >
-                      <img
-                        style={{ width: "20px", height: "20px" }}
-                        src={commentIcon}
-                      />
-                    </div>
-                    <div
-                      style={{
-                        width: "60%",
-                      }}
-                    >
-                      {item?.Comments?.length}
-                    </div>
-                  </div>
-                </div>
-                <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    width: "15%",
-                  }}
-                >
-                  <button
-                    className="button"
-                    style={{
-                      backgroundColor: "#edd1b0",
-                      border: "none",
-                    }}
-                    onClick={(e) => handlePin(e, item, item.pinned)}
-                  >
-                    <img
-                      style={{ width: "20px", height: "20px" }}
-                      src={item.pinned === "YES" ? PinRedIcon : PinBlackIcon}
-                    />
-                  </button>
-                </div>
-              </div>
-            );
-          })}
-          {/* dashboard topic item */}
-        </div>
       </div>
 
       <div style={{ width: "5%", height: "auto" }}></div>
@@ -499,4 +305,4 @@ function TopicList() {
   );
 }
 
-export default TopicList;
+export default SearchList;
