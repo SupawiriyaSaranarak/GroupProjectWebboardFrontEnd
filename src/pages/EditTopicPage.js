@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { useHistory } from "react-router-dom";
+import React, { useState, useEffect, useContext } from "react";
+import { useHistory, useParams } from "react-router-dom";
 import axios from "../config/axios";
 import CreateTopic from "../components/CreateTopic";
 import PreviewTopic from "../components/PreviewTopic";
@@ -7,15 +7,42 @@ import PinBar from "../components/PinBar";
 import RoomBar from "../components/RoomBar";
 import Navbar from "../components/navbar";
 import { HomeIcon, PencilIcon } from "@heroicons/react/outline";
+import { AuthContext } from "../contexts/AuthContextProvider";
 
-import LOGO from "../img/LOGO.png";
-
-function CreateTopicPage() {
+function EditTopicPage() {
   const history = useHistory();
+  const { id } = useParams();
+  const { user } = useContext(AuthContext);
   const [room, setRoom] = useState();
-  const [previewRoom, setPreviewRoom] = useState();
-  const [editTopic, setEditTopic] = useState(false);
+  const [previewRoom, setPreviewRoom] = useState([]);
   const [input, setInput] = useState({});
+  const [editTopic, setEditTopic] = useState(false);
+
+  useEffect(() => {
+    const getTopic = async () => {
+      try {
+        const res = await axios.get(`/topics/active/${id}`);
+        console.log("ressss", res);
+        setInput(res.data.topic);
+        const x = [];
+        x.push(res.data.topic.Room);
+        setPreviewRoom(x);
+        if (res.data.topic.userId !== user.id) history.push("/me");
+        setEditTopic(true);
+      } catch (err) {
+        console.dir(err);
+        history.push("/me");
+      }
+    };
+    getTopic();
+    const getRoom = async () => {
+      const res = await axios.get("/rooms/active");
+      console.log(res.data.rooms);
+      setRoom(res.data.rooms);
+    };
+    getRoom();
+  }, [id]);
+  console.log("inputxxx", input?.Room?.id);
   //upload topic img
   const [fileTopicImg, setFileTopicImg] = useState(null);
   const [topicImg, setTopicImg] = useState(null);
@@ -60,15 +87,6 @@ function CreateTopicPage() {
     setInput((prev) => ({ ...prev, topicContent: prev.topicContent + x }));
   };
 
-  useEffect(() => {
-    const getRoom = async () => {
-      const res = await axios.get("/rooms/active");
-      console.log(res.data.rooms);
-      setRoom(res.data.rooms);
-    };
-    getRoom();
-  }, []);
-
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setInput((prev) => ({ ...prev, [name]: value }));
@@ -77,19 +95,17 @@ function CreateTopicPage() {
       setPreviewRoom(room.filter((item) => item.id == value));
     }
   };
-  console.log(room);
-  console.log("previewRoomHiHi", previewRoom);
 
   const handleSubmit = async (e) => {
     try {
       e.preventDefault();
       console.log(input);
       console.log(input.topicContent.length);
-      const response = await axios.post("/user/topics", {
+      const response = await axios.patch(`/user/topics/${id}`, {
         ...input,
         topicImg,
       });
-      history.push(`/topic/${response.data.newTopic.id}`);
+      history.push(`/topic/${id}`);
     } catch (err) {
       console.log(err);
       // console.dir(err);
@@ -121,6 +137,7 @@ function CreateTopicPage() {
           handleTapContent={handleTapContent}
           room={room}
           input={input}
+          editTopic={editTopic}
         />
 
         <div className="margin-left"></div>
@@ -129,4 +146,4 @@ function CreateTopicPage() {
   );
 }
 
-export default CreateTopicPage;
+export default EditTopicPage;

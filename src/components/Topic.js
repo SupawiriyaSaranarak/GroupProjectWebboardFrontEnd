@@ -55,7 +55,7 @@ function Topic() {
   const [editComment, setEditComment] = useState({});
   const [isPin, setIsPin] = useState(false);
 
-  console.log(topic)
+  console.log(topic);
   useEffect(() => {
     const getTopic = async () => {
       try {
@@ -177,6 +177,7 @@ function Topic() {
       if (topicDetail.User.id !== user.id) {
         throw Error("Cannot edit other's topic.");
       }
+      history.push(`/edit-topic/${topicDetail.id}`);
     } catch (err) {
       console.log(err);
     }

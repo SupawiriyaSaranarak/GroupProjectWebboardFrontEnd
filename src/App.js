@@ -13,6 +13,7 @@ import UserPage from "./pages/UserPage";
 import AdminPage from "./pages/AdminPage";
 import MyPage from "./pages/MyPage";
 import RoomListsTopicPage from "./pages/RoomListsTopicPage";
+import EditTopicPage from "./pages/EditTopicPage";
 
 const adminRoutes = [
   {
@@ -22,6 +23,10 @@ const adminRoutes = [
   {
     path: "/create-topic",
     component: CreateTopicPage,
+  },
+  {
+    path: "/edit-topic/:id",
+    component: EditTopicPage,
   },
   {
     path: "/admin",
@@ -43,7 +48,6 @@ const adminRoutes = [
     path: "/room/:roomId",
     component: RoomListsTopicPage,
   },
-  
 ];
 
 const userRoutes = [
@@ -54,6 +58,10 @@ const userRoutes = [
   {
     path: "/create-topic",
     component: CreateTopicPage,
+  },
+  {
+    path: "/edit-topic/:id",
+    component: EditTopicPage,
   },
   {
     path: "/topic/:id",
@@ -71,7 +79,6 @@ const userRoutes = [
     path: "/room/:roomId",
     component: RoomListsTopicPage,
   },
- 
 ];
 const guessRoutes = [
   {
@@ -98,7 +105,7 @@ const guessRoutes = [
 
 function App() {
   const { user } = useContext(AuthContext);
-  
+
   return (
     <Switch>
       {console.log(user)}
