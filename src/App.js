@@ -13,6 +13,7 @@ import UserPage from "./pages/UserPage";
 import AdminPage from "./pages/AdminPage";
 import MyPage from "./pages/MyPage";
 import RoomListsTopicPage from "./pages/RoomListsTopicPage";
+import EditTopicPage from "./pages/EditTopicPage";
 import AllTopicsPage from "./pages/AllTopicsPage";
 import SearchPage from "./pages/SearchPage"
 
@@ -24,6 +25,10 @@ const adminRoutes = [
   {
     path: "/create-topic",
     component: CreateTopicPage,
+  },
+  {
+    path: "/edit-topic/:id",
+    component: EditTopicPage,
   },
   {
     path: "/admin",
@@ -63,6 +68,10 @@ const userRoutes = [
   {
     path: "/create-topic",
     component: CreateTopicPage,
+  },
+  {
+    path: "/edit-topic/:id",
+    component: EditTopicPage,
   },
   {
     path: "/topic/:id",

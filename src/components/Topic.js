@@ -177,6 +177,7 @@ function Topic() {
       if (topicDetail.User.id !== user.id) {
         throw Error("Cannot edit other's topic.");
       }
+      history.push(`/edit-topic/${topicDetail.id}`);
     } catch (err) {
       console.log(err);
     }
@@ -221,8 +222,13 @@ function Topic() {
 
   // console.log(addCommentContent);
   const handleAddComment = async (e) => {
+    e.preventDefault();
     try {
-      e.preventDefault();
+      // validate
+      if (addCommentContent === "" || !addCommentContent.trim()) {
+        throw Error("comment ต้องไม่ใช่ช่องว่าง");
+      }
+
       console.log(addCommentContent, topic.id);
       const res = await axios.post("/user/comments", {
         commentContent: addCommentContent,
@@ -240,6 +246,7 @@ function Topic() {
       setAddCommentContent("");
     } catch (err) {
       console.log(err);
+      console.dir(err);
     }
   };
 
@@ -528,6 +535,7 @@ function Topic() {
               style={{
                 paddingBottom: "20px",
                 borderBottom: "solid rgb(167, 167, 167) 1px",
+                alignSelf: "center",
               }}
             >
               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;

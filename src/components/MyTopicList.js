@@ -229,7 +229,9 @@ function UserTopicList() {
                 objectPosition: "50% 50%",
               }}
             />
-            <a onClick={() => console.log(user.id)}>
+            <a
+            // onClick={() => console.log(user.id)}
+            >
               <h1>{user.username}</h1>{" "}
             </a>
           </div>

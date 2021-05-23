@@ -379,7 +379,11 @@ function TopicList() {
                       }}
                     >
                       <img
-                        style={{ width: "20px", height: "20px" }}
+                        style={{
+                          width: "20px",
+                          height: "20px",
+                          borderRadius: "1.5rem",
+                        }}
                         src={item?.User?.userImg}
                       />{" "}
                       &nbsp;&nbsp;

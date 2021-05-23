@@ -231,7 +231,9 @@ function UserTopicList() {
                 margin: "0 15px",
               }}
             />
-            <a onClick={() => console.log(userData?.id)}>
+            <a
+            // onClick={() => console.log(userData?.id)}
+            >
               <h1>{userData?.username}</h1>{" "}
             </a>
           </div>
@@ -273,7 +275,11 @@ function UserTopicList() {
                   }}
                 >
                   <div>
-                    <a href="#" style={{ textDecoration: "none" }}>
+                    <a
+                      href="#"
+                      style={{ textDecoration: "none" }}
+                      onClick={() => history.push(`/topic/${item.id}`)}
+                    >
                       <strong>{item.topicName.slice(0, 35) + "..."}</strong>
                     </a>
                   </div>
@@ -292,7 +298,11 @@ function UserTopicList() {
                       }}
                     >
                       <img
-                        style={{ width: "20px", height: "20px" }}
+                        style={{
+                          width: "20px",
+                          height: "20px",
+                          borderRadius: "1.5rem",
+                        }}
                         src={userData.userImg}
                       />{" "}
                       &nbsp;&nbsp;
