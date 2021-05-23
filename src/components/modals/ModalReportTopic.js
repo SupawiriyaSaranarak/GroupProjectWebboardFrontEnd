@@ -16,7 +16,6 @@ const customStyles = {
   },
 };
 
-
 function ModalReportTopic(props) {
   const [reportInput, setReportInput] = useState({});
 
@@ -53,6 +52,7 @@ function ModalReportTopic(props) {
 
       props.closeModalReport();
       props.setTopicDetail();
+      props.setReported(true);
       setReportInput({});
     } catch (err) {
       console.log(err);

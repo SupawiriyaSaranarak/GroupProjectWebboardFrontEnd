@@ -908,6 +908,7 @@ function Topic() {
           topicDetail={topicDetail}
           handleReport={handleReport}
           setTopicDetail={setTopicDetail}
+          setReported={setReported}
         />
       </>
     );
