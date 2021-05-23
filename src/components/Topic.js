@@ -221,8 +221,13 @@ function Topic() {
 
   // console.log(addCommentContent);
   const handleAddComment = async (e) => {
+    e.preventDefault();
     try {
-      e.preventDefault();
+      // validate
+      if (addCommentContent === "" || !addCommentContent.trim()) {
+        throw Error("comment ต้องไม่ใช่ช่องว่าง");
+      }
+
       console.log(addCommentContent, topic.id);
       const res = await axios.post("/user/comments", {
         commentContent: addCommentContent,
@@ -240,6 +245,7 @@ function Topic() {
       setAddCommentContent("");
     } catch (err) {
       console.log(err);
+      console.dir(err);
     }
   };
 
