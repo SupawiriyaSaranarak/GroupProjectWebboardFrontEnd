@@ -191,9 +191,7 @@ function Navbar({ Icon, Icon2 }) {
             )}
             {user && (
               <Avatar
-                src={
-                  "https://res.cloudinary.com/dvgvqcxyh/image/upload/v1618988876/mmzpyfiiffjdn1xpk7vl.jpg"
-                }
+                src={user.userImg}
                 className={classes.small}
                 style={{
                   marginTop: "2px",
@@ -202,7 +200,10 @@ function Navbar({ Icon, Icon2 }) {
               ></Avatar>
             )}
             {user && (
-              <p className="mt-1 ml-3 mr-4" style={{ paddingTop: "5px", fontWeight:"bolder"}}>
+              <p
+                className="mt-1 ml-3 mr-4"
+                style={{ paddingTop: "5px", fontWeight: "bolder" }}
+              >
                 {user.username}
               </p>
             )}
