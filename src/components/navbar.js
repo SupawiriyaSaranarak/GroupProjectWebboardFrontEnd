@@ -10,7 +10,7 @@ import InputBase from "@material-ui/core/InputBase";
 import SearchIcon from "@material-ui/icons/Search";
 import { Button } from "@material-ui/core";
 
-import WebLogo from "../public/images/Icon_01.png";
+import WebLogo from "../public/images/Icon_02.png";
 
 const useStyles = makeStyles((theme) => ({
   root: {
