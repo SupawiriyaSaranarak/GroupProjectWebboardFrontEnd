@@ -130,9 +130,9 @@ function SearchList() {
             <h2>
               <b>Search Topics</b>
             </h2>
-            {!!Topic.filter((item) =>
+            { Topic.filter((item) =>
               item.topicName.toLowerCase().includes(search.toLowerCase())
-            ) && <strong style={{color:"red"}}>Cant Find this Topic  {`"${search}"` }</strong>}
+            )[0]? null :  <strong style={{color:"red"}}>Cant Find this Topic  {`"${search}"` }</strong>}
           </div>
           {/* dashboard topic item */}
           {Topic.filter((item) =>
