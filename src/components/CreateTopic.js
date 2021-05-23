@@ -185,6 +185,7 @@ function CreateTopic({
                 type="text"
                 name="topicContent"
                 placeholder="Content"
+                rows="10"
                 value={input.topicContent}
                 onChange={handleInputChange}
                 defaultValue={input.topicContent}
@@ -226,8 +227,8 @@ function CreateTopic({
                   Select Room
                 </option>
                 {room?.map((item) => {
-                  console.log(item.id);
-                  console.log(input?.Room?.id);
+                  // console.log(item.id);
+                  // console.log(input?.Room?.id);
                   return (
                     <option
                       name="roomId"

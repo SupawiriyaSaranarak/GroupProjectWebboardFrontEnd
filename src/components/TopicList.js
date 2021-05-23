@@ -7,7 +7,6 @@ import redHeartIcon from "../public/images/redHeartIcon.png";
 import calendarIcon from "../public/images/calendarIcon.png";
 import PinRedIcon from "../public/images/pinRedIcon.png";
 import PinBlackIcon from "../public/images/pinBlackIcon.png";
-import userIcon from "../public/images/userIcon.png";
 
 import { PinContext } from "../contexts/PinContextProvider";
 import { AuthContext } from "../contexts/AuthContextProvider";
@@ -203,8 +202,12 @@ function TopicList() {
                       }}
                     >
                       <img
-                        style={{ width: "20px", height: "20px" }}
-                        src={userIcon}
+                        style={{
+                          width: "20px",
+                          height: "20px",
+                          borderRadius: "1.5rem",
+                        }}
+                        src={item?.User.userImg}
                       />
                       &nbsp;&nbsp;
                       <a

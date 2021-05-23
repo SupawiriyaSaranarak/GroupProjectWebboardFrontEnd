@@ -20,11 +20,12 @@ import ModalReportTopic from "./modals/ModalReportTopic";
 
 import Swal from "sweetalert2";
 
-function PreviewTopic({ input, previewRoom }) {
+function PreviewTopic({ topicImg, input, previewRoom }) {
   const { user } = useContext(AuthContext);
   useEffect(() => {}, [input, previewRoom]);
 
-  console.log("xxxx");
+  // console.log("xxxx");
+  console.log(input);
 
   console.log(Boolean(previewRoom));
   console.log(Boolean(!previewRoom));
@@ -173,7 +174,7 @@ function PreviewTopic({ input, previewRoom }) {
               margin: "20px",
             }}
           >
-            <img src={input.topicImg} />
+            <img src={topicImg} />
           </div>
           <div
             align="justify"

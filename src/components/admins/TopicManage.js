@@ -151,6 +151,7 @@ function TopicManage() {
         </table>
         <div className="admin-content-content-footer"></div>
       </div>
+      <div class="h-16"></div>
 
       <ModalTopicDetail
         modalTopicDetailIsOpen={modalTopicDetailIsOpen}

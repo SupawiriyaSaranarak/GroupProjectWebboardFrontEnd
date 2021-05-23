@@ -23,11 +23,15 @@ function CreateTopicPage() {
 
   const handleUploadTopicImg = async (e) => {
     e.preventDefault();
-    const formData = new FormData();
-    formData.append("image", fileTopicImg);
-    console.log(formData);
-    const res = await axios.post("/upload", formData);
-    setTopicImg(res.data.img);
+    try {
+      const formData = new FormData();
+      formData.append("image", fileTopicImg);
+      console.log(formData);
+      const res = await axios.post("/upload", formData);
+      setTopicImg(res.data.img);
+    } catch (err) {
+      console.log(err);
+    }
   };
   //upload content img
   const [fileContentImg, setFileContentImg] = useState(null);
@@ -42,9 +46,11 @@ function CreateTopicPage() {
     formData.append("image", fileContentImg);
     console.log(formData);
     const res = await axios.post("/upload", formData);
-    const x = `<br /><br /><div style={{ textAlign: "center" }}><img style={{ display: "block", margin: "10px 0px" }} src=${res.data.img} /></div><br />`;
+    const x = `<br /><br /><div style={{ textAlign: "center", textAlign:"-webkit-center"; }}><img style={{ display: "block", margin: "10px 0px" }} src=${res.data.img} /></div><br />`;
     setInput((prev) => ({ ...prev, topicContent: prev.topicContent + x }));
+    setFileContentImg(null);
   };
+
   const handleTapContent = (e) => {
     e.preventDefault(e);
     const x = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
@@ -104,6 +110,7 @@ function CreateTopicPage() {
           className="content-body-topic"
           input={input}
           previewRoom={previewRoom}
+          topicImg={topicImg}
         />
         <CreateTopic
           className="content-body-topic"

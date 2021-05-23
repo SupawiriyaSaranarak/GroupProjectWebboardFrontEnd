@@ -115,7 +115,8 @@ function Topic() {
     setReport(true);
   };
 
-  const handleLike = async () => {
+  const handleLike = async (e) => {
+    e.preventDefault();
     try {
       const Likes = topic.Likes;
       if (!like) {
