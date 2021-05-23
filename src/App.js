@@ -13,6 +13,7 @@ import UserPage from "./pages/UserPage";
 import AdminPage from "./pages/AdminPage";
 import MyPage from "./pages/MyPage";
 import RoomListsTopicPage from "./pages/RoomListsTopicPage";
+import AllTopicsPage from "./pages/AllTopicsPage";
 
 const adminRoutes = [
   {
@@ -43,7 +44,10 @@ const adminRoutes = [
     path: "/room/:roomId",
     component: RoomListsTopicPage,
   },
-  
+  {
+    path: "/topic-all",
+    component: AllTopicsPage,
+  },
 ];
 
 const userRoutes = [
@@ -71,7 +75,10 @@ const userRoutes = [
     path: "/room/:roomId",
     component: RoomListsTopicPage,
   },
- 
+  {
+    path: "/topic-all",
+    component: AllTopicsPage,
+  },
 ];
 const guessRoutes = [
   {
@@ -94,11 +101,15 @@ const guessRoutes = [
     path: "/room/:roomId",
     component: RoomListsTopicPage,
   },
+  {
+    path: "/topic-all",
+    component: AllTopicsPage,
+  },
 ];
 
 function App() {
   const { user } = useContext(AuthContext);
-  
+
   return (
     <Switch>
       {console.log(user)}
