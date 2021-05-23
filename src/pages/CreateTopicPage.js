@@ -16,6 +16,7 @@ function CreateTopicPage() {
 
         <div className="margin-left"></div>
       </div>
+      <div class="h-16"></div>
     </div>
   );
 }
