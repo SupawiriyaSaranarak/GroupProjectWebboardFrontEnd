@@ -118,6 +118,8 @@ function Register() {
       >
         <div>REGISTER</div>
         <br />
+        <div class="h-7"></div>
+
         <form onSubmit={handleSubmit}>
           <div
             className="form-div"
@@ -127,9 +129,8 @@ function Register() {
               justifyContent: "flex-start",
             }}
           >
-            <div>
-              <label htmlFor="username">Username</label>
-            </div>
+            <label htmlFor="username">Username</label>
+
             <div>
               <input
                 className="form-div"

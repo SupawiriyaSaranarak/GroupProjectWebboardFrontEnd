@@ -225,7 +225,7 @@ function RoomTopics() {
               style={{
                 height: "100px",
                 width: "100px",
-                borderRadius: "100px",
+                // borderRadius: "1.5rem",
                 margin: "0 15px",
                 objectFit: "cover",
                 overflow: "hidden",

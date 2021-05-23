@@ -144,7 +144,9 @@ function CreateTopic({
                       type="file"
                       onChange={handleFileTopicImgChange}
                     />
-                    <button onClick={handleUploadTopicImg}>Upload</button>
+                    <button className="button" onClick={handleUploadTopicImg}>
+                      Upload
+                    </button>
                   </div>
                 </div>
               </form>
@@ -208,7 +210,9 @@ function CreateTopic({
                     type="file"
                     onChange={handleFileContentImgChange}
                   />
-                  <button onClick={handleUploadContentImg}>Upload</button>
+                  <button className="button" onClick={handleUploadContentImg}>
+                    Upload
+                  </button>
                 </div>
               </div>
             </div>
