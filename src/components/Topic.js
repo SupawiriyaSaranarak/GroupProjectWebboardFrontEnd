@@ -1,18 +1,18 @@
-import React from "react";
+import React, { useState, useEffect, useContext } from "react";
 import axios from "../config/axios";
+import ReactHtmlParser from "react-html-parser";
+import { useHistory, useParams } from "react-router-dom";
+
 import commentIcon from "../public/images/commentIcon.png";
 import redHeartIcon from "../public/images/redHeartIcon.png";
 import emtyHeartIcon from "../public/images/emtyHeartIcon.png";
-
 import editIcon from "../public/images/editIcon.png";
 import deleteIcon from "../public/images/deleteIcon.png";
 import PinRedIcon from "../public/images/pinRedIcon.png";
 import PinBlackIcon from "../public/images/pinBlackIcon.png";
 import reportRedIcon from "../public/images/reportRedIcon.png";
 import reportBlackIcon from "../public/images/reportBlackIcon.png";
-import ReactHtmlParser from "react-html-parser";
-import { useState, useEffect, useContext } from "react";
-import { useHistory, useParams } from "react-router-dom";
+
 import { AuthContext } from "../contexts/AuthContextProvider";
 import { PinContext } from "../contexts/PinContextProvider";
 
@@ -222,8 +222,13 @@ function Topic() {
 
   // console.log(addCommentContent);
   const handleAddComment = async (e) => {
+    e.preventDefault();
     try {
-      e.preventDefault();
+      // validate
+      if (addCommentContent === "" || !addCommentContent.trim()) {
+        throw Error("comment ต้องไม่ใช่ช่องว่าง");
+      }
+
       console.log(addCommentContent, topic.id);
       const res = await axios.post("/user/comments", {
         commentContent: addCommentContent,
@@ -241,6 +246,7 @@ function Topic() {
       setAddCommentContent("");
     } catch (err) {
       console.log(err);
+      console.dir(err);
     }
   };
 

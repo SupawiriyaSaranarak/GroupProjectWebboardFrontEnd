@@ -1,4 +1,9 @@
 import React, { useState, useContext, useEffect } from "react";
+import axios from "../config/axios";
+import { useHistory, useParams } from "react-router";
+
+import { AuthContext } from "../contexts/AuthContextProvider";
+import { PinContext } from "../contexts/PinContextProvider";
 
 import commentIcon from "../public/images/commentIcon.png";
 import redHeartIcon from "../public/images/redHeartIcon.png";
@@ -6,43 +11,46 @@ import calendarIcon from "../public/images/calendarIcon.png";
 import PinRedIcon from "../public/images/pinRedIcon.png";
 import PinBlackIcon from "../public/images/pinBlackIcon.png";
 
-import { AuthContext } from "../contexts/AuthContextProvider";
-import { PinContext } from "../contexts/PinContextProvider";
-
 import moment from "moment";
-import axios from "../config/axios";
-import { useHistory } from "react-router";
 
-function UserTopicList() {
-  const history = useHistory();
-
+function AllRoomTopic() {
   const { user } = useContext(AuthContext);
   const { pin, setPin, pinTrigger, setPinTrigger } = useContext(PinContext);
+  const { roomId } = useParams();
+  // console.log(roomId);
 
-  const [myLastTopic, setMyLastTopic] = useState([]);
+  // const [roomByParams, setRoomByParams] = useState([]);
+  const [topicByRoomData, setTopicByRoomData] = useState([]);
 
+  const history = useHistory();
   useEffect(() => {
     const getAllTopic = async () => {
       try {
-        const resUserTopic = await axios.get("/topics/mytopic");
+        // const resRoom = await axios.get("/rooms/active/" + roomId);
+        // setRoomByParams(resRoom.data.room);
 
-        const userTopic = resUserTopic.data.topics;
-        console.log("xxx", userTopic);
+        const resTopic = await axios.get(
+          "/topics/all-active"
+          // + roomId + "?page=1"
+        );
+        console.log(resTopic);
 
-        const newUserTopic = userTopic.map((topic) => {
-          console.log("zzz", topic);
+        const roomTopic = resTopic.data.topics;
+
+        const newRoomTopic = roomTopic.map((topic) => {
           return topic.Pins.filter((pin) => pin.userId === user.id)[0]
             ? { ...topic, pinned: "YES" }
             : { ...topic, pinned: "NO" };
         });
 
-        setMyLastTopic(newUserTopic);
+        setTopicByRoomData(newRoomTopic);
       } catch (err) {
         console.log(err);
+        console.dir(err);
       }
     };
     getAllTopic();
-  }, [pinTrigger]);
+  }, [roomId, pinTrigger]);
 
   const handlePin = async (e, item, pinned) => {
     console.log("xxx", item, pinned);
@@ -105,9 +113,10 @@ function UserTopicList() {
             style={{
               color: "rgb(167, 167, 167)",
               height: "auto",
+              textAlign: "center",
             }}
           >
-            DASHBOARD
+            ALL TOPIC
           </div>
           <div
             style={{
@@ -131,111 +140,7 @@ function UserTopicList() {
             <div></div>
           </div>
         </div>
-        {/* dashboard header */}
-        {/* <div className="topic-list-box">
-          <div
-            key={user.id}
-            style={{
-              width: "90%",
-              borderBottom: "solid grey 1px",
-              marginBottom: "10px",
-              paddingBottom: "5px",
-              display: "flex",
-              flexDirection: "row",
-              justifyContent: "flex-start",
-              alignItems: "center",
-            }}
-          >
-            <div>
-              <img
-                src={user.userImg}
-                style={{
-                  height: "50px",
-                  width: "50px",
-                  borderRadius: "50px",
-                  margin: "0 15px",
-                }}
-              />
-            </div>
-            <div>
-              <a onClick={() => console.log(user.id)} style={{}}>
-                <strong>{user.username}</strong>
-              </a>
-              <div style={{ marginTop: "5px", fontSize: "12px" }}>
-                <span>
-                  <b>Role:</b>&nbsp;&nbsp; {user.userRole}{" "}
-                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                  <b>Status:</b>&nbsp;&nbsp;
-                  <span
-                    style={{
-                      color: user.userStatus === "ACTIVE" ? "green" : "grey",
-                    }}
-                  >
-                    {user.userStatus}
-                  </span>
-                </span>
-              </div>
-            </div>
-
-            <div>
-              <button
-                style={{
-                  backgroundColor: "#edd1b0",
-                  border: "none",
-                }}
-              >
-                <img
-                  src={editIcon}
-                  alt="edit-icon"
-                  style={{
-                    width: "20px",
-                    height: "20px",
-                  }}
-                />
-              </button>
-            </div>
-          </div>
-        </div> */}
-        <div
-          className="topic-list-box"
-          style={{
-            backgroundColor: "white",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <div
-            key={user.id}
-            style={{
-              width: "90%",
-
-              marginBottom: "10px",
-              paddingBottom: "5px",
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            <img
-              src={user.userImg}
-              style={{
-                height: "100px",
-                width: "100px",
-                borderRadius: "100px",
-                margin: "0 15px",
-                objectFit: "cover",
-                overflow: "hidden",
-                objectPosition: "50% 50%",
-              }}
-            />
-            <a
-            // onClick={() => console.log(user.id)}
-            >
-              <h1>{user.username}</h1>{" "}
-            </a>
-          </div>
-        </div>
+        <div style={{ height: "20px" }}> </div>
 
         <div className="topic-list-box">
           <div
@@ -245,11 +150,11 @@ function UserTopicList() {
             }}
           >
             <h2>
-              <b>{user.username}'s Topics</b>
+              <b>All Topics</b>
             </h2>
           </div>
           {/* dashboard topic item */}
-          {myLastTopic?.map((item) => (
+          {topicByRoomData?.map((item) => (
             <div className="topic-item" key={item.id}>
               <div
                 style={{
@@ -295,9 +200,15 @@ function UserTopicList() {
                     <img
                       style={{ width: "20px", height: "20px" }}
                       src={item.User.userImg}
+                      onClick={() => history.push(`/user/${item.User.id}`)}
                     />{" "}
                     &nbsp;&nbsp;
-                    <a href="#" style={{ textDecoration: "none" }}>
+                    <a
+                      href="#"
+                      className=""
+                      style={{ textDecoration: "none" }}
+                      onClick={() => history.push(`/user/${item.User.id}`)}
+                    >
                       {item.User.username}
                     </a>
                   </div>
@@ -408,4 +319,4 @@ function UserTopicList() {
   );
 }
 
-export default UserTopicList;
+export default AllRoomTopic;

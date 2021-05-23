@@ -1,10 +1,12 @@
 import React from "react";
-import Register from "../components/Auth/Register";
-import LogIn from "../components/Auth/LogIn";
+
+import AllRoomTopics from "../components/AllRoomTopic";
+import PinBar from "../components/PinBar";
+import RoomBar from "../components/RoomBar";
 import Navbar from "../components/navbar";
 import { HomeIcon, PencilIcon } from "@heroicons/react/outline";
 
-function LogInPage() {
+function AllTopicsPage() {
   return (
     <div>
       <div className="header">
@@ -12,13 +14,13 @@ function LogInPage() {
       </div>
       <div className="content-body">
         <div className="margin-right"></div>
-        <div style={{ width: "17vw" }}></div>
-
-        <Register className="content-body-register" />
-        <div style={{ width: "6vw" }}></div>
-        <LogIn className="content-body-login" />
-        <div style={{ width: "17vw" }}></div>
-
+        <div className="content-body-room">
+          <RoomBar />
+        </div>
+        <AllRoomTopics className="content-body-topic" />
+        <div className="content-body-pin">
+          <PinBar />
+        </div>
         <div className="margin-left"></div>
       </div>
       <div class="h-16"></div>
@@ -26,4 +28,4 @@ function LogInPage() {
   );
 }
 
-export default LogInPage;
+export default AllTopicsPage;

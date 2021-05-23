@@ -1,12 +1,12 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import axios from "../../config/axios";
 
+import Loading from "../utils/Loading";
+import { IsLoadingContext } from "../../contexts/LoadingContextProvider";
 import ModalRoomAdd from "./modals-admin/ModalRoomAdd";
 
 import { KeyIcon, PencilIcon } from "@heroicons/react/outline";
 import Swal from "sweetalert2";
-import { IsLoadingContext } from "../../contexts/LoadingContextProvider";
-import Loading from "../utils/Loading";
 
 function RoomManage() {
   // error box

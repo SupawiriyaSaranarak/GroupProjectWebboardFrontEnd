@@ -1,9 +1,11 @@
 import React, { useState, useContext } from "react";
 import axios from "../../config/axios";
-import localStorageService from "../../services/localStorageService";
-import jwtDecode from "jwt-decode";
-import { AuthContext } from "../../contexts/AuthContextProvider";
 import { useHistory } from "react-router-dom";
+
+import localStorageService from "../../services/localStorageService";
+import { AuthContext } from "../../contexts/AuthContextProvider";
+
+import jwtDecode from "jwt-decode";
 
 function LogIn() {
   const [input, setInput] = useState({});

@@ -3,12 +3,9 @@ import { useHistory } from "react-router-dom";
 import axios from "../config/axios";
 import CreateTopic from "../components/CreateTopic";
 import PreviewTopic from "../components/PreviewTopic";
-import PinBar from "../components/PinBar";
-import RoomBar from "../components/RoomBar";
+
 import Navbar from "../components/navbar";
 import { HomeIcon, PencilIcon } from "@heroicons/react/outline";
-
-import LOGO from "../img/LOGO.png";
 
 function CreateTopicPage() {
   const history = useHistory();
@@ -125,6 +122,7 @@ function CreateTopicPage() {
 
         <div className="margin-left"></div>
       </div>
+      <div class="h-16"></div>
     </div>
   );
 }

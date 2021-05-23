@@ -1,14 +1,16 @@
 import React, { useState, useEffect, useContext } from "react";
+import axios from "../config/axios";
+import { useHistory } from "react-router";
+
 import commentIcon from "../public/images/commentIcon.png";
 import redHeartIcon from "../public/images/redHeartIcon.png";
 import calendarIcon from "../public/images/calendarIcon.png";
 import PinRedIcon from "../public/images/pinRedIcon.png";
 import PinBlackIcon from "../public/images/pinBlackIcon.png";
 import userIcon from "../public/images/userIcon.png";
-import axios from "../config/axios";
+
 import { PinContext } from "../contexts/PinContextProvider";
 import { AuthContext } from "../contexts/AuthContextProvider";
-import { useHistory } from "react-router";
 
 function TopicList() {
   const [lastedTopic, setLastedTopic] = useState([]);
@@ -376,7 +378,11 @@ function TopicList() {
                       }}
                     >
                       <img
-                        style={{ width: "20px", height: "20px" }}
+                        style={{
+                          width: "20px",
+                          height: "20px",
+                          borderRadius: "1.5rem",
+                        }}
                         src={item?.User?.userImg}
                       />{" "}
                       &nbsp;&nbsp;

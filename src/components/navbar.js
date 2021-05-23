@@ -1,16 +1,16 @@
+import { useState, useContext } from "react";
+import { useHistory, Link } from "react-router-dom";
+
+import { AuthContext } from "../contexts/AuthContextProvider";
+import PopoverLogout from "../components/LogoutAndProfilePopover";
+
 import { Avatar } from "@material-ui/core";
-import { Link } from "react-router-dom";
-// import { Avatar } from "@material-ui/core";
-import ImgFile from "../img/unnamed.png";
 import { fade, makeStyles } from "@material-ui/core/styles";
 import InputBase from "@material-ui/core/InputBase";
 import SearchIcon from "@material-ui/icons/Search";
-import { useState } from "react";
-import PopoverLogout from "../components/LogoutAndProfilePopover";
 import { Button } from "@material-ui/core";
-import { useContext } from "react";
-import { AuthContext } from "../contexts/AuthContextProvider";
-import { useHistory } from "react-router-dom";
+
+import WebLogo from "../public/images/Icon_01.png";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -90,7 +90,7 @@ function Navbar({ Icon, Icon2 }) {
         class="shadow-md"
         style={{
           // height: "80px",
-          height: "55px",
+          height: "50px",
           // backgroundColor: "#faf3e0",
           backgroundColor: "white",
           width: "100%",
@@ -100,16 +100,9 @@ function Navbar({ Icon, Icon2 }) {
       >
         <div style={{ display: "flex", justifyContent: "space-between" }}>
           <div style={{ display: "flex" }}>
-            <div>
+            <div class="mt-2 ml-2">
               <Link on to="/">
-                <img
-                  style={{
-                    // height: "80px",
-                    height: "55px",
-                  }}
-                  src={ImgFile}
-                  layout="fixed"
-                />
+                <img class="w-9 h-9" src={WebLogo} layout="fixed" />
               </Link>
             </div>
             <div
@@ -133,11 +126,11 @@ function Navbar({ Icon, Icon2 }) {
 
           <div
             style={{ display: "flex", position: "relative", right: "45px" }}
-            class="flex mt-2"
+            class="flex mt-3"
           >
             <div className="group sm:w-20 flex flex-col cursor-pointer hover:text-yellow-500 items-center">
               <Icon
-                className="h-10 transform group-hover:transition delay-150 duration-150 "
+                className="h-7 transform group-hover:transition delay-150 duration-150 "
                 onClick={(e) => history.push("/")}
               />
               <span
@@ -149,31 +142,31 @@ function Navbar({ Icon, Icon2 }) {
             </div>
             <div className="group sm:w-20 flex flex-col cursor-pointer hover:text-yellow-500 items-center">
               <Icon2
-                className="h-10 group-hover:transition delay-150 duration-150 ease-in-out ..."
+                className="h-7 group-hover:transition delay-150 duration-150 ease-in-out ..."
                 onClick={(e) => history.push("/create-topic")}
               />
               <span
                 class="opacity-0 mt-3 w-20 h-6 text-center text-yellow-500 rounded-lg group-hover:opacity-100 font-bold group-hover:transition delay-150 duration-150 tracking-widest"
-                style={{ backgroundColor: "rgba(0, 0, 0, 0.75)" }}
+                style={{
+                  backgroundColor: "rgba(0, 0, 0, 0.75)",
+                  position: "relative",
+                }}
               >
                 Post
               </span>
             </div>
           </div>
 
-          <div
-            style={{
-              display: "flex",
-              backgroundColor: "#EDD1B0",
-              borderRadius: "1.5rem",
-              height: "45px",
-              width: "200px",
-              // marginTop: "15px",
-              marginTop: "5px",
-              marginRight: "60px",
-            }}
-          >
-            {!user && (
+          {!user && (
+            <div
+              class="mt-1 mr-2"
+              style={{
+                display: "flex",
+                borderRadius: "1.5rem",
+                height: "40px",
+                width: "200px",
+              }}
+            >
               <Button
                 color="primary"
                 variant="contained"
@@ -182,33 +175,57 @@ function Navbar({ Icon, Icon2 }) {
                   border: "none",
                   outline: "none",
                   height: "30px",
-                  margin: "0 auto",
-                  marginTop: "7px",
+                  width: "180px",
+                  margin: "0.25rem 0.25rem 0.25rem 0.6rem",
+                  borderRadius: "1.5rem",
+                  color: "black",
+                  fontWeight: "700",
+                  backgroundColor: "#edd1b0",
                 }}
               >
-                Go to Login
+                LOGIN / REGISTER
               </Button>
-            )}
-            {user && (
-              <Avatar
-                src={user.userImg}
-                className={classes.small}
+            </div>
+          )}
+          {user && (
+            <div
+              class="mt-1 mr-2"
+              style={{
+                borderRadius: "1.5rem",
+                height: "40px",
+                width: "200px",
+              }}
+            >
+              <div
+                class="flex shadow-md"
                 style={{
-                  marginTop: "2px",
-                  marginLeft: "6px",
+                  height: "30px",
+                  width: "180px",
+                  margin: "0.25rem 0.25rem 0.25rem 0.6rem",
+                  borderRadius: "1.5rem",
+                  backgroundColor: "#edd1b0",
                 }}
-              ></Avatar>
-            )}
-            {user && (
-              <p
-                className="mt-1 ml-3 mr-4"
-                style={{ paddingTop: "5px", fontWeight: "bolder" }}
               >
-                {user.username}
-              </p>
-            )}
-            <PopoverLogout />
-          </div>
+                <Avatar
+                  src={user.userImg}
+                  className={classes.circle}
+                  class="w-7 h-7"
+                  style={{
+                    marginTop: "2px",
+                    marginLeft: "6px",
+                    borderRadius: "1.5rem",
+                    overflow: "hidden",
+                  }}
+                ></Avatar>
+                <p className="ml-2 mr-2 pt-1 font-bold">
+                  {user.username.length > 10
+                    ? user.username.substr(0, 9) + "..."
+                    : user.username}
+                </p>
+                <PopoverLogout />
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </>

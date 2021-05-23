@@ -1,7 +1,5 @@
-import React, { useState } from "react";
+import React from "react";
 import axios from "../../../config/axios";
-
-import { KeyIcon } from "@heroicons/react/outline";
 
 import Swal from "sweetalert2";
 
