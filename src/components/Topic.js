@@ -535,6 +535,7 @@ function Topic() {
               style={{
                 paddingBottom: "20px",
                 borderBottom: "solid rgb(167, 167, 167) 1px",
+                alignSelf: "center",
               }}
             >
               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
