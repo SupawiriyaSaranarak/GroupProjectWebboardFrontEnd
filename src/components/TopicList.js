@@ -8,12 +8,14 @@ import userIcon from "../public/images/userIcon.png";
 import axios from "../config/axios";
 import { PinContext } from "../contexts/PinContextProvider";
 import { AuthContext } from "../contexts/AuthContextProvider";
+import { useHistory } from "react-router";
 
 function TopicList() {
   const [lastedTopic, setLastedTopic] = useState([]);
   const [hotTopic, setHotTopic] = useState([]);
   const { user } = useContext(AuthContext);
   const { pin, setPin, pinTrigger, setPinTrigger } = useContext(PinContext);
+  const history = useHistory();
 
   useEffect(() => {
     const getAllTopic = async () => {

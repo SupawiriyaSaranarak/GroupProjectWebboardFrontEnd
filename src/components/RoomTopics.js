@@ -4,48 +4,70 @@ import commentIcon from "../public/images/commentIcon.png";
 import redHeartIcon from "../public/images/redHeartIcon.png";
 import calendarIcon from "../public/images/calendarIcon.png";
 
-import pinBlackIcon from "../public/images/pinBlackIcon.png";
-import pinRedIcon from "../public/images/pinRedIcon.png";
+import PinRedIcon from "../public/images/pinRedIcon.png";
+import PinBlackIcon from "../public/images/pinBlackIcon.png";
 
 import moment from "moment";
 import axios from "../config/axios";
+import { AuthContext } from "../contexts/AuthContextProvider";
+import { PinContext } from "../contexts/PinContextProvider";
 
 import { useHistory, useParams } from "react-router";
 
 function RoomTopics() {
+  const { user } = useContext(AuthContext);
+  const { pin, setPin, pinTrigger, setPinTrigger } = useContext(PinContext);
   const { roomId } = useParams();
   // console.log(roomId);
 
   const [roomByParams, setRoomByParams] = useState([]);
   const [topicByRoomData, setTopicByRoomData] = useState([]);
-  const [pinByRoomData, setPinByRoomData] = useState([]);
-
-  useEffect(async () => {
-    await getTopicsByRoom();
-  }, [roomId]);
-
-  const getTopicsByRoom = async () => {
-    try {
-      const resRoom = await axios.get("/rooms/active/" + roomId);
-      // console.log(resRoom);
-
-      setRoomByParams(resRoom.data.room);
-
-      const resTopic = await axios.get("/topics/room/" + roomId + "?page=1");
-      // console.log(topicByRoomData);
-
-      setTopicByRoomData(resTopic.data.topics);
-      setPinByRoomData(resTopic.data.pin);
-    } catch (err) {
-      console.log(err);
-      // console.dir(err);
-    }
-  };
-  // console.log(roomByParams);
-  // console.log(topicByRoomData);
-  // console.log(pinByRoomData);
 
   const history = useHistory();
+  useEffect(() => {
+    const getAllTopic = async () => {
+      try {
+        const resRoom = await axios.get("/rooms/active/" + roomId);
+        setRoomByParams(resRoom.data.room);
+        const resTopic = await axios.get("/topics/room/" + roomId + "?page=1");
+
+        const roomTopic = resTopic.data.topics;
+
+        const newRoomTopic = roomTopic.map((topic) => {
+          return topic.Pins.filter((pin) => pin.userId === user.id)[0]
+            ? { ...topic, pinned: "YES" }
+            : { ...topic, pinned: "NO" };
+        });
+
+        setTopicByRoomData(newRoomTopic);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    getAllTopic();
+  }, [roomId, pinTrigger]);
+
+  const handlePin = async (e, item, pinned) => {
+    console.log("xxx", item, pinned);
+    const topicId = item.id;
+    try {
+      if (pinned === "NO") {
+        const res = await axios.post("/user/pins/", { topicId });
+        setPinTrigger(!pinTrigger);
+      } else {
+        let pinId;
+        for (let p of item.Pins) {
+          console.log("p", p, p.id);
+          if (p.topicId === item.id) pinId = p.id;
+        }
+        const res = await axios.delete(`/user/pins/${pinId}`);
+        setPin((prev) => prev.filter((item) => item.id !== pinId));
+        setPinTrigger(!pinTrigger);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   return (
     <>
@@ -369,10 +391,19 @@ function RoomTopics() {
                   width: "15%",
                 }}
               >
-                <img
-                  style={{ width: "20px", height: "20px" }}
-                  src={item.pin === "YES" ? pinRedIcon : pinBlackIcon}
-                />
+                <button
+                  className="button"
+                  style={{
+                    backgroundColor: "#edd1b0",
+                    border: "none",
+                  }}
+                  onClick={(e) => handlePin(e, item, item.pinned)}
+                >
+                  <img
+                    style={{ width: "20px", height: "20px" }}
+                    src={item.pinned === "YES" ? PinRedIcon : PinBlackIcon}
+                  />
+                </button>
               </div>
             </div>
           ))}

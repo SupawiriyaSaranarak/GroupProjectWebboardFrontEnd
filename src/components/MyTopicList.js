@@ -4,12 +4,13 @@ import commentIcon from "../public/images/commentIcon.png";
 import redHeartIcon from "../public/images/redHeartIcon.png";
 import calendarIcon from "../public/images/calendarIcon.png";
 
-import pinBlackIcon from "../public/images/pinBlackIcon.png";
-import pinRedIcon from "../public/images/pinRedIcon.png";
+import PinRedIcon from "../public/images/pinRedIcon.png";
+import PinBlackIcon from "../public/images/pinBlackIcon.png";
 
 import userIcon from "../public/images/userIcon.png";
 
 import { AuthContext } from "../contexts/AuthContextProvider";
+import { PinContext } from "../contexts/PinContextProvider";
 
 import moment from "moment";
 import axios from "../config/axios";
@@ -19,27 +20,54 @@ function UserTopicList() {
   const history = useHistory();
 
   const { user } = useContext(AuthContext);
-  // console.log(user);
+  const { pin, setPin, pinTrigger, setPinTrigger } = useContext(PinContext);
 
   const [myLastTopic, setMyLastTopic] = useState([]);
 
   useEffect(() => {
-    getUserLastTopic();
-  }, []);
+    const getAllTopic = async () => {
+      try {
+        const resUserTopic = await axios.get("/topics/mytopic");
 
-  const getUserLastTopic = async () => {
+        const userTopic = resUserTopic.data.topics;
+        console.log("xxx", userTopic);
+
+        const newUserTopic = userTopic.map((topic) => {
+          console.log("zzz", topic);
+          return topic.Pins.filter((pin) => pin.userId === user.id)[0]
+            ? { ...topic, pinned: "YES" }
+            : { ...topic, pinned: "NO" };
+        });
+
+        setMyLastTopic(newUserTopic);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    getAllTopic();
+  }, [pinTrigger]);
+
+  const handlePin = async (e, item, pinned) => {
+    console.log("xxx", item, pinned);
+    const topicId = item.id;
     try {
-      const resUserTopic = await axios.get("/topics//mytopic");
-      // console.log(resUserTopic.data.topics);
-      const {
-        data: { topics },
-      } = resUserTopic;
-      setMyLastTopic(topics);
+      if (pinned === "NO") {
+        const res = await axios.post("/user/pins/", { topicId });
+        setPinTrigger(!pinTrigger);
+      } else {
+        let pinId;
+        for (let p of item.Pins) {
+          console.log("p", p, p.id);
+          if (p.topicId === item.id) pinId = p.id;
+        }
+        const res = await axios.delete(`/user/pins/${pinId}`);
+        setPin((prev) => prev.filter((item) => item.id !== pinId));
+        setPinTrigger(!pinTrigger);
+      }
     } catch (err) {
       console.log(err);
     }
   };
-  // console.log(myLastTopic);
 
   return (
     <>
@@ -356,10 +384,19 @@ function UserTopicList() {
                   width: "15%",
                 }}
               >
-                <img
-                  style={{ width: "20px", height: "20px" }}
-                  src={item.pin === "YES" ? pinRedIcon : pinBlackIcon}
-                />
+                <button
+                  className="button"
+                  style={{
+                    backgroundColor: "#edd1b0",
+                    border: "none",
+                  }}
+                  onClick={(e) => handlePin(e, item, item.pinned)}
+                >
+                  <img
+                    style={{ width: "20px", height: "20px" }}
+                    src={item.pinned === "YES" ? PinRedIcon : PinBlackIcon}
+                  />
+                </button>
               </div>
             </div>
           ))}
