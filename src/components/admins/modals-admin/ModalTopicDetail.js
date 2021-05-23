@@ -1,5 +1,7 @@
 import React from "react";
+
 import moment from "moment";
+
 // Modal import
 import Modal from "react-modal";
 const customStyles = {

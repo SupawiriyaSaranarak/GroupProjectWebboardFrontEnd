@@ -1,9 +1,8 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
-
-import pinIcon from "../img/office-pin.png";
-import pinedIcon from "../img/office-pin-red.png";
 import axios from "../config/axios";
+
+import pinBlackIcon from "../public/images/pinBlackIcon.png";
 
 import Swal from "sweetalert2";
 
@@ -58,7 +57,7 @@ function PinItems(props) {
     <div className="roomBar-container-contentBox">
       <div className="pinBar-container-contentBox-inside-iconImg-Bg">
         <img
-          src={pinedIcon}
+          src={pinBlackIcon}
           alt={"pinIcon"}
           className="roomBar-container-contentBox-inside-iconImg"
           onClick={(e) => handlerDeletePin(e, props.item)}

@@ -1,9 +1,11 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useContext } from "react";
 import axios from "../config/axios";
+
 import service from "../services/localStorageService";
-import jwtDecode from "jwt-decode";
 import { PinContext } from "../contexts/PinContextProvider";
 import PinItems from "./PinItems";
+
+import jwtDecode from "jwt-decode";
 
 function PinBar() {
   const { pin, setPin, pinTrigger } = useContext(PinContext);

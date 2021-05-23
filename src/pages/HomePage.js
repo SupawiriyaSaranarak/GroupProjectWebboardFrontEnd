@@ -1,9 +1,8 @@
-import React, { useRef, useState, useEffect } from "react";
+import React from "react";
 import Navbar from "../components/navbar";
 import TopicList from "../components/TopicList";
 import PinBar from "../components/PinBar";
 import RoomBar from "../components/RoomBar";
-import axios from "../config/axios";
 
 import { HomeIcon, PencilIcon } from "@heroicons/react/outline";
 

@@ -5,8 +5,6 @@ import RoomBar from "../components/RoomBar";
 import Navbar from "../components/navbar";
 import { HomeIcon, PencilIcon } from "@heroicons/react/outline";
 
-import LOGO from "../img/LOGO.png";
-
 function UserPage() {
   return (
     <div>

@@ -3,11 +3,8 @@ import React, { useState, useContext, useEffect } from "react";
 import commentIcon from "../public/images/commentIcon.png";
 import redHeartIcon from "../public/images/redHeartIcon.png";
 import calendarIcon from "../public/images/calendarIcon.png";
-
 import PinRedIcon from "../public/images/pinRedIcon.png";
 import PinBlackIcon from "../public/images/pinBlackIcon.png";
-
-import userIcon from "../public/images/userIcon.png";
 
 import { AuthContext } from "../contexts/AuthContextProvider";
 import { PinContext } from "../contexts/PinContextProvider";

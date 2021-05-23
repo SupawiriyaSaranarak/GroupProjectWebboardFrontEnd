@@ -1,11 +1,7 @@
 import React from "react";
 import CreateTopic from "../components/CreateTopic";
-import PinBar from "../components/PinBar";
-import RoomBar from "../components/RoomBar";
 import Navbar from "../components/navbar";
 import { HomeIcon, PencilIcon } from "@heroicons/react/outline";
-
-import LOGO from "../img/LOGO.png";
 
 function CreateTopicPage() {
   return (

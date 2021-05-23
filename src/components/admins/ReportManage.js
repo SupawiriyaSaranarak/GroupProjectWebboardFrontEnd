@@ -4,7 +4,6 @@ import axios from "../../config/axios";
 import ModalReportDetail from "./modals-admin/ModalReportDetail";
 
 import { KeyIcon } from "@heroicons/react/outline";
-
 import Swal from "sweetalert2";
 
 function ReportManage() {

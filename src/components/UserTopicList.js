@@ -5,7 +5,6 @@ import redHeartIcon from "../public/images/redHeartIcon.png";
 import calendarIcon from "../public/images/calendarIcon.png";
 import pinBlackIcon from "../public/images/pinBlackIcon.png";
 import pinRedIcon from "../public/images/pinRedIcon.png";
-import userIcon from "../public/images/userIcon.png";
 
 import moment from "moment";
 import axios from "../config/axios";

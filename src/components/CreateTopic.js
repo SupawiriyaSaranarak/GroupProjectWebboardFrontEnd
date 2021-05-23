@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useContext } from "react";
-import { useHistory } from "react-router-dom";
+import React, { useState, useEffect } from "react";
 import axios from "../config/axios";
+import { useHistory } from "react-router-dom";
 
 import ReactHtmlParser from "react-html-parser";
 

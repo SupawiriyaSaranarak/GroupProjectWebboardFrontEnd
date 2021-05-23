@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import axios from "../../config/axios";
 
-import Swal from "sweetalert2";
-
 // Modal import
 import Modal from "react-modal";
 const customStyles = {
@@ -15,6 +13,8 @@ const customStyles = {
     transform: "translate(-50%, -50%)",
   },
 };
+
+import Swal from "sweetalert2";
 
 function ModalReportTopic(props) {
   const [reportInput, setReportInput] = useState({});

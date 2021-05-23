@@ -1,16 +1,14 @@
+import { useState, useContext } from "react";
+import { useHistory, Link } from "react-router-dom";
+
+import { AuthContext } from "../contexts/AuthContextProvider";
+import PopoverLogout from "../components/LogoutAndProfilePopover";
+
 import { Avatar } from "@material-ui/core";
-import { Link } from "react-router-dom";
-// import { Avatar } from "@material-ui/core";
-import ImgFile from "../img/unnamed.png";
 import { fade, makeStyles } from "@material-ui/core/styles";
 import InputBase from "@material-ui/core/InputBase";
 import SearchIcon from "@material-ui/icons/Search";
-import { useState } from "react";
-import PopoverLogout from "../components/LogoutAndProfilePopover";
 import { Button } from "@material-ui/core";
-import { useContext } from "react";
-import { AuthContext } from "../contexts/AuthContextProvider";
-import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -107,7 +105,7 @@ function Navbar({ Icon, Icon2 }) {
                     // height: "80px",
                     height: "55px",
                   }}
-                  src={ImgFile}
+                  src={"ImgFile"}
                   layout="fixed"
                 />
               </Link>

@@ -1,8 +1,10 @@
 import { useContext, useState, useRef } from "react";
 import axios from "../../config/axios";
+import { useHistory } from "react-router-dom";
+
 import localStorageService from "../../services/localStorageService";
 import { AuthContext } from "../../contexts/AuthContextProvider";
-import { useHistory } from "react-router-dom";
+
 import jwtDecode from "jwt-decode";
 
 function Register() {
