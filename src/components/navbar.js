@@ -82,10 +82,12 @@ function Navbar({ Icon, Icon2 }) {
     setAnchorEl(event.currentTarget);
   };
 
-  const handleClose = () => {
-    setAnchorEl(null);
+  const handleKeyDown = (e) => {
+     if (e.key === "Enter") {
+       history.push(`/search/${search}`)
+     }
   };
-
+  console.log(search)
   return (
     <>
       <div
@@ -115,14 +117,16 @@ function Navbar({ Icon, Icon2 }) {
                 <SearchIcon />
               </div>
               <InputBase
+                onKeyDown={handleKeyDown}
+                value={search}
                 placeholder="Search…"
-                onChange={(e) => e.target.value}
+                onChange={(e) => setSearch(e.target.value)}
                 classes={{
                   root: classes.inputRoot,
                   input: classes.inputInput,
                 }}
                 inputProps={{ "aria-label": "search" }}
-              />
+              ></InputBase>
             </div>
           </div>
 
