@@ -810,51 +810,53 @@ function Topic() {
                 </div>
               ))}
 
-              <div
-                key={user?.id}
-                style={{
-                  width: "90%",
-                  borderBottom: "solid grey 1px",
-                  marginBottom: "10px",
-                  paddingBottom: "5px",
-                  display: "flex",
-                  flexDirection: "row",
-                  justifyContent: "flex-start",
-                  alignItems: "center",
-                }}
-              >
-                <div>
-                  <img
-                    src={user?.userImg}
-                    style={{
-                      height: "50px",
-                      width: "50px",
-                      borderRadius: "50px",
-                      margin: "0 15px",
-                    }}
-                  />
-                </div>
-                <div>
-                  <form onSubmit={(e) => handleAddComment(e)}>
-                    <textarea
-                      value={addCommentContent}
-                      onChange={(e) => setAddCommentContent(e.target.value)}
-                      style={{ width: "30vw" }}
-                    />
-
-                    <button
-                      className="button"
+              {user && (
+                <div
+                  key={user?.id}
+                  style={{
+                    width: "90%",
+                    borderBottom: "solid grey 1px",
+                    marginBottom: "10px",
+                    paddingBottom: "5px",
+                    display: "flex",
+                    flexDirection: "row",
+                    justifyContent: "flex-start",
+                    alignItems: "center",
+                  }}
+                >
+                  <div>
+                    <img
+                      src={user?.userImg}
                       style={{
-                        backgroundColor: "#edd1b0",
-                        border: "none",
-                        maginLeft: "40px",
+                        height: "50px",
+                        width: "50px",
+                        borderRadius: "50px",
+                        margin: "0 15px",
                       }}
-                    >
-                      Comment
-                    </button>
-                  </form>
+                    />
+                  </div>
+                  <div>
+                    <form onSubmit={(e) => handleAddComment(e)}>
+                      <textarea
+                        value={addCommentContent}
+                        onChange={(e) => setAddCommentContent(e.target.value)}
+                        style={{ width: "30vw" }}
+                      />
+
+                      <button
+                        className="button"
+                        style={{
+                          backgroundColor: "#edd1b0",
+                          border: "none",
+                          maginLeft: "40px",
+                        }}
+                      >
+                        Comment
+                      </button>
+                    </form>
+                  </div>
                 </div>
-              </div>
+              )}
             </div>
           </div>
         </div>
