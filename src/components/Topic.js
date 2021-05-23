@@ -133,6 +133,18 @@ function Topic() {
   const handleLike = async (e) => {
     e.preventDefault();
     try {
+      // validate ถ้าไม่ LOGIN
+      if (!user) {
+        await Swal.fire({
+          icon: "error",
+          title: "กรุณา LOGIN / REGISTER ก่อน",
+          showConfirmButton: false,
+        });
+
+        history.push("/login");
+        return;
+      }
+
       const Likes = topic.Likes;
       if (!like) {
         const res = await axios.post(`/user/likes/topic/${topic.id}`);
