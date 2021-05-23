@@ -43,14 +43,15 @@ export default function SimpleMenu() {
   };
 
   return (
-    <div>
+    <>
       {user && (
         <IconButton
+          class="border-none outline-none mt-1 ml-36"
           style={{
-            border: "none",
             outline: "none",
-            position: "fixed",
-            right: "70px",
+            // position: "fixed",
+            // right: "70px",
+            position: "absolute",
           }}
           onClick={handleClick}
         >
@@ -70,6 +71,6 @@ export default function SimpleMenu() {
         )}
         <MenuItem onClick={handleLogOut}>Logout</MenuItem>
       </Menu>
-    </div>
+    </>
   );
 }
