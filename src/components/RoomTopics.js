@@ -275,7 +275,9 @@ function RoomTopics() {
                 <div>
                   <a href="#" style={{ textDecoration: "none" }}>
                     <strong onClick={() => history.push(`/topic/${item.id}`)}>
-                      {item.topicName.slice(0, 35) + "..."}
+                      {item.topicName.length > 43
+                        ? item.topicName.slice(0, 40) + "..."
+                        : item.topicName}
                     </strong>
                   </a>
                 </div>

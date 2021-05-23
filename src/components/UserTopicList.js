@@ -229,6 +229,9 @@ function UserTopicList() {
                 width: "100px",
                 borderRadius: "100px",
                 margin: "0 15px",
+                objectFit: "cover",
+                overflow: "hidden",
+                objectPosition: "50% 50%",
               }}
             />
             <a
@@ -280,7 +283,11 @@ function UserTopicList() {
                       style={{ textDecoration: "none" }}
                       onClick={() => history.push(`/topic/${item.id}`)}
                     >
-                      <strong>{item.topicName.slice(0, 35) + "..."}</strong>
+                      <strong>
+                        {item.topicName.length > 43
+                          ? item.topicName.slice(0, 40) + "..."
+                          : item.topicName}
+                      </strong>
                     </a>
                   </div>
                   <div

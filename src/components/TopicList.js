@@ -166,7 +166,7 @@ function TopicList() {
                     alignItems: "center",
                   }}
                 >
-                  <img 
+                  <img
                     style={{ width: "20px", height: "20px" }}
                     src={item?.Room?.roomIcon}
                   />
@@ -184,7 +184,9 @@ function TopicList() {
                         className="cursor-pointer"
                         onClick={() => history.push(`/topic/${item.id}`)}
                       >
-                        {item.topicName.slice(0, 40) + "..."}
+                        {item.topicName.length > 43
+                          ? item.topicName.slice(0, 40) + "..."
+                          : item.topicName}
                       </strong>
                     </a>
                   </div>
@@ -363,7 +365,9 @@ function TopicList() {
                         className="cursor-pointer"
                         onClick={() => history.push(`/topic/${item.id}`)}
                       >
-                        {item?.topicName?.slice(0, 35) + "..."}
+                        {item.topicName.length > 43
+                          ? item.topicName.slice(0, 40) + "..."
+                          : item.topicName}
                       </strong>
                     </a>
                   </div>
