@@ -27,12 +27,27 @@ function Topic() {
   const [modalReportIsOpen, setModalReportIsOpen] = useState(false);
   const { pin, setPin, pinTrigger, setPinTrigger } = useContext(PinContext);
 
-  const openModalReport = (e, topic) => {
+  const openModalReport = async (e, topic) => {
+    try {
+      // validate ถ้าไม่ LOGIN
+      if (!user) {
+        await Swal.fire({
+          icon: "error",
+          title: "กรุณา LOGIN / REGISTER ก่อน",
+          showConfirmButton: false,
+        });
+
+        history.push("/login");
+        return;
+      }
+
+      setModalReportIsOpen(true);
+      setTopicDetail(topic);
+    } catch (err) {
+      console.log(err);
+    }
     // console.log(e);
     // console.log(topic);
-
-    setModalReportIsOpen(true);
-    setTopicDetail(topic);
   };
   // console.log(topicDetail);
 
@@ -141,6 +156,18 @@ function Topic() {
   // console.log(like);
   const handlePin = async (e, topicId) => {
     try {
+      // validate ถ้าไม่ LOGIN
+      if (!user) {
+        await Swal.fire({
+          icon: "error",
+          title: "กรุณา LOGIN / REGISTER ก่อน",
+          showConfirmButton: false,
+        });
+
+        history.push("/login");
+        return;
+      }
+
       if (!isPin) {
         // console.log("isPinxxx", isPin);
         // const newPin = [...pin];
@@ -810,6 +837,7 @@ function Topic() {
                 </div>
               ))}
 
+              {/* ทำให้ Guest ไม่เห็น add comment */}
               {user && (
                 <div
                   key={user?.id}

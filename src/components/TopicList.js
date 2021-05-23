@@ -11,6 +11,8 @@ import PinBlackIcon from "../public/images/pinBlackIcon.png";
 import { PinContext } from "../contexts/PinContextProvider";
 import { AuthContext } from "../contexts/AuthContextProvider";
 
+import Swal from "sweetalert2";
+
 function TopicList() {
   const [lastedTopic, setLastedTopic] = useState([]);
   const [hotTopic, setHotTopic] = useState([]);
@@ -57,6 +59,18 @@ function TopicList() {
     console.log("xxx", item, pinned);
     const topicId = item.id;
     try {
+      // validate ถ้าไม่ LOGIN
+      if (!user) {
+        await Swal.fire({
+          icon: "error",
+          title: "กรุณา LOGIN / REGISTER ก่อน",
+          showConfirmButton: false,
+        });
+
+        history.push("/login");
+        return;
+      }
+
       if (pinned === "NO") {
         const res = await axios.post("/user/pins/", { topicId });
         setPinTrigger(!pinTrigger);
