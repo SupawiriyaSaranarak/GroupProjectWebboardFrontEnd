@@ -15,7 +15,7 @@ import MyPage from "./pages/MyPage";
 import RoomListsTopicPage from "./pages/RoomListsTopicPage";
 import EditTopicPage from "./pages/EditTopicPage";
 import AllTopicsPage from "./pages/AllTopicsPage";
-import SearchPage from "./pages/SearchPage"
+import SearchPage from "./pages/SearchPage";
 
 const adminRoutes = [
   {
@@ -56,7 +56,7 @@ const adminRoutes = [
   },
   {
     path: "/search/:search",
-    component:SearchPage
+    component: SearchPage,
   },
 ];
 
@@ -107,10 +107,10 @@ const guessRoutes = [
     path: "/topic/:id",
     component: TopicPage,
   },
-  {
-    path: "/user/:id",
-    component: UserPage,
-  },
+  // {
+  //   path: "/user/:id",
+  //   component: UserPage,
+  // },
   {
     path: "/",
     component: HomePage,
