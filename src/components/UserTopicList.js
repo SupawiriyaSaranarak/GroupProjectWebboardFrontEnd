@@ -13,6 +13,8 @@ import { AuthContext } from "../contexts/AuthContextProvider";
 import { useHistory } from "react-router";
 import { useParams } from "react-router";
 
+import Swal from "sweetalert2";
+
 function UserTopicList() {
   const [userData, setUserData] = useState([]);
   const [userTopic, setUserTopic] = useState([]);
@@ -29,6 +31,17 @@ function UserTopicList() {
       try {
         const resUserData = await axios.get("/user/user/" + id);
 
+        if (resUserData.data.user.userStatus !== "ACTIVE") {
+          await Swal.fire({
+            icon: "error",
+            title: "ไม่พบ USER นี้ในระบบ",
+            showConfirmButton: false,
+          });
+
+          history.push("/");
+          return;
+        }
+
         setUserData(resUserData.data.user);
 
         const resUserTopic = await axios.get("/topics/user/" + id);
@@ -44,6 +57,18 @@ function UserTopicList() {
         setUserTopic(newUserTopic);
       } catch (err) {
         console.log(err);
+        // console.dir(err);
+
+        // validate ถ้าไม่เจอ User ในระบบ
+        if (err?.response.data.message === "User not found") {
+          await Swal.fire({
+            icon: "error",
+            title: "ไม่พบ USER นี้ในระบบ",
+            showConfirmButton: false,
+          });
+
+          history.push("/");
+        }
       }
     };
     getAllTopic();
