@@ -13,6 +13,7 @@ import PinBlackIcon from "../public/images/pinBlackIcon.png";
 
 import Swal from "sweetalert2";
 import moment from "moment";
+import { UserIcon } from "@heroicons/react/outline";
 
 function RoomTopics() {
   const { user } = useContext(AuthContext);
@@ -314,7 +315,7 @@ function RoomTopics() {
                         height: "20px",
                         borderRadius: "1.5rem",
                       }}
-                      src={item.User.userImg}
+                      src={item.User?.userImg ? item.User?.userImg : UserIcon}
                       onClick={() => history.push(`/user/${item.User.id}`)}
                     />{" "}
                     &nbsp;&nbsp;

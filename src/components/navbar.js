@@ -10,6 +10,7 @@ import InputBase from "@material-ui/core/InputBase";
 import SearchIcon from "@material-ui/icons/Search";
 import { Button } from "@material-ui/core";
 
+import { UserIcon } from "@heroicons/react/outline";
 import { BookOpenIcon } from "@heroicons/react/outline";
 
 import WebLogo from "../public/images/Icon_01.png";
@@ -243,7 +244,7 @@ function Navbar({ Icon, Icon2 }) {
                 }}
               >
                 <Avatar
-                  src={user.userImg}
+                  src={user.userImg ? user.userImg : UserIcon}
                   className={classes.circle}
                   class="w-7 h-7"
                   style={{

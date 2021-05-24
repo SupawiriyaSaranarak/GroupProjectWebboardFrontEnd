@@ -12,6 +12,7 @@ import { PinContext } from "../contexts/PinContextProvider";
 import { AuthContext } from "../contexts/AuthContextProvider";
 
 import Swal from "sweetalert2";
+import { UserIcon } from "@heroicons/react/outline";
 
 function TopicList() {
   const [lastedTopic, setLastedTopic] = useState([]);
@@ -224,7 +225,7 @@ function TopicList() {
                           height: "20px",
                           borderRadius: "1.5rem",
                         }}
-                        src={item?.User.userImg}
+                        src={item?.User.userImg ? item?.User.userImg : UserIcon}
                       />
                       &nbsp;&nbsp;
                       <a
@@ -405,7 +406,7 @@ function TopicList() {
                           height: "20px",
                           borderRadius: "1.5rem",
                         }}
-                        src={item?.User?.userImg}
+                        src={item?.User.userImg ? item?.User.userImg : UserIcon}
                       />{" "}
                       &nbsp;&nbsp;
                       <a

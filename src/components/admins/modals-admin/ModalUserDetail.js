@@ -4,6 +4,7 @@ import moment from "moment";
 
 // Modal import
 import Modal from "react-modal";
+import { UserIcon } from "@heroicons/react/outline";
 const customStyles = {
   content: {
     top: "50%",
@@ -46,7 +47,11 @@ function ModalUserDetail(props) {
             >
               <p>Img:</p>
               <img
-                src={props.userDetail?.userImg}
+                src={
+                  props.userDetail?.userImg
+                    ? props.userDetail?.userImg
+                    : UserIcon
+                }
                 className="modal-userDetail-box-content-1-userImg"
               />
             </div>

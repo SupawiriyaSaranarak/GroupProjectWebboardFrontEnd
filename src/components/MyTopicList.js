@@ -12,6 +12,7 @@ import { PinContext } from "../contexts/PinContextProvider";
 import moment from "moment";
 import axios from "../config/axios";
 import { useHistory } from "react-router";
+import { UserIcon } from "@heroicons/react/outline";
 
 function UserTopicList() {
   const history = useHistory();
@@ -218,7 +219,7 @@ function UserTopicList() {
             }}
           >
             <img
-              src={user.userImg}
+              src={user.userImg ? user.userImg : UserIcon}
               style={{
                 height: "100px",
                 width: "100px",
@@ -300,7 +301,7 @@ function UserTopicList() {
                         height: "20px",
                         borderRadius: "1.5rem",
                       }}
-                      src={item.User.userImg}
+                      src={item?.User.userImg ? item?.User.userImg : UserIcon}
                     />{" "}
                     &nbsp;&nbsp;
                     <a href="#" style={{ textDecoration: "none" }}>
