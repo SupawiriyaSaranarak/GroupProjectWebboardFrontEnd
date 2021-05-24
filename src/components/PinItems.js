@@ -39,8 +39,6 @@ function PinItems(props) {
         title: "ลบกระทู้ที่ปักหมุดไว้สำเร็จ",
         showConfirmButton: true,
       });
-
-      location.reload();
     } catch (err) {
       console.log(err);
     }

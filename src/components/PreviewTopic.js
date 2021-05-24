@@ -174,7 +174,7 @@ function PreviewTopic({ topicImg, input, previewRoom }) {
               margin: "20px",
             }}
           >
-            <img src={topicImg} />
+            <img src={topicImg ? topicImg : input.topicImg} />
           </div>
           <div
             align="justify"
