@@ -1,14 +1,14 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useHistory } from "react-router-dom";
 import axios from "../config/axios";
-
+import { PinContext } from "../contexts/PinContextProvider";
 import pinBlackIcon from "../public/images/pinBlackIcon.png";
 
 import Swal from "sweetalert2";
 
 function PinItems(props) {
   const showTopicText = props.item.Topic.topicName.substr(0, 13);
-
+  const { pin, setPin, pinTrigger, setPinTrigger } = useContext(PinContext);
   const history = useHistory();
 
   const handlerDeletePin = async (e, pinned) => {
@@ -31,7 +31,7 @@ function PinItems(props) {
       }
 
       const deletePin = await axios.delete("/pins/" + pinned.id);
-
+      setPinTrigger(!pinTrigger);
       props.getUserPin();
 
       Swal.fire({

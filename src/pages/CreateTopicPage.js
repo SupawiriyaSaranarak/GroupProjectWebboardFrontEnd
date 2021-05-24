@@ -28,6 +28,7 @@ function CreateTopicPage() {
     console.log(formData);
     const res = await axios.post("/upload", formData);
     setTopicImg(res.data.img);
+    setInput((prev) => ({ ...prev, topicImg: res.data.img }));
   };
   //upload content img
   const [fileContentImg, setFileContentImg] = useState(null);
@@ -65,6 +66,7 @@ function CreateTopicPage() {
     };
     getRoom();
   }, []);
+  console.log("inputxxx", input);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
