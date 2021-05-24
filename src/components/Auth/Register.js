@@ -7,6 +7,9 @@ import { AuthContext } from "../../contexts/AuthContextProvider";
 
 import jwtDecode from "jwt-decode";
 
+import Loading from "../utils/Loading";
+import { IsLoadingContext } from "../../contexts/LoadingContextProvider";
+
 function Register() {
   const [input, setInput] = useState({});
   const [error, setError] = useState({});
@@ -15,6 +18,10 @@ function Register() {
   const isEmail =
     /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   const isPassword = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$/;
+
+  const { isLoading, setIsLoading, ClearLoading } =
+    useContext(IsLoadingContext);
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     console.log(e);
@@ -66,6 +73,8 @@ function Register() {
       console.log("submit");
       validateInput();
 
+      setIsLoading(true);
+
       const formData = new FormData(); // ทำให้เป็น multipart from data เพื่อให้ axios ตรวจจับได้ง่ายๆ
       formData.append("image", uploadImage);
       const res = await axios.post("/upload", formData);
@@ -76,6 +85,9 @@ function Register() {
 
       localStorageService.setToken(response.data.token);
       const payload = jwtDecode(response.data.token);
+
+      setIsLoading(false);
+
       setUser(payload);
       history.push("/me");
     } catch (err) {
@@ -282,6 +294,7 @@ function Register() {
             <div style={{ fontSize: "12px", color: "red" }}>{error.front}</div>
           </div>
         ) : null}
+        {isLoading && <Loading />}
       </div>
     </div>
   );
