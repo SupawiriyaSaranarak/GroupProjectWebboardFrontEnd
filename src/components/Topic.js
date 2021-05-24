@@ -867,7 +867,7 @@ function Topic() {
                 >
                   <div>
                     <img
-                      src={item?.User.userImg ? item?.User.userImg : UserIcon}
+                      src={user?.userImg ? user?.userImg : UserIcon}
                       style={{
                         height: "50px",
                         width: "50px",
