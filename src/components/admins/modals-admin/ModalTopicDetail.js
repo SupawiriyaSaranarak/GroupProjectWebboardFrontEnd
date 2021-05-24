@@ -1,4 +1,5 @@
 import React from "react";
+import { useHistory } from "react-router";
 
 import moment from "moment";
 
@@ -16,8 +17,13 @@ const customStyles = {
 };
 
 function ModalTopicDetail(props) {
-  const handlerOnClick = (e) => {
-    console.log("click");
+  const history = useHistory();
+
+  const handlerOnClick = (e, topicId) => {
+    e.preventDefault();
+    try {
+      history.push("/topic/" + topicId);
+    } catch (err) {}
   };
 
   return (
@@ -51,15 +57,18 @@ function ModalTopicDetail(props) {
           </div>
           <div className="modal-topicList-box-content-2">
             <p>Topic Name: {props.topicDetail?.topicName}</p>
-            <p>Topic Img:</p>
-            <div className="modal-topicList-box-content-2-topicImg">
+            <p
+              onClick={(e) => handlerOnClick(e, props.topicDetail?.id)}
+              className="modal-X"
+            >
+              {">CLCK TO OPEN TOPIC<"}
+            </p>
+            {/* <div className="modal-topicList-box-content-2-topicImg">
               <img src={props.topicDetail?.topicImg} />
-            </div>
+            </div> */}
           </div>
         </div>
-        <div className="modal-reportDetail-box-footer">
-          <div onClick={handlerOnClick}></div>
-        </div>
+        {/* <div className="modal-reportDetail-box-footer"></div> */}
       </div>
     </Modal>
   );

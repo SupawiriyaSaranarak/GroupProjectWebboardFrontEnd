@@ -274,7 +274,9 @@ function UserTopicList() {
                 <div>
                   <a href="#" style={{ textDecoration: "none" }}>
                     <strong onClick={() => history.push(`/topic/${item.id}`)}>
-                      {item.topicName.slice(0, 35) + "..."}
+                      {item.topicName.length > 43
+                        ? item.topicName.slice(0, 40) + "..."
+                        : item.topicName}
                     </strong>
                   </a>
                 </div>
@@ -293,7 +295,11 @@ function UserTopicList() {
                     }}
                   >
                     <img
-                      style={{ width: "20px", height: "20px" }}
+                      style={{
+                        width: "20px",
+                        height: "20px",
+                        borderRadius: "1.5rem",
+                      }}
                       src={item.User.userImg}
                     />{" "}
                     &nbsp;&nbsp;

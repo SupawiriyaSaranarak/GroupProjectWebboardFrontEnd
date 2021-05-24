@@ -34,11 +34,13 @@ function PinItems(props) {
       setPinTrigger(!pinTrigger);
       props.getUserPin();
 
-      Swal.fire({
+      await Swal.fire({
         icon: "success",
         title: "ลบกระทู้ที่ปักหมุดไว้สำเร็จ",
         showConfirmButton: true,
       });
+
+      location.reload();
     } catch (err) {
       console.log(err);
     }

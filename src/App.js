@@ -15,6 +15,7 @@ import MyPage from "./pages/MyPage";
 import RoomListsTopicPage from "./pages/RoomListsTopicPage";
 import EditTopicPage from "./pages/EditTopicPage";
 import AllTopicsPage from "./pages/AllTopicsPage";
+import SearchPage from "./pages/SearchPage";
 
 const adminRoutes = [
   {
@@ -53,6 +54,10 @@ const adminRoutes = [
     path: "/topic-all",
     component: AllTopicsPage,
   },
+  {
+    path: "/search/:search",
+    component: SearchPage,
+  },
 ];
 
 const userRoutes = [
@@ -88,6 +93,10 @@ const userRoutes = [
     path: "/topic-all",
     component: AllTopicsPage,
   },
+  {
+    path: "/search/:search",
+    component: SearchPage,
+  },
 ];
 const guessRoutes = [
   {
@@ -98,10 +107,10 @@ const guessRoutes = [
     path: "/topic/:id",
     component: TopicPage,
   },
-  {
-    path: "/user/:id",
-    component: UserPage,
-  },
+  // {
+  //   path: "/user/:id",
+  //   component: UserPage,
+  // },
   {
     path: "/",
     component: HomePage,
@@ -113,6 +122,10 @@ const guessRoutes = [
   {
     path: "/topic-all",
     component: AllTopicsPage,
+  },
+  {
+    path: "/search/:search",
+    component: SearchPage,
   },
 ];
 

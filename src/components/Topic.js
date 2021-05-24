@@ -27,12 +27,27 @@ function Topic() {
   const [modalReportIsOpen, setModalReportIsOpen] = useState(false);
   const { pin, setPin, pinTrigger, setPinTrigger } = useContext(PinContext);
 
-  const openModalReport = (e, topic) => {
+  const openModalReport = async (e, topic) => {
+    try {
+      // validate ถ้าไม่ LOGIN
+      if (!user) {
+        await Swal.fire({
+          icon: "error",
+          title: "กรุณา LOGIN / REGISTER ก่อน",
+          showConfirmButton: false,
+        });
+
+        history.push("/login");
+        return;
+      }
+
+      setModalReportIsOpen(true);
+      setTopicDetail(topic);
+    } catch (err) {
+      console.log(err);
+    }
     // console.log(e);
     // console.log(topic);
-
-    setModalReportIsOpen(true);
-    setTopicDetail(topic);
   };
   // console.log(topicDetail);
 
@@ -115,8 +130,21 @@ function Topic() {
     setReport(true);
   };
 
-  const handleLike = async () => {
+  const handleLike = async (e) => {
+    e.preventDefault();
     try {
+      // validate ถ้าไม่ LOGIN
+      if (!user) {
+        await Swal.fire({
+          icon: "error",
+          title: "กรุณา LOGIN / REGISTER ก่อน",
+          showConfirmButton: false,
+        });
+
+        history.push("/login");
+        return;
+      }
+
       const Likes = topic.Likes;
       if (!like) {
         const res = await axios.post(`/user/likes/topic/${topic.id}`);
@@ -140,6 +168,18 @@ function Topic() {
   // console.log(like);
   const handlePin = async (e, topicId) => {
     try {
+      // validate ถ้าไม่ LOGIN
+      if (!user) {
+        await Swal.fire({
+          icon: "error",
+          title: "กรุณา LOGIN / REGISTER ก่อน",
+          showConfirmButton: false,
+        });
+
+        history.push("/login");
+        return;
+      }
+
       if (!isPin) {
         // console.log("isPinxxx", isPin);
         // const newPin = [...pin];
@@ -535,6 +575,7 @@ function Topic() {
               style={{
                 paddingBottom: "20px",
                 borderBottom: "solid rgb(167, 167, 167) 1px",
+                alignSelf: "center",
               }}
             >
               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -808,51 +849,54 @@ function Topic() {
                 </div>
               ))}
 
-              <div
-                key={user?.id}
-                style={{
-                  width: "90%",
-                  borderBottom: "solid grey 1px",
-                  marginBottom: "10px",
-                  paddingBottom: "5px",
-                  display: "flex",
-                  flexDirection: "row",
-                  justifyContent: "flex-start",
-                  alignItems: "center",
-                }}
-              >
-                <div>
-                  <img
-                    src={user?.userImg}
-                    style={{
-                      height: "50px",
-                      width: "50px",
-                      borderRadius: "50px",
-                      margin: "0 15px",
-                    }}
-                  />
-                </div>
-                <div>
-                  <form onSubmit={(e) => handleAddComment(e)}>
-                    <textarea
-                      value={addCommentContent}
-                      onChange={(e) => setAddCommentContent(e.target.value)}
-                      style={{ width: "30vw" }}
-                    />
-
-                    <button
-                      className="button"
+              {/* ทำให้ Guest ไม่เห็น add comment */}
+              {user && (
+                <div
+                  key={user?.id}
+                  style={{
+                    width: "90%",
+                    borderBottom: "solid grey 1px",
+                    marginBottom: "10px",
+                    paddingBottom: "5px",
+                    display: "flex",
+                    flexDirection: "row",
+                    justifyContent: "flex-start",
+                    alignItems: "center",
+                  }}
+                >
+                  <div>
+                    <img
+                      src={user?.userImg}
                       style={{
-                        backgroundColor: "#edd1b0",
-                        border: "none",
-                        maginLeft: "40px",
+                        height: "50px",
+                        width: "50px",
+                        borderRadius: "50px",
+                        margin: "0 15px",
                       }}
-                    >
-                      Comment
-                    </button>
-                  </form>
+                    />
+                  </div>
+                  <div>
+                    <form onSubmit={(e) => handleAddComment(e)}>
+                      <textarea
+                        value={addCommentContent}
+                        onChange={(e) => setAddCommentContent(e.target.value)}
+                        style={{ width: "30vw" }}
+                      />
+
+                      <button
+                        className="button"
+                        style={{
+                          backgroundColor: "#edd1b0",
+                          border: "none",
+                          maginLeft: "40px",
+                        }}
+                      >
+                        Comment
+                      </button>
+                    </form>
+                  </div>
                 </div>
-              </div>
+              )}
             </div>
           </div>
         </div>
@@ -864,6 +908,7 @@ function Topic() {
           topicDetail={topicDetail}
           handleReport={handleReport}
           setTopicDetail={setTopicDetail}
+          setReported={setReported}
         />
       </>
     );

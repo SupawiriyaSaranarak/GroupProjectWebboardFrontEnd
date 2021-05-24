@@ -313,6 +313,7 @@ function RoomManage() {
           </button>
         </div>
       </div>
+      <div class="h-16"></div>
 
       <ModalRoomAdd
         modalRoomAddIsOpen={modalRoomAddIsOpen}

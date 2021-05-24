@@ -274,7 +274,7 @@
 }
 
 .admin-footer {
-  height: 10%;
+  /* height: 10%; */
 }
 
 .admin-content-body {
@@ -606,9 +606,8 @@
   border-radius: 15px;
   background-color: #dfdfdf;
 
-  width: 500px;
-  max-width: 500px;
-  max-height: 500px;
+  max-width: 200px;
+  max-height: 200px;
   display: block;
 
   object-fit: cover;
@@ -661,7 +660,7 @@
   border-radius: 15px;
   background-color: #dfdfdf;
 
-  width: 300px;
+  width: 150px;
   display: block;
 
   object-fit: cover;

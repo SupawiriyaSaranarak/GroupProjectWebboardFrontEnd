@@ -58,85 +58,107 @@ function LogIn() {
     }
   };
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "flex-start",
-        padding: "20px",
-        backgroundColor: "#edd1b0",
-        borderRadius: "10px",
-        width: "30%",
-      }}
-    >
-      <div>LOG IN</div>
-      <br />
-
-      <form onSubmit={handleSubmit}>
-        <div className=" form-div">
-          <label htmlFor="email">Email</label>
-
-          <input
-            className="form-div"
-            type="text"
-            name="email"
-            placeholder="Email"
-            value={input.email}
-            onChange={(e) => handleInputChange(e)}
-          />
-          {error.email ? (
-            <div style={{ fontSize: "12px", color: "red" }}>{error.email}</div>
-          ) : null}
+    <>
+      <div>
+        <div className="dashboad-header">
+          <div className="roomBar-container-header-dashLine">
+            <div className="roomBar-container-header-dashLine-inside"></div>
+            <div></div>
+          </div>
+          <div className="roomBar-container-header-dashLine-text-padding"></div>
+          <p className="roomBar-container-header-dashLine-text">LOG IN</p>
+          <div className="roomBar-container-header-dashLine-text-padding"></div>
+          <div className="roomBar-container-header-dashLine">
+            <div className="roomBar-container-header-dashLine-inside"></div>
+            <div></div>
+          </div>
         </div>
-        <br />
-        <div className="form-div">
-          <label htmlFor="password">Password</label>
+        <div
+          style={{
+            flexDirection: "column",
+            justifyContent: "flex-start",
+            padding: "20px",
+            backgroundColor: "#edd1b0",
+            borderRadius: "10px",
+            minWidth: "500px",
+          }}
+        >
+          <div>LOG IN</div>
+          <br />
 
-          <input
-            className="form-div"
-            type="password"
-            name="password"
-            placeholder="Password"
-            value={input.password}
-            onChange={(e) => handleInputChange(e)}
-          />
-          {error.password ? (
-            <div style={{ fontSize: "12px", color: "red" }}>
-              {error.password}
+          <form onSubmit={handleSubmit}>
+            <div className=" form-div">
+              <label htmlFor="email">Email</label>
+
+              <input
+                className="form-div"
+                type="text"
+                name="email"
+                placeholder="Email"
+                value={input.email}
+                onChange={(e) => handleInputChange(e)}
+              />
+              {error.email ? (
+                <div style={{ fontSize: "12px", color: "red" }}>
+                  {error.email}
+                </div>
+              ) : null}
+            </div>
+            <br />
+            <div className="form-div">
+              <label htmlFor="password">Password</label>
+
+              <input
+                className="form-div"
+                type="password"
+                name="password"
+                placeholder="Password"
+                value={input.password}
+                onChange={(e) => handleInputChange(e)}
+              />
+              {error.password ? (
+                <div style={{ fontSize: "12px", color: "red" }}>
+                  {error.password}
+                </div>
+              ) : null}
+            </div>
+            <br />
+
+            <div style={{ display: "flex", justifyContent: "center" }}>
+              <button className="button">Log In</button>
+            </div>
+          </form>
+          {error.server ? (
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <br />
+              <div style={{ fontSize: "12px", color: "red" }}>
+                {error.server}
+              </div>
+            </div>
+          ) : null}
+          {error.front ? (
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <br />
+              <div style={{ fontSize: "12px", color: "red" }}>
+                {error.front}
+              </div>
             </div>
           ) : null}
         </div>
-        <br />
-
-        <div style={{ display: "flex", justifyContent: "center" }}>
-          <button>Log In</button>
-        </div>
-      </form>
-      {error.server ? (
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <br />
-          <div style={{ fontSize: "12px", color: "red" }}>{error.server}</div>
-        </div>
-      ) : null}
-      {error.front ? (
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <br />
-          <div style={{ fontSize: "12px", color: "red" }}>{error.front}</div>
-        </div>
-      ) : null}
-    </div>
+      </div>
+    </>
   );
 }
 

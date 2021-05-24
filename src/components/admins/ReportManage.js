@@ -162,6 +162,7 @@ function ReportManage() {
         </table>
         <div className="admin-content-content-footer"></div>
       </div>
+      <div class="h-16"></div>
 
       <ModalReportDetail
         modalReportDetailIsOpen={modalReportDetailIsOpen}

@@ -91,178 +91,198 @@ function Register() {
     }
   };
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "flex-start",
-        padding: "20px",
-        backgroundColor: "#edd1b0",
-        borderRadius: "10px",
-        width: "30%",
-      }}
-    >
-      <div>REGISTER</div>
-      <br />
-      <form onSubmit={handleSubmit}>
-        <div
-          className="form-div"
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "flex-start",
-          }}
-        >
-          <div>
+    <div>
+      <div className="dashboad-header">
+        <div className="roomBar-container-header-dashLine">
+          <div className="roomBar-container-header-dashLine-inside"></div>
+          <div></div>
+        </div>
+        <div className="roomBar-container-header-dashLine-text-padding"></div>
+        <p className="roomBar-container-header-dashLine-text">LOG IN</p>
+        <div className="roomBar-container-header-dashLine-text-padding"></div>
+        <div className="roomBar-container-header-dashLine">
+          <div className="roomBar-container-header-dashLine-inside"></div>
+          <div></div>
+        </div>
+      </div>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "flex-start",
+          padding: "20px",
+          backgroundColor: "#edd1b0",
+          borderRadius: "10px",
+          minWidth: "500px",
+        }}
+      >
+        <div>REGISTER</div>
+        <br />
+        <div class="h-7"></div>
+
+        <form onSubmit={handleSubmit}>
+          <div
+            className="form-div"
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "flex-start",
+            }}
+          >
             <label htmlFor="username">Username</label>
+
+            <div>
+              <input
+                className="form-div"
+                type="text"
+                name="username"
+                placeholder="Username"
+                value={input.username}
+                onChange={handleInputChange}
+              />
+            </div>
+            {error.username ? (
+              <div style={{ fontSize: "12px", color: "red" }}>
+                {error.username}
+              </div>
+            ) : null}
           </div>
-          <div>
+          <br />
+          <div className=" form-div">
+            <label htmlFor="email">Email</label>
+
             <input
               className="form-div"
               type="text"
-              name="username"
-              placeholder="Username"
-              value={input.username}
+              name="email"
+              placeholder="Email"
+              value={input.email}
               onChange={handleInputChange}
             />
+            {error.email ? (
+              <div style={{ fontSize: "12px", color: "red" }}>
+                {error.email}
+              </div>
+            ) : null}
           </div>
-          {error.username ? (
-            <div style={{ fontSize: "12px", color: "red" }}>
-              {error.username}
-            </div>
-          ) : null}
-        </div>
-        <br />
-        <div className=" form-div">
-          <label htmlFor="email">Email</label>
+          <br />
+          <div className="form-div">
+            <label htmlFor="password">Password</label>
 
-          <input
-            className="form-div"
-            type="text"
-            name="email"
-            placeholder="Email"
-            value={input.email}
-            onChange={handleInputChange}
-          />
-          {error.email ? (
-            <div style={{ fontSize: "12px", color: "red" }}>{error.email}</div>
-          ) : null}
-        </div>
-        <br />
-        <div className="form-div">
-          <label htmlFor="password">Password</label>
-
-          <input
-            className="form-div"
-            type="password"
-            name="password"
-            placeholder="Password"
-            value={input.password}
-            onChange={handleInputChange}
-          />
-          {error.password ? (
-            <div style={{ fontSize: "12px", color: "red" }}>
-              {error.password}
-            </div>
-          ) : null}
-        </div>
-        <br />
-        <div className="form-div">
-          <label htmlFor="confirmPassword">Confirm Password</label>
-
-          <div>
             <input
               className="form-div"
               type="password"
-              name="confirmPassword"
-              placeholder="Confirm Password"
-              value={input.confirmPassword}
+              name="password"
+              placeholder="Password"
+              value={input.password}
+              onChange={handleInputChange}
+            />
+            {error.password ? (
+              <div style={{ fontSize: "12px", color: "red" }}>
+                {error.password}
+              </div>
+            ) : null}
+          </div>
+          <br />
+          <div className="form-div">
+            <label htmlFor="confirmPassword">Confirm Password</label>
+
+            <div>
+              <input
+                className="form-div"
+                type="password"
+                name="confirmPassword"
+                placeholder="Confirm Password"
+                value={input.confirmPassword}
+                onChange={handleInputChange}
+              />
+            </div>
+            {error.confirmPassword ? (
+              <div style={{ fontSize: "12px", color: "red" }}>
+                {error.confirmPassword}
+              </div>
+            ) : null}
+          </div>
+          <br />
+          <div className="form-group form-div">
+            <div>
+              <div>Upload User Image</div>
+              <br />
+              {uploadImage === null ? (
+                <img
+                  className="modal-roomAdd-box-content-image-box-Pre-img"
+                  onClick={handleClickUploadRoomAddImg}
+                />
+              ) : (
+                <img
+                  src={URL.createObjectURL(uploadImage)}
+                  className="modal-roomAdd-box-content-image-box-Pre-img"
+                  onClick={handleClickUploadRoomAddImg}
+                />
+              )}
+              <label
+                htmlFor="roomAddImg"
+                className="modal-roomAdd-box-content-image-box-insideText"
+              >
+                User Image
+              </label>
+            </div>
+            <input
+              id="roomAddImg"
+              type="file"
+              className="modal-roomAdd-box-content-image-input-uploadImg"
+              ref={hiddenFileInput}
+              onChange={handlerUploadImage}
+            />
+          </div>
+
+          <br />
+          <div className="form-div">
+            <label htmlFor="checkinDate">Birth Date</label>
+            <input
+              type="date"
+              name="birthDate"
+              value={input.birthDate}
               onChange={handleInputChange}
             />
           </div>
-          {error.confirmPassword ? (
+          {error.birthDate ? (
             <div style={{ fontSize: "12px", color: "red" }}>
-              {error.confirmPassword}
+              {error.birthDate}
             </div>
           ) : null}
-        </div>
-        <br />
-        <div className="form-group form-div">
-          <div>
-            <div>Upload User Image</div>
-            <br />
-            {uploadImage === null ? (
-              <img
-                className="modal-roomAdd-box-content-image-box-Pre-img"
-                onClick={handleClickUploadRoomAddImg}
-              />
-            ) : (
-              <img
-                src={URL.createObjectURL(uploadImage)}
-                className="modal-roomAdd-box-content-image-box-Pre-img"
-                onClick={handleClickUploadRoomAddImg}
-              />
-            )}
-            <label
-              htmlFor="roomAddImg"
-              className="modal-roomAdd-box-content-image-box-insideText"
-            >
-              User Image
-            </label>
+          <br />
+          <div style={{ display: "flex", justifyContent: "center" }}>
+            <button className="button" disabled={uploadImage ? false : true}>
+              Register
+            </button>
           </div>
-          <input
-            id="roomAddImg"
-            type="file"
-            className="modal-roomAdd-box-content-image-input-uploadImg"
-            ref={hiddenFileInput}
-            onChange={handlerUploadImage}
-          />
-        </div>
-
-        <br />
-        <div className="form-div">
-          <label htmlFor="checkinDate">Birth Date</label>
-          <input
-            type="date"
-            name="birthDate"
-            value={input.birthDate}
-            onChange={handleInputChange}
-          />
-        </div>
-        {error.birthDate ? (
-          <div style={{ fontSize: "12px", color: "red" }}>
-            {error.birthDate}
+        </form>
+        {error.server ? (
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <br />
+            <div style={{ fontSize: "12px", color: "red" }}>{error.server}</div>
           </div>
         ) : null}
-        <br />
-        <div style={{ display: "flex", justifyContent: "center" }}>
-          <button disabled={uploadImage ? false : true}>Register</button>
-        </div>
-      </form>
-      {error.server ? (
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <br />
-          <div style={{ fontSize: "12px", color: "red" }}>{error.server}</div>
-        </div>
-      ) : null}
-      {error.front ? (
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <br />
-          <div style={{ fontSize: "12px", color: "red" }}>{error.front}</div>
-        </div>
-      ) : null}
+        {error.front ? (
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <br />
+            <div style={{ fontSize: "12px", color: "red" }}>{error.front}</div>
+          </div>
+        ) : null}
+      </div>
     </div>
   );
 }

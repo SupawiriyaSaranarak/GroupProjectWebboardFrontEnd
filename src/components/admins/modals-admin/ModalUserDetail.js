@@ -64,7 +64,7 @@ function ModalUserDetail(props) {
             </p>
           </div>
         </div>
-        <div className="modal-reportDetail-box-footer"></div>
+        {/* <div className="modal-reportDetail-box-footer"></div> */}
       </div>
     </Modal>
   );

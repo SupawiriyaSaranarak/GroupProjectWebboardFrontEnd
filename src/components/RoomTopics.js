@@ -11,6 +11,7 @@ import calendarIcon from "../public/images/calendarIcon.png";
 import PinRedIcon from "../public/images/pinRedIcon.png";
 import PinBlackIcon from "../public/images/pinBlackIcon.png";
 
+import Swal from "sweetalert2";
 import moment from "moment";
 
 function RoomTopics() {
@@ -50,6 +51,18 @@ function RoomTopics() {
     console.log("xxx", item, pinned);
     const topicId = item.id;
     try {
+      // validate ถ้าไม่ LOGIN
+      if (!user) {
+        await Swal.fire({
+          icon: "error",
+          title: "กรุณา LOGIN / REGISTER ก่อน",
+          showConfirmButton: false,
+        });
+
+        history.push("/login");
+        return;
+      }
+
       if (pinned === "NO") {
         const res = await axios.post("/user/pins/", { topicId });
         setPinTrigger(!pinTrigger);
@@ -225,7 +238,7 @@ function RoomTopics() {
               style={{
                 height: "100px",
                 width: "100px",
-                borderRadius: "100px",
+                // borderRadius: "1.5rem",
                 margin: "0 15px",
                 objectFit: "cover",
                 overflow: "hidden",
@@ -275,7 +288,9 @@ function RoomTopics() {
                 <div>
                   <a href="#" style={{ textDecoration: "none" }}>
                     <strong onClick={() => history.push(`/topic/${item.id}`)}>
-                      {item.topicName.slice(0, 35) + "..."}
+                      {item.topicName.length > 43
+                        ? item.topicName.slice(0, 40) + "..."
+                        : item.topicName}
                     </strong>
                   </a>
                 </div>

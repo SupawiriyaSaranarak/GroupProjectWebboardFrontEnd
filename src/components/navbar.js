@@ -10,6 +10,8 @@ import InputBase from "@material-ui/core/InputBase";
 import SearchIcon from "@material-ui/icons/Search";
 import { Button } from "@material-ui/core";
 
+import { BookOpenIcon } from "@heroicons/react/outline";
+
 import WebLogo from "../public/images/Icon_01.png";
 
 const useStyles = makeStyles((theme) => ({
@@ -80,10 +82,12 @@ function Navbar({ Icon, Icon2 }) {
     setAnchorEl(event.currentTarget);
   };
 
-  const handleClose = () => {
-    setAnchorEl(null);
+  const handleKeyDown = (e) => {
+     if (e.key === "Enter") {
+       history.push(`/search/${search}`)
+     }
   };
-
+  console.log(search)
   return (
     <>
       <div
@@ -113,14 +117,16 @@ function Navbar({ Icon, Icon2 }) {
                 <SearchIcon />
               </div>
               <InputBase
+                onKeyDown={handleKeyDown}
+                value={search}
                 placeholder="Search…"
-                onChange={(e) => e.target.value}
+                onChange={(e) => setSearch(e.target.value)}
                 classes={{
                   root: classes.inputRoot,
                   input: classes.inputInput,
                 }}
                 inputProps={{ "aria-label": "search" }}
-              />
+              ></InputBase>
             </div>
           </div>
 
@@ -138,6 +144,18 @@ function Navbar({ Icon, Icon2 }) {
                 style={{ backgroundColor: "rgba(0, 0, 0, 0.75)" }}
               >
                 Home
+              </span>
+            </div>
+            <div className="group sm:w-20 flex flex-col cursor-pointer hover:text-yellow-500 items-center">
+              <BookOpenIcon
+                className="h-7 transform group-hover:transition delay-150 duration-150 "
+                onClick={(e) => history.push("/topic-all")}
+              />
+              <span
+                class="opacity-0 mt-3 w-20 h-6 text-center text-yellow-500 rounded-lg group-hover:opacity-100 group-hover:transition delay-150 duration-150 font-bold tracking-widest"
+                style={{ backgroundColor: "rgba(0, 0, 0, 0.75)" }}
+              >
+                ALL
               </span>
             </div>
             <div className="group sm:w-20 flex flex-col cursor-pointer hover:text-yellow-500 items-center">

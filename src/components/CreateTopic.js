@@ -144,7 +144,9 @@ function CreateTopic({
                       type="file"
                       onChange={handleFileTopicImgChange}
                     />
-                    <button onClick={handleUploadTopicImg}>Upload</button>
+                    <button className="button" onClick={handleUploadTopicImg}>
+                      Upload
+                    </button>
                   </div>
                 </div>
               </form>
@@ -185,6 +187,7 @@ function CreateTopic({
                 type="text"
                 name="topicContent"
                 placeholder="Content"
+                rows="10"
                 value={input.topicContent}
                 onChange={handleInputChange}
                 defaultValue={input.topicContent}
@@ -207,7 +210,9 @@ function CreateTopic({
                     type="file"
                     onChange={handleFileContentImgChange}
                   />
-                  <button onClick={handleUploadContentImg}>Upload</button>
+                  <button className="button" onClick={handleUploadContentImg}>
+                    Upload
+                  </button>
                 </div>
               </div>
             </div>
@@ -226,8 +231,8 @@ function CreateTopic({
                   Select Room
                 </option>
                 {room?.map((item) => {
-                  console.log(item.id);
-                  console.log(input?.Room?.id);
+                  // console.log(item.id);
+                  // console.log(input?.Room?.id);
                   return (
                     <option
                       name="roomId"

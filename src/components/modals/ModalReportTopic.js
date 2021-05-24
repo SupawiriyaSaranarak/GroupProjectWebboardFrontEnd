@@ -3,6 +3,8 @@ import axios from "../../config/axios";
 
 // Modal import
 import Modal from "react-modal";
+import Swal from "sweetalert2";
+
 const customStyles = {
   content: {
     top: "50%",
@@ -13,8 +15,6 @@ const customStyles = {
     transform: "translate(-50%, -50%)",
   },
 };
-
-import Swal from "sweetalert2";
 
 function ModalReportTopic(props) {
   const [reportInput, setReportInput] = useState({});
@@ -52,6 +52,7 @@ function ModalReportTopic(props) {
 
       props.closeModalReport();
       props.setTopicDetail();
+      props.setReported(true);
       setReportInput({});
     } catch (err) {
       console.log(err);
