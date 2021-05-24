@@ -165,6 +165,7 @@ function RoomManage() {
         }
 
         setIsLoading(true);
+        window.scrollTo(0, 0);
 
         const imgFromData = new FormData();
         imgFromData.append("roomIcon", editReqBodyValue);
