@@ -10,6 +10,7 @@ import InputBase from "@material-ui/core/InputBase";
 import SearchIcon from "@material-ui/icons/Search";
 import { Button } from "@material-ui/core";
 
+import { UserIcon } from "@heroicons/react/outline";
 import { BookOpenIcon } from "@heroicons/react/outline";
 
 import WebLogo from "../public/images/Icon_01.png";
@@ -70,6 +71,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+import Swal from "sweetalert2";
+
 function Navbar({ Icon, Icon2 }) {
   const [search, setSearch] = useState("");
   const [anchorEl, setAnchorEl] = useState(null);
@@ -83,11 +86,27 @@ function Navbar({ Icon, Icon2 }) {
   };
 
   const handleKeyDown = (e) => {
-     if (e.key === "Enter") {
-       history.push(`/search/${search}`)
-     }
+    if (e.key === "Enter") {
+      history.push(`/search/${search}`);
+    }
   };
-  console.log(search)
+  console.log(search);
+
+  const handlerGoToCreate = async (e) => {
+    if (!user) {
+      await Swal.fire({
+        icon: "error",
+        title: "กรุณา LOGIN / REGISTER ก่อน",
+        showConfirmButton: false,
+      });
+
+      history.push("/login");
+      return;
+    }
+
+    history.push("/create-topic");
+  };
+
   return (
     <>
       <div
@@ -161,7 +180,7 @@ function Navbar({ Icon, Icon2 }) {
             <div className="group sm:w-20 flex flex-col cursor-pointer hover:text-yellow-500 items-center">
               <Icon2
                 className="h-7 group-hover:transition delay-150 duration-150 ease-in-out ..."
-                onClick={(e) => history.push("/create-topic")}
+                onClick={handlerGoToCreate}
               />
               <span
                 class="opacity-0 mt-3 w-20 h-6 text-center text-yellow-500 rounded-lg group-hover:opacity-100 font-bold group-hover:transition delay-150 duration-150 tracking-widest"
@@ -225,7 +244,7 @@ function Navbar({ Icon, Icon2 }) {
                 }}
               >
                 <Avatar
-                  src={user.userImg}
+                  src={user.userImg ? user.userImg : UserIcon}
                   className={classes.circle}
                   class="w-7 h-7"
                   style={{

@@ -406,7 +406,7 @@ function TopicList() {
                           height: "20px",
                           borderRadius: "1.5rem",
                         }}
-                        src={item?.User?.userImg}
+                        src={item?.User.userImg ? item?.User.userImg : UserIcon}
                       />{" "}
                       &nbsp;&nbsp;
                       <a

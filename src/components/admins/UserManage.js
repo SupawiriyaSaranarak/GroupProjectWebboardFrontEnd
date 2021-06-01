@@ -3,6 +3,7 @@ import axios from "../../config/axios";
 
 import ModalUserDetail from "./modals-admin/ModalUserDetail";
 
+import UserIcon from "../../public/images/userIcon.png";
 import { BanIcon, KeyIcon } from "@heroicons/react/outline";
 import moment from "moment";
 import Swal from "sweetalert2";
@@ -189,7 +190,7 @@ function UserManage() {
                   </td>
                   <td>
                     <img
-                      src={item.userImg}
+                      src={item?.userImg ? item?.userImg : UserIcon}
                       className="admin-table-userList-tr-tbody-userImg"
                       onClick={(e) => openModalUserDetail(e, item)}
                     />

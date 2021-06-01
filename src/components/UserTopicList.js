@@ -14,6 +14,7 @@ import { useHistory } from "react-router";
 import { useParams } from "react-router";
 
 import Swal from "sweetalert2";
+import { UserIcon } from "@heroicons/react/outline";
 
 function UserTopicList() {
   const [userData, setUserData] = useState([]);
@@ -335,7 +336,7 @@ function UserTopicList() {
                           height: "20px",
                           borderRadius: "1.5rem",
                         }}
-                        src={userData.userImg}
+                        src={userData?.userImg ? userData?.userImg : UserIcon}
                       />{" "}
                       &nbsp;&nbsp;
                       <a href="#" style={{ textDecoration: "none" }}>

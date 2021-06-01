@@ -19,6 +19,7 @@ import { PinContext } from "../contexts/PinContextProvider";
 import ModalReportTopic from "./modals/ModalReportTopic";
 
 import Swal from "sweetalert2";
+import { UserIcon } from "@heroicons/react/outline";
 
 function Topic() {
   //modal Report
@@ -750,7 +751,7 @@ function Topic() {
                   <div style={{ display: "flex", flexDirection: "row" }}>
                     <div>
                       <img
-                        src={item?.User?.userImg}
+                        src={item?.User.userImg ? item?.User.userImg : UserIcon}
                         style={{
                           height: "50px",
                           width: "50px",
@@ -866,7 +867,7 @@ function Topic() {
                 >
                   <div>
                     <img
-                      src={user?.userImg}
+                      src={user?.userImg ? user?.userImg : UserIcon}
                       style={{
                         height: "50px",
                         width: "50px",

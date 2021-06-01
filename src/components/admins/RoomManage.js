@@ -67,6 +67,7 @@ function RoomManage() {
     }
   };
   // console.log(roomList);
+  // console.log(roomList[0]?.roomName);
 
   //handleOnClick edit Room?
   const handlerEditRoom = async (e, rooms) => {
@@ -110,16 +111,19 @@ function RoomManage() {
             if (!value) {
               return "กรุณากรอก RoomName!";
             }
+            if (value === rooms.roomName) {
+              return;
+            }
+            for (let item of roomList) {
+              if (item.roomName === value) {
+                return "RoomName ซ้ำกับที่มีอยู่แล้ว";
+              }
+            }
           },
         });
         // console.log(editRoomNameSwal);
 
         editReqBodyValue = editRoomNameSwal.value;
-
-        // validate
-        if (editReqBodyValue === rooms.roomName) {
-          return;
-        }
 
         if (editRoomNameSwal.isConfirmed) {
           const roomNameUpdate = await axios.patch("/admin/rooms/" + rooms.id, {
@@ -165,6 +169,7 @@ function RoomManage() {
         }
 
         setIsLoading(true);
+        window.scrollTo(0, 0);
 
         const imgFromData = new FormData();
         imgFromData.append("roomIcon", editReqBodyValue);
